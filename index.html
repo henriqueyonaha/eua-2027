@@ -1,0 +1,1576 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f6f3ec">
+<title>Viagem EUA 2027</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: national-park field guide. Sticky top bar with colored tabs; each region owns one color (lake green, rodeo rust, geyser ochre, valley violet). */
+:root{
+  --bg:#f6f4ef; --surface:#fffdf9; --ink:#28211b; --muted:#6a6157; --line:#e0d9cd;
+  --mn:#2e8a62; --mn-soft:#ddf1e6;          /* Minnesota lakes */
+  --jh:#c8522d; --jh-soft:#fbe4da;          /* Jackson, rodeo rust */
+  --ys:#d39a12; --ys-soft:#fcefcc;          /* Yellowstone canyon ochre */
+  --mt:#7353b5; --mt-soft:#ece5fa;          /* Paradise Valley dusk */
+  --sky:#2e86b5; --sky-soft:#dcedf7;        /* Grand Prismatic blue */
+  --alert:#b23a2a; --alert-soft:#fbe1dc;
+  --sky1:#bfe0f2; --sky2:#ffe1b8; --sky3:#ffc9a8;
+  --mtn1:#8fb3c0; --mtn2:#5b8a8c; --mtn3:#2f5a4e; --snow:#ffffff; --bison:#3b2b20;
+  --water:#4fa3c7; --steam:#ffffff; --sun:#f2b33d; --rock:#d8b47a; --prism1:#2c8fc0; --prism2:#f0bd2e; --prism3:#e0662c;
+  --land:#efe8da; --land2:#e6ddca; --park:#bfe0c6;
+  --font-display:"Zilla Slab","Rockwell",Georgia,serif;
+  --font-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-data:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --radius:12px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#16140f; --surface:#211d18; --ink:#efe8dd; --muted:#aa9f92; --line:#3a342c;
+  --mn:#62c597; --mn-soft:#183026; --jh:#f08a63; --jh-soft:#3a2219; --ys:#f0bf4a; --ys-soft:#372b12; --mt:#ad94ec; --mt-soft:#272038;
+  --sky:#71bde6; --sky-soft:#162a36; --alert:#f08a78; --alert-soft:#3c211c;
+  --sky1:#1c2c38; --sky2:#3a2a20; --sky3:#40261f; --mtn1:#3d5258; --mtn2:#2d4444; --mtn3:#1d3530; --snow:#d4dad8; --bison:#0c0a08;
+  --water:#2c6680; --steam:#d8dedd; --sun:#d39a35; --rock:#7e6645; --prism1:#24729a; --prism2:#bf9426; --prism3:#b25226;
+  --land:#262219; --land2:#2e2920; --park:#22382a;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#16140f; --surface:#211d18; --ink:#efe8dd; --muted:#aa9f92; --line:#3a342c;
+  --mn:#62c597; --mn-soft:#183026; --jh:#f08a63; --jh-soft:#3a2219; --ys:#f0bf4a; --ys-soft:#372b12; --mt:#ad94ec; --mt-soft:#272038;
+  --sky:#71bde6; --sky-soft:#162a36; --alert:#f08a78; --alert-soft:#3c211c;
+  --sky1:#1c2c38; --sky2:#3a2a20; --sky3:#40261f; --mtn1:#3d5258; --mtn2:#2d4444; --mtn3:#1d3530; --snow:#d4dad8; --bison:#0c0a08;
+  --water:#2c6680; --steam:#d8dedd; --sun:#d39a35; --rock:#7e6645; --prism1:#24729a; --prism2:#bf9426; --prism3:#b25226;
+  --land:#262219; --land2:#2e2920; --park:#22382a;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.55;margin:0}
+.wrap{max-width:1680px;margin:0 auto;padding-left:max(clamp(16px,3vw,48px),env(safe-area-inset-left,0px));padding-right:max(clamp(16px,3vw,48px),env(safe-area-inset-right,0px))}
+@media (min-width:1280px){.days{grid-template-columns:repeat(2,minmax(0,1fr))}.panel-head p{max-width:90ch}}
+h1,h2,h3,h4{font-family:var(--font-display);text-wrap:balance;margin:0;line-height:1.15}
+p{margin:0}
+a{color:var(--sky)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ys);outline-offset:2px;border-radius:4px}
+.mono{font-family:var(--font-data);font-variant-numeric:tabular-nums}
+.eyebrow{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.hint{font-size:12.5px;color:var(--muted)}
+.tbc{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.05em;color:var(--alert);background:var(--alert-soft);border-radius:4px;padding:1px 6px;vertical-align:1px;white-space:nowrap}
+.pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.03em;border-radius:999px;padding:2px 9px;white-space:nowrap}
+.pill.rec{background:var(--mn-soft);color:var(--mn)}
+.pill.b{background:var(--sky-soft);color:var(--sky)}
+.pill.idea{background:var(--ys-soft);color:var(--ys)}
+.pill.out{background:var(--line);color:var(--muted)}
+.c-mn{--c:var(--mn);--cs:var(--mn-soft)} .c-jh{--c:var(--jh);--cs:var(--jh-soft)} .c-ys{--c:var(--ys);--cs:var(--ys-soft)} .c-mt{--c:var(--mt);--cs:var(--mt-soft)} .c-sky{--c:var(--sky);--cs:var(--sky-soft)}
+
+/* Top bar */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;background:var(--surface);border-bottom:1px solid var(--line)}
+.topbar::after{content:"";display:block;height:4px;background:linear-gradient(90deg,var(--mn) 0 25%,var(--jh) 25% 50%,var(--ys) 50% 75%,var(--mt) 75%)}
+.topbar .wrap{display:flex;align-items:center;gap:14px;min-height:54px}
+.brand{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:700;font-size:18px;white-space:nowrap}
+.brand svg{width:34px;height:20px;flex:none}
+.tabslider{position:relative;flex:1;min-width:0;display:flex;align-items:stretch}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0;position:relative;scroll-behavior:smooth;scroll-snap-type:x proximity}
+.tabs button{scroll-snap-align:center}
+.tabind{position:absolute;left:0;bottom:0;height:3px;border-radius:3px 3px 0 0;background:var(--sky);width:0;transition:transform .35s cubic-bezier(.3,.7,.2,1),width .35s cubic-bezier(.3,.7,.2,1),background-color .35s;pointer-events:none}
+.tabarrow{position:absolute;top:0;bottom:0;z-index:2;width:40px;border:0;cursor:pointer;color:var(--ink);font-size:20px;font-weight:700;display:flex;align-items:center;transition:opacity .2s}
+.tabarrow.l{left:0;justify-content:flex-start;padding-left:4px;background:linear-gradient(90deg,var(--surface) 55%,transparent)}
+.tabarrow.r{right:0;justify-content:flex-end;padding-right:4px;background:linear-gradient(270deg,var(--surface) 55%,transparent)}
+.tabarrow[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){.tabind,.tabs{transition:none;scroll-behavior:auto}}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{background:none;border:0;padding:15px 10px 12px;font-weight:600;font-size:14px;color:var(--muted);border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.tabs button i{width:8px;height:8px;border-radius:50%;background:var(--tc);display:inline-block}
+.tabs button[aria-selected="true"]{color:var(--ink)}
+.badge{display:inline-block;min-width:18px;padding:0 5px;border-radius:9px;background:var(--alert);color:var(--surface);font-size:11px;line-height:18px;text-align:center}
+@media (max-width:640px){.brand span{display:none}}
+
+main .wrap{padding-block:24px 64px}
+section.panel{display:grid;gap:22px}
+.panel-head{display:grid;gap:6px;border-left:5px solid var(--c,var(--ys));padding-left:14px}
+.panel-head h2{font-size:clamp(26px,4vw,34px);font-weight:600}
+.panel-head p{color:var(--muted);max-width:70ch}
+h3.sec{font-size:22px;font-weight:600;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+h3.sec small{font-family:var(--font-body);font-size:13px;color:var(--muted);font-weight:500}
+
+/* Hero */
+.hero{background:linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 70%,var(--sky3) 100%);border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);position:relative}
+.skylayer{position:absolute;inset:0;pointer-events:none}
+.skylayer .dusk,.skylayer .night,.skylayer .stars{position:absolute;inset:0;opacity:0}
+.skylayer .dusk{background:linear-gradient(180deg,#6d5a8c 0%,#d9825a 65%,#f2b36b 100%)}
+.skylayer .night{background:linear-gradient(180deg,#0c1631 0%,#1d2d55 60%,#3a4d78 100%)}
+.stars circle{animation:twinkle 4s ease-in-out infinite}
+@keyframes twinkle{50%{opacity:.35}}
+.hero .in,.hero .landscape,.hero .stats{position:relative;z-index:1}
+.hero .in h1,.hero .in p,.hero .in .eyebrow{transition:color 2.5s ease}
+.hero.is-night .in h1,.hero.is-night .in p{color:#f4efe4}
+.hero.is-night .in .eyebrow{color:rgba(244,239,228,.72)}
+.hero .in{padding:26px 22px 0;display:grid;gap:10px}
+.hero h1{font-size:clamp(30px,5.4vw,52px);font-weight:700;max-width:22ch;letter-spacing:-.01em}
+.hero p{max-width:62ch}
+.who{display:flex;flex-wrap:wrap;gap:6px}
+.who span{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px 11px;font-size:13px}
+.landscape{display:block;width:100%;height:auto;margin-top:6px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border-top:1px solid var(--line)}
+.stats>div{background:var(--surface);padding:12px 14px;border-top:4px solid var(--c)}
+.stats .v{font-family:var(--font-display);font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--c)}
+.stats .k{font-size:12px;color:var(--muted)}
+@media (max-width:620px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Overview: phases */
+.phases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:820px){.phases{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:460px){.phases{grid-template-columns:1fr}}
+.phase{perspective:1400px;display:grid}
+.phase .pin{display:grid;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.3,.7,.2,1)}
+.phase.flipped .pin{transform:rotateY(180deg)}
+.phase .face{grid-area:1/1;background:var(--cs);border-radius:var(--radius);padding:14px;display:flex;flex-direction:column;gap:6px;backface-visibility:hidden;-webkit-backface-visibility:hidden;cursor:pointer}
+.phase .back{transform:rotateY(180deg);background:var(--surface);box-shadow:inset 0 0 0 2px var(--cs)}
+.phase .pact{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto;padding-top:8px;flex-wrap:wrap}
+.phase .pgo{border:0;background:none;color:var(--c);font-weight:700;font-size:13px;cursor:pointer;padding:4px 0}
+.phase .pgo:hover{text-decoration:underline}
+.phase .pflip{border:1.5px solid var(--c);background:var(--surface);color:var(--c);border-radius:999px;padding:4px 11px;font-size:12.5px;font-weight:700;cursor:pointer;transition:background-color .18s,color .18s}
+.phase .pflip:hover{background:var(--c);color:var(--surface)}
+.phase .acts{list-style:none;margin:2px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.phase .acts li{background:var(--cs);border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:600}
+@media (hover:hover){.phase:hover{transform:translateY(-3px)}.phase:hover .front{box-shadow:0 10px 24px -12px rgba(40,33,27,.35)}.phase:hover .back{box-shadow:inset 0 0 0 2px var(--cs),0 10px 24px -12px rgba(40,33,27,.35)}}
+@media (prefers-reduced-motion:reduce){.phase .pin{transition:none}}
+.phase .n{font-family:var(--font-display);font-size:19px;font-weight:700;color:var(--c)}
+.phase .d{font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--c)}
+.phase p{font-size:13.5px}
+.phase .stay{font-size:12.5px;color:var(--muted)}
+
+/* Weather */
+.weather{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.wx{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;display:grid;gap:6px;border-top:4px solid var(--c)}
+.wx .pl{font-weight:600;font-size:14px}
+.wx .when{font-size:11.5px;color:var(--muted)}
+.wx .t{display:flex;align-items:baseline;gap:8px;font-family:var(--font-display);font-weight:700}
+.wx .hi{font-size:26px;color:var(--jh)}
+.wx .lo{font-size:18px;color:var(--sky)}
+.wx .bar{height:6px;border-radius:3px;background:var(--line);position:relative;overflow:hidden}
+.wx .bar span{position:absolute;top:0;bottom:0;border-radius:3px;background:linear-gradient(90deg,var(--sky),var(--ys),var(--jh))}
+
+/* Map */
+.mapcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.mapwrap{background:var(--land2);min-width:0;position:relative}
+.mapstage{position:relative;overflow:hidden;touch-action:pan-y}
+.mapstage.zoomed{cursor:grab;touch-action:none}
+.mapstage.drag{cursor:grabbing}
+.mapstage.drag svg{pointer-events:none}
+.zoomctl{position:absolute;right:12px;bottom:12px;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.12);overflow:hidden}
+.zoomctl button{width:38px;height:38px;border:0;background:none;font-size:20px;line-height:1;font-weight:600;color:var(--ink);cursor:pointer;transition:background-color .15s}
+.zoomctl button+button{border-top:1px solid var(--line)}
+.zoomctl button:hover{background:var(--line)}
+.zoomctl button:disabled{opacity:.35;cursor:default;background:none}
+.zoomctl .zr{font-size:15px}
+.zoomhint{position:absolute;right:62px;bottom:12px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:12px;color:var(--muted);pointer-events:none;transition:opacity .4s}
+@media (hover:none){.zoomhint{display:none}}
+.mapwrap svg{display:block;width:100%;height:auto}
+.maptoggle{display:flex;gap:4px;background:var(--surface);padding:8px 10px;border-bottom:1px solid var(--line)}
+.maptoggle button{border:0;background:none;border-radius:6px;padding:5px 10px;font-size:12.5px;font-weight:600;cursor:pointer}
+.maptoggle button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.legs{padding:14px;display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));align-content:start;border-top:1px solid var(--line)}
+.legs>.eyebrow,.legs>div:last-child{grid-column:1/-1}
+@media (min-width:1100px){
+  .mapcard{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,1fr)}
+  .mapstage svg{max-height:min(560px,68vh)}
+  .legs{border-top:0;border-left:1px solid var(--line);grid-template-columns:1fr;height:0;min-height:100%;overflow-y:auto}
+}
+.leg{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 10px;padding:9px 10px;border-radius:8px;border:1px solid transparent;cursor:pointer;background:none;text-align:left}
+.leg:hover{background:var(--bg)}
+.leg[aria-pressed="true"]{border-color:var(--c);background:var(--cs)}
+.leg .ic{width:28px;height:28px;border-radius:50%;background:var(--c);color:var(--surface);display:grid;place-items:center;font-size:13px;font-weight:700;grid-row:span 2}
+.leg b{font-size:14px}
+.leg span{font-size:12.5px;color:var(--muted)}
+.leg a{font-size:12.5px;font-weight:600}
+.mlabel{font-family:var(--font-body);font-size:calc(12px*var(--k,1));font-weight:700;fill:var(--ink);paint-order:stroke;stroke:var(--surface);stroke-width:calc(3px*var(--k,1));stroke-linejoin:round}
+.mlabel.small{font-size:calc(10.5px*var(--k,1));font-weight:600}
+.mstate{font-family:var(--font-display);font-size:calc(13px*var(--k,1));fill:var(--muted);opacity:.7;letter-spacing:.1em}
+.route-path{fill:none;stroke-linecap:round;stroke-linejoin:round;transition:opacity .2s,stroke-width .2s}
+
+/* Days */
+.route{display:flex;overflow-x:auto;padding:4px 0 2px;scrollbar-width:thin}
+.stop{flex:1 0 110px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:5px;position:relative;background:none;border:0;cursor:pointer;padding:0 4px}
+.stop::before{content:"";position:absolute;top:9px;left:-50%;width:100%;height:2px;background:repeating-linear-gradient(90deg,var(--muted) 0 6px,transparent 6px 11px)}
+.stop:first-child::before{display:none}
+.stop.fly::before{background:repeating-linear-gradient(90deg,var(--sky) 0 2px,transparent 2px 6px)}
+.dot{width:20px;height:20px;border-radius:50%;background:var(--surface);border:3px solid var(--c,var(--ink));z-index:1}
+.stop[aria-pressed="true"] .dot{background:var(--c,var(--ink))}
+.stop .nm{font-weight:600;font-size:13px;line-height:1.2}
+.stop .dt{font-size:11.5px;color:var(--muted)}
+.days{display:grid;gap:10px}
+.day{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);display:grid;grid-template-columns:80px minmax(0,1fr);overflow:hidden}
+.day .date{padding:14px 8px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:1px;background:var(--cs);color:var(--c)}
+.day .date .wd{font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:700}
+.day .date .d{font-family:var(--font-display);font-size:30px;font-weight:700;line-height:1}
+.day .date .m{font-size:12px;font-weight:600}
+.day .body{padding:12px 14px;display:grid;gap:9px;min-width:0}
+.day .top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.day h4{font-size:19px;font-weight:600}
+.place{font-size:12.5px;color:var(--muted)}
+.acts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.act{border-left:3px solid var(--line);padding:2px 0 2px 10px;font-size:14px}
+.act.key{border-left-color:var(--c)}
+.act small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.meta{display:flex;align-items:center;gap:6px 14px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+.meta b{color:var(--ink);font-weight:600}
+.drive{font-family:var(--font-data);font-size:12px;background:var(--bg);border-radius:4px;padding:1px 6px}
+.linkbtn{background:none;border:0;padding:0;color:var(--sky);font-weight:600;font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+details.tips summary{cursor:pointer;font-size:13px;color:var(--sky);font-weight:600;list-style:none}
+details.tips summary::-webkit-details-marker{display:none}
+details.tips summary::before{content:"+ ";font-family:var(--font-data)}
+details.tips[open] summary::before{content:"– "}
+details.tips ul{margin:6px 0 0;padding-left:18px;font-size:13.5px}
+@media (max-width:560px){.acts{grid-template-columns:1fr}.day{grid-template-columns:62px minmax(0,1fr)}.day .date .d{font-size:24px}}
+
+/* Lodging */
+.stayblock{display:grid;gap:12px}
+.stay-head{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap;border-radius:var(--radius);padding:12px 14px;background:var(--cs)}
+.stay-head h3{font-size:21px;font-weight:700;color:var(--c)}
+.stay-head .nights{font-size:13px;font-weight:600;color:var(--c)}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.opt{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;display:grid;gap:10px;align-content:start}
+.opt.chosen{border-color:var(--c);box-shadow:0 0 0 1px var(--c)}
+.opt h4{font-size:18px;font-weight:600}
+.opt .price{font-family:var(--font-display);font-size:22px;font-weight:700;line-height:1.1}
+.opt .price small{font-family:var(--font-body);font-size:12.5px;font-weight:400;color:var(--muted)}
+.opt dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 10px;margin:0;font-size:13.5px}
+.opt dt{color:var(--muted)}
+.opt dd{margin:0}
+.opt ul{margin:0;padding-left:18px;font-size:13.5px}
+.opt ul.con li::marker{color:var(--alert)}
+.opt ul.pro li::marker{color:var(--mn)}
+.choose{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:8px 10px;font-size:13.5px;font-weight:600;cursor:pointer;text-align:center}
+.opt.chosen .choose{background:var(--c);color:var(--surface);border-color:var(--c)}
+.choose:disabled{cursor:default;opacity:.7}
+.opt .links{display:flex;gap:12px;flex-wrap:wrap;font-size:13px}
+
+/* Passeios + restaurantes */
+.pfilters{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chipbtn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.chipbtn i{width:8px;height:8px;border-radius:50%;background:var(--c,var(--ink))}
+.chipbtn[aria-pressed="true"]{background:var(--c,var(--ink));color:var(--surface);border-color:var(--c,var(--ink))}
+.chipbtn[aria-pressed="true"] i{background:var(--surface)}
+/* motion */
+.cloud{animation:drift 60s linear infinite}
+.cloud.c2{animation-duration:85s;animation-delay:-30s}
+@keyframes drift{from{transform:translateX(-220px)}to{transform:translateX(1100px)}}
+.sun{transform-box:fill-box;transform-origin:center;animation:glow 6s ease-in-out infinite}
+@keyframes glow{50%{transform:scale(1.06)}}
+.phase,.phase .face,.pcard,.rcard,.wx,.opt,.day,.task,.leg,.pnav a,.mapcard,.stats>div{transition:transform .22s cubic-bezier(.3,.7,.3,1),box-shadow .22s,border-color .22s,background-color .22s}
+@media (hover:hover){
+  .pcard:hover,.rcard:hover,.wx:hover,.opt:hover{transform:translateY(-3px);box-shadow:0 10px 24px -12px rgba(40,33,27,.35)}
+  .day:hover,.task:hover{box-shadow:0 8px 20px -14px rgba(40,33,27,.4);border-color:var(--c,var(--line))}
+  .pcard .pimg svg,.pcard .pimg img{transition:transform .5s cubic-bezier(.3,.7,.3,1)}
+  .pcard:hover .pimg svg,.pcard:hover .pimg img{transform:scale(1.05)}
+  .chipbtn,.pseg button,.tabs button,.maptoggle button,.choose{transition:background-color .18s,color .18s,border-color .18s,transform .18s}
+  .chipbtn:hover{border-color:var(--c,var(--ink));transform:translateY(-1px)}
+  .tabs button:hover{color:var(--ink)}
+  .tabs button i{transition:transform .2s}
+  .tabs button:hover i{transform:scale(1.4)}
+  .pseg button:hover{color:var(--ink)}
+  .stats>div:hover{background:var(--cs)}
+  .wx:hover .bar span{filter:saturate(1.3)}
+  a{transition:color .15s}
+}
+.panel:not([hidden]){animation:fadein .35s ease-out}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.stars circle,.cloud,.sun,.panel:not([hidden]){animation:none!important}.phase,.pcard,.rcard,.wx,.opt,.pcard .pimg svg{transition:none!important}}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.pnav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+@media (max-width:900px){.pnav{display:flex;overflow-x:auto;scrollbar-width:none;margin:0 -2px;padding:2px}.pnav::-webkit-scrollbar{display:none}.pnav a{flex:0 0 auto}}
+.pnav a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:var(--ink);transition:border-color .15s,transform .15s}
+.pnav a:hover{border-color:var(--tc);transform:translateY(-1px)}
+.pnav a[aria-disabled="true"]{opacity:.4;pointer-events:none}
+.pnav .ic,.psec-h .ic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:19px;background:var(--ts);flex:none}
+.pnav b{display:block;font-size:13.5px;line-height:1.2}
+.pnav small{display:block;font-size:12px;color:var(--muted)}
+.ptools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.pseg{display:inline-flex;flex-wrap:wrap;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px}
+.pseg button{border:0;background:none;padding:6px 12px;border-radius:7px;font-weight:600;font-size:13px;color:var(--muted);cursor:pointer}
+.pseg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.14)}
+.psel{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--muted)}
+.psel select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+.psec{margin-top:26px;scroll-margin-top:84px}
+.psec-h{display:flex;align-items:center;gap:12px;margin-bottom:12px;padding-bottom:10px;border-bottom:2px solid var(--ts)}
+.psec-h .ic{width:42px;height:42px;font-size:22px;border-radius:12px}
+.psec-h h3{font-family:var(--font-display);font-size:21px;margin:0;line-height:1.2}
+.psec-h p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+.psec-h .cnt{margin-left:auto;font-size:12.5px;color:var(--muted);white-space:nowrap}
+.pempty{padding:28px;text-align:center;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:var(--radius);margin-top:16px}
+.pimg .pdate{position:absolute;right:10px;top:10px;background:var(--surface);color:var(--ink);font-size:11.5px;font-weight:700;border-radius:999px;padding:2px 9px;box-shadow:0 1px 2px rgba(0,0,0,.15)}
+.pcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:grid;grid-template-rows:auto 1fr;border-top:4px solid var(--c)}
+.pimg{position:relative;aspect-ratio:16/9;max-width:100%;background:var(--sky1);overflow:hidden}
+.pimg svg,.pimg img{position:absolute;inset:0;width:100%;height:100%;display:block}
+.pimg img{object-fit:cover}
+.pimg .ptag{position:absolute;left:10px;top:10px;display:flex;gap:6px}
+.pimg .ptag .pill{box-shadow:0 1px 2px rgba(0,0,0,.15)}
+.pimg .ups{position:absolute;right:10px;bottom:10px}
+.pimg .ups label{background:var(--surface);color:var(--ink);border-radius:6px;padding:4px 9px;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.pimg .ups input{position:absolute;width:1px;height:1px;opacity:0}
+.pbody{padding:14px 16px 16px;display:grid;gap:9px;align-content:start}
+.pbody h4{font-size:18px;font-weight:600}
+.pbody .where{font-size:12.5px;color:var(--c);font-weight:600}
+.pbody p{font-size:14px}
+.pprice{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:9px}
+.pprice .v{font-family:var(--font-display);font-size:20px;font-weight:700}
+.pprice .v small{font-family:var(--font-body);font-size:12px;font-weight:400;color:var(--muted)}
+.pfoot{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.want{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;cursor:pointer}
+.want input{width:18px;height:18px;accent-color:var(--c);margin:0}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.rcard{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:var(--radius);padding:14px 16px;display:grid;gap:7px;align-content:start}
+.rcard .rtop{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.rcard h4{font-size:17.5px;font-weight:600}
+.rcard .cost{font-family:var(--font-data);font-weight:500;color:var(--c);white-space:nowrap}
+.rcard .kind{display:flex;flex-wrap:wrap;gap:5px}
+.rcard .kind span{font-size:11.5px;font-weight:600;background:var(--cs);color:var(--c);border-radius:4px;padding:1px 7px}
+.rcard p{font-size:13.5px}
+.rcard .sig{font-size:13px}
+.rcard .rfoot{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px}
+.fav{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:600;cursor:pointer}
+.fav[aria-pressed="true"]{background:var(--c);border-color:var(--c);color:var(--surface)}
+.offlist{display:grid;gap:8px;font-size:14px;margin:0;padding-left:18px}
+
+/* Checklist */
+.syncline{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.syncline i{width:8px;height:8px;border-radius:50%;background:var(--muted);display:inline-block;flex:none}
+.syncline.on i{background:var(--mn)}
+.progress{height:10px;background:var(--line);border-radius:5px;overflow:hidden}
+.progress span{display:block;height:100%;background:linear-gradient(90deg,var(--mn),var(--sky));transition:width .3s}
+.tasks{display:grid;gap:8px}
+.task{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px}
+.task input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--mn);cursor:pointer}
+.task label{cursor:pointer;display:grid;gap:2px}
+.task label b{font-weight:600}
+.task label span{font-size:13px;color:var(--muted)}
+.task.done label b{text-decoration:line-through;color:var(--muted)}
+.when{font-size:11.5px;font-weight:700;border-radius:4px;padding:2px 8px;white-space:nowrap}
+.when.now{background:var(--alert-soft);color:var(--alert)}
+.when.soon{background:var(--ys-soft);color:var(--ys)}
+.when.later{background:var(--mn-soft);color:var(--mn)}
+.task.done .when{opacity:.5}
+@media (max-width:520px){.task{grid-template-columns:auto minmax(0,1fr)}.task .when{grid-column:2;justify-self:start}}
+
+/* Budget */
+.budget{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:780px){.budget{grid-template-columns:1fr}}
+.brows{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.bgroup{padding:8px 14px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--c,var(--muted));font-weight:700;background:var(--cs,var(--bg));border-top:1px solid var(--line)}
+.bgroup:first-child{border-top:0}
+.brow{display:grid;grid-template-columns:minmax(0,1fr) 84px 56px 96px;gap:8px;align-items:center;padding:9px 14px;border-top:1px solid var(--line);font-size:14px}
+.brow .lab small{display:block;color:var(--muted);font-size:12px}
+.brow input{width:100%;font-family:var(--font-data);font-size:13.5px;padding:5px 6px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);text-align:right}
+.brow .tot{text-align:right;font-family:var(--font-data);font-variant-numeric:tabular-nums}
+@media (max-width:520px){.brow{grid-template-columns:minmax(0,1fr) 72px 48px}.brow .tot{grid-column:1/-1;text-align:left;font-size:12.5px;color:var(--muted)}}
+.summary{background:linear-gradient(160deg,var(--mt),var(--jh));color:#fff;border-radius:var(--radius);padding:18px;display:grid;gap:12px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 74px)}
+.summary .big{font-family:var(--font-display);font-size:38px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.summary .row{display:flex;justify-content:space-between;gap:10px;font-size:14px;border-top:1px solid rgba(255,255,255,.3);padding-top:8px}
+.summary label{font-size:13px;display:flex;align-items:center;gap:8px}
+.summary input[type=number]{width:80px;font-family:var(--font-data);padding:4px 6px;border-radius:6px;border:0;background:#fff;color:#28211b;text-align:right}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:rgba(255,255,255,.18);padding:4px;border-radius:8px}
+.seg button{border:0;border-radius:6px;padding:7px 6px;font-size:12.5px;background:transparent;color:#fff;cursor:pointer;line-height:1.25}
+.seg button[aria-pressed="true"]{background:#fff;color:#28211b;font-weight:600}
+.fine{font-size:12px;opacity:.9}
+.reset{background:none;border:1px solid var(--line);border-radius:6px;padding:5px 10px;font-size:12.5px;cursor:pointer;justify-self:start}
+
+/* Infos */
+.cards2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;display:grid;gap:8px;align-content:start;border-top:4px solid var(--c,var(--line))}
+.box h4{font-size:17px;font-weight:600}
+.box ul{margin:0;padding-left:18px;font-size:14px;display:grid;gap:4px}
+.note{background:var(--ys-soft);border-radius:var(--radius);padding:12px 14px;font-size:14px}
+.tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:14px}
+th,td{text-align:left;padding:10px 14px;border-top:1px solid var(--line);vertical-align:top}
+th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-top:0;background:var(--bg)}
+tr.rec td:first-child{font-weight:700;color:var(--mn)}
+.sources{display:grid;gap:6px;font-size:13.5px;padding-left:18px;margin:0}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand">
+      <svg viewBox="0 0 64 38" aria-hidden="true"><g fill="var(--bison)"><path d="M8 18 C6 8 14 0 26 0 C36 0 42 4 50 6 C58 8 62 14 60 22 C59 27 54 28 50 28 L16 28 C11 28 8 24 8 18 Z"/><path d="M8 14 C2 14 -2 20 0 26 C2 30 6 30 9 28 Z"/><rect x="14" y="26" width="4" height="12" rx="1.5"/><rect x="22" y="26" width="4" height="12" rx="1.5"/><rect x="44" y="26" width="4" height="12" rx="1.5"/><rect x="52" y="26" width="4" height="12" rx="1.5"/></g></svg>
+      <span>USA 2027</span>
+    </div>
+    <div class="tabslider">
+    <button class="tabarrow l" id="tabL" aria-label="Abas anteriores" hidden>‹</button>
+    <nav class="tabs" role="tablist" aria-label="Seções">
+      <button role="tab" data-tab="panorama" aria-selected="true" style="--tc:var(--sky)"><i></i>Panorama</button>
+      <button role="tab" data-tab="roteiro" aria-selected="false" style="--tc:var(--mn)"><i></i>Roteiro</button>
+      <button role="tab" data-tab="hospedagem" aria-selected="false" style="--tc:var(--mt)"><i></i>Hospedagem</button>
+      <button role="tab" data-tab="passeios" aria-selected="false" style="--tc:var(--ys)"><i></i>Passeios</button>
+      <button role="tab" data-tab="restaurantes" aria-selected="false" style="--tc:var(--jh)"><i></i>Restaurantes e bares</button>
+      <button role="tab" data-tab="reservas" aria-selected="false" style="--tc:var(--alert)"><i></i>Reservas<span class="badge" id="badge" hidden></span></button>
+      <button role="tab" data-tab="orcamento" aria-selected="false" style="--tc:var(--mt)"><i></i>Orçamento</button>
+      <button role="tab" data-tab="infos" aria-selected="false" style="--tc:var(--muted)"><i></i>Infos</button>
+      <span class="tabind" aria-hidden="true"></span>
+    </nav>
+    <button class="tabarrow r" id="tabR" aria-label="Próximas abas" hidden>›</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+<!-- PANORAMA -->
+<section class="panel" id="panorama" role="tabpanel">
+  <div class="hero">
+    <div class="skylayer" aria-hidden="true"><div class="dusk"></div><div class="night"></div><svg class="stars" width="100%" height="100%" fill="#fff"><circle cx="32.7%" cy="11.1%" r="0.8" style="animation-delay:-0.3s"/><circle cx="53.5%" cy="23.9%" r="0.8" style="animation-delay:-3.6s"/><circle cx="22.0%" cy="7.2%" r="1.5" style="animation-delay:-0.3s"/><circle cx="9.9%" cy="27.5%" r="0.8" style="animation-delay:-3.8s"/><circle cx="62.8%" cy="37.0%" r="0.8" style="animation-delay:-2.3s"/><circle cx="39.9%" cy="60.6%" r="0.8" style="animation-delay:-2.2s"/><circle cx="14.1%" cy="27.1%" r="0.8" style="animation-delay:-2.3s"/><circle cx="55.9%" cy="42.9%" r="0.8" style="animation-delay:-2.3s"/><circle cx="63.6%" cy="24.3%" r="0.8" style="animation-delay:-2.3s"/><circle cx="61.7%" cy="31.8%" r="1.5" style="animation-delay:-3.1s"/><circle cx="46.6%" cy="57.4%" r="1.2" style="animation-delay:-1.2s"/><circle cx="78.8%" cy="43.9%" r="1" style="animation-delay:-0.3s"/><circle cx="30.4%" cy="31.7%" r="1.2" style="animation-delay:-2.9s"/><circle cx="29.2%" cy="60.8%" r="0.8" style="animation-delay:-2.0s"/><circle cx="17.2%" cy="22.5%" r="1.5" style="animation-delay:-1.7s"/><circle cx="95.3%" cy="6.7%" r="1.2" style="animation-delay:-1.4s"/><circle cx="35.3%" cy="31.8%" r="1.5" style="animation-delay:-0.3s"/><circle cx="10.2%" cy="18.2%" r="0.8" style="animation-delay:-0.2s"/><circle cx="69.7%" cy="40.8%" r="1.5" style="animation-delay:-1.1s"/><circle cx="38.8%" cy="42.1%" r="0.8" style="animation-delay:-3.8s"/><circle cx="35.8%" cy="38.7%" r="1.5" style="animation-delay:-0.2s"/><circle cx="76.3%" cy="9.8%" r="1" style="animation-delay:-1.6s"/><circle cx="90.8%" cy="31.8%" r="1" style="animation-delay:-1.8s"/><circle cx="54.8%" cy="55.0%" r="1.5" style="animation-delay:-3.5s"/><circle cx="28.3%" cy="26.9%" r="1.2" style="animation-delay:-2.7s"/><circle cx="38.3%" cy="15.8%" r="0.8" style="animation-delay:-0.7s"/><circle cx="23.7%" cy="16.0%" r="1.5" style="animation-delay:-3.3s"/><circle cx="18.9%" cy="18.9%" r="1" style="animation-delay:-1.7s"/><circle cx="37.2%" cy="36.0%" r="1" style="animation-delay:-2.8s"/><circle cx="51.5%" cy="39.1%" r="0.8" style="animation-delay:-1.8s"/><circle cx="86.4%" cy="59.1%" r="1.5" style="animation-delay:-1.6s"/><circle cx="39.6%" cy="30.9%" r="1.5" style="animation-delay:-0.2s"/><circle cx="7.6%" cy="14.5%" r="1" style="animation-delay:-0.4s"/><circle cx="59.9%" cy="8.1%" r="1" style="animation-delay:-2.1s"/><circle cx="94.0%" cy="38.8%" r="0.8" style="animation-delay:-3.5s"/><circle cx="61.2%" cy="10.9%" r="1.2" style="animation-delay:-3.8s"/><circle cx="60.0%" cy="30.4%" r="0.8" style="animation-delay:-3.4s"/><circle cx="98.3%" cy="30.0%" r="1.5" style="animation-delay:-1.2s"/><circle cx="15.1%" cy="47.0%" r="1.2" style="animation-delay:-1.9s"/><circle cx="68.8%" cy="33.0%" r="1" style="animation-delay:-3.8s"/><circle cx="52.8%" cy="10.8%" r="0.8" style="animation-delay:-3.0s"/><circle cx="30.2%" cy="40.6%" r="0.8" style="animation-delay:-2.8s"/><circle cx="26.6%" cy="24.0%" r="1" style="animation-delay:-1.4s"/><circle cx="22.8%" cy="34.5%" r="1.2" style="animation-delay:-2.5s"/><circle cx="61.1%" cy="49.3%" r="1" style="animation-delay:-3.2s"/><circle cx="81.2%" cy="46.4%" r="1" style="animation-delay:-0.8s"/></svg></div>
+    <div class="in">
+      <div class="eyebrow">25 de maio a 8 de junho de 2027 · rascunho v10</div>
+      <h1>EUA 2027: Minnesota, Grand Teton e Yellowstone</h1>
+      <p>Ida pelo aeroporto de Minneapolis, uma semana em Fergus Falls, quatro noites em Jackson, duas noites de glamping em West Yellowstone, na porta oeste do parque, e a última noite de novo em Jackson, a 15 min do aeroporto. Itens com <span class="tbc">A CONFIRMAR</span> ainda dependem de reserva ou decisão.</p>
+    </div>
+    <svg class="landscape" viewBox="0 0 960 170" preserveAspectRatio="xMidYMax slice" role="img" aria-label="Silhueta dos picos Teton com bisões, uma família passeando e a bandeira dos EUA">
+      <g id="sunG"><circle class="sun" cx="0" cy="0" r="34" fill="var(--sun)" opacity=".85"/><circle id="sunRed" cx="0" cy="0" r="34" fill="#e2552f" opacity="0"/></g><g id="clouds"><g class="cloud c1" fill="var(--surface)" opacity=".75"><ellipse cx="160" cy="44" rx="34" ry="9"/><ellipse cx="178" cy="37" rx="18" ry="9"/></g><g class="cloud c2" fill="var(--surface)" opacity=".6"><ellipse cx="560" cy="30" rx="28" ry="7"/><ellipse cx="574" cy="24" rx="14" ry="7"/></g></g>
+      <polygon fill="var(--mtn1)" points="0,120 70,92 130,104 210,70 260,86 300,60 360,98 420,84 470,104 540,78 600,96 660,74 720,100 800,82 880,104 960,90 960,170 0,170"/>
+      <polygon fill="var(--mtn2)" points="0,150 90,118 170,128 240,96 300,112 350,70 380,38 400,18 418,44 432,30 452,62 478,52 500,82 540,74 590,112 650,104 720,124 800,110 870,128 960,116 960,170 0,170"/>
+      <polygon fill="var(--snow)" points="380,38 400,18 418,44 410,40 404,48 396,36 388,46"/>
+      <polygon fill="var(--snow)" points="432,30 452,62 446,56 440,62 434,48 428,40"/>
+      <path fill="var(--mtn3)" d="M0 170 L0 148 Q160 132 320 146 T640 140 T960 146 L960 170 Z"/>
+      <g fill="var(--mtn3)"><polygon points="610,146 618,118 626,146"/><polygon points="624,146 633,110 642,146"/><polygon points="640,146 647,124 654,146"/><polygon points="96,150 103,128 110,150"/><polygon points="108,150 116,120 124,150"/></g><g id="flagG"></g>
+      <defs><linearGradient id="bshadeG" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".22"/><stop offset=".42" stop-color="#000" stop-opacity="0"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".1"/></linearGradient></defs><g id="herd"></g><g id="family"></g>
+    <g id="nightTerrain" opacity="0" fill="#0b1630"><polygon points="0,120 70,92 130,104 210,70 260,86 300,60 360,98 420,84 470,104 540,78 600,96 660,74 720,100 800,82 880,104 960,90 960,170 0,170"/><polygon points="0,150 90,118 170,128 240,96 300,112 350,70 380,38 400,18 418,44 432,30 452,62 478,52 500,82 540,74 590,112 650,104 720,124 800,110 870,128 960,116 960,170 0,170"/></g><clipPath id="skyClip"><polygon points="0,0 960,0 960,90 880,104 800,82 720,100 660,74 600,96 540,78 470,104 420,84 360,98 300,60 260,86 210,70 130,104 70,92 0,120"/></clipPath><g clip-path="url(#skyClip)"><g id="moonG" transform="translate(230 200)"><circle r="44" fill="#f6efd9" opacity=".12"/><circle r="22" fill="#f6efd9"/><circle cx="-7" cy="-5" r="4" fill="#ddd2b3"/><circle cx="6" cy="6" r="5" fill="#ddd2b3"/><circle cx="8" cy="-8" r="2.5" fill="#ddd2b3"/></g></g></svg>
+    <div class="stats">
+      <div class="c-sky"><div class="v mono" id="countdown">–</div><div class="k">dias até o embarque</div></div>
+      <div class="c-mn"><div class="v">14</div><div class="k">noites nos EUA</div></div>
+      <div class="c-ys"><div class="v">2</div><div class="k">parques nacionais: Grand Teton e Yellowstone</div></div>
+      <div class="c-mt"><div class="v">3</div><div class="k">estados: Minnesota, Wyoming e Montana</div></div>
+    </div>
+  </div>
+
+  <h3 class="sec">A viagem, da ida à volta</h3>
+  <div class="phases">
+    <div class="phase c-sky"><div class="pin"><div class="face front"><span class="d">25/05 · ida</span><span class="n">✈ Brasil → Minneapolis</span><p>Voo noturno com uma conexão nos EUA (Atlanta, Miami, Nova York ou Houston) e chegada a MSP no dia 25. Carro alugado no aeroporto.</p><span class="stay">Voo e horários <span class="tbc">A CONFIRMAR</span></span><div class="pact"><button class="pgo" data-goleg="l0">Ver no mapa →</button><button class="pflip" aria-label="Virar o card e ver o que vamos fazer">↻ O que vamos fazer</button></div></div><div class="face back" aria-hidden="true"><span class="d">25/05 · ida</span><span class="n">O que vamos fazer</span><p>Uma noite de voo com uma conexão, chegada e retirada do carro, e a primeira estrada pelo interior até a cidade da formatura. Dia de adaptação, com pouca programação e muito descanso.</p><ul class="acts"><li>✈️ voo noturno</li><li>🚗 estrada tranquila</li><li>😴 descanso</li></ul><div class="pact"><button class="pgo" data-goleg="l0">Ver no mapa →</button><button class="pflip" aria-label="Voltar para a frente do card">↻ Voltar</button></div></div></div></div>
+    <div class="phase c-mn"><div class="pin"><div class="face front"><span class="d">25 a 31/05 · 7 noites</span><span class="n">Fergus Falls, MN</span><p>Chegada por Minneapolis, jantar dos pais, formatura e dias leves nos lagos.</p><span class="stay">Casa de temporada ou hotel</span><div class="pact"><button class="pgo" data-gophase="mn">Ver no roteiro →</button><button class="pflip" aria-label="Virar o card e ver o que vamos fazer">↻ O que vamos fazer</button></div></div><div class="face back" aria-hidden="true"><span class="d">25 a 31/05 · 7 noites</span><span class="n">O que vamos fazer</span><p>Uma semana em família numa cidade pequena: o jantar com os pais na escola, a cerimônia de formatura e o jantar comemorativo. Nos dias livres, lagos, um parque estadual com mirantes, passeio à beira do rio e tempo juntos.</p><ul class="acts"><li>🎓 formatura</li><li>🍽️ jantares em família</li><li>🌲 lagos e trilhas leves</li><li>🏡 dias em casa</li></ul><div class="pact"><button class="pgo" data-gophase="mn">Ver no roteiro →</button><button class="pflip" aria-label="Voltar para a frente do card">↻ Voltar</button></div></div></div></div>
+    <div class="phase c-jh"><div class="pin"><div class="face front"><span class="d">01 a 04/06 · 4 noites</span><span class="n">Jackson e Grand Teton</span><p>Voo para Jackson Hole, carro alugado no aeroporto, Jenny Lake, Mormon Row, rodeio, Aerial Tram e a cidade de cowboy.</p><span class="stay">Um hotel só em Jackson</span><div class="pact"><button class="pgo" data-gophase="jh">Ver no roteiro →</button><button class="pflip" aria-label="Virar o card e ver o que vamos fazer">↻ O que vamos fazer</button></div></div><div class="face back" aria-hidden="true"><span class="d">01 a 04/06 · 4 noites</span><span class="n">O que vamos fazer</span><p>Uma cidade de cowboy com montanhas nevadas ao fundo. Fotos clássicas ao nascer do sol, barco num lago glacial com trilha curta até uma cachoeira, rodeio à noite, teleférico até o topo de uma montanha e bares do Velho Oeste.</p><ul class="acts"><li>📸 mirantes</li><li>⛵ barco e trilha leve</li><li>🤠 rodeio</li><li>🚡 teleférico</li><li>🍔 bares do Velho Oeste</li></ul><div class="pact"><button class="pgo" data-gophase="jh">Ver no roteiro →</button><button class="pflip" aria-label="Voltar para a frente do card">↻ Voltar</button></div></div></div></div>
+    <div class="phase c-ys"><div class="pin"><div class="face front"><span class="d">05/06 · travessia</span><span class="n">Jackson → West Yellowstone</span><p>Grand Teton, Old Faithful e Grand Prismatic no caminho até o glamping.</p><span class="stay">~3h de carro, com paradas</span><div class="pact"><button class="pgo" data-gophase="ys">Ver no roteiro →</button><button class="pflip" aria-label="Virar o card e ver o que vamos fazer">↻ O que vamos fazer</button></div></div><div class="face back" aria-hidden="true"><span class="d">05/06 · travessia</span><span class="n">O que vamos fazer</span><p>Um dia de estrada cênica entre dois parques nacionais, com paradas para ver um gêiser entrar em erupção, passarelas sobre fontes termais coloridas e um lanche no caminho.</p><ul class="acts"><li>🚗 ~3h de estrada</li><li>♨️ gêiseres</li><li>🌈 fontes coloridas</li></ul><div class="pact"><button class="pgo" data-gophase="ys">Ver no roteiro →</button><button class="pflip" aria-label="Voltar para a frente do card">↻ Voltar</button></div></div></div></div>
+    <div class="phase c-mt"><div class="pin"><div class="face front"><span class="d">05 e 06/06 · 2 noites</span><span class="n">West Yellowstone, MT</span><p>Glamping com tudo incluso a 10 min da entrada oeste, com um dia inteiro para Canyon e os bisões de Hayden Valley.</p><span class="stay">Under Canvas West Yellowstone</span><div class="pact"><button class="pgo" data-gophase="mt">Ver no roteiro →</button><button class="pflip" aria-label="Virar o card e ver o que vamos fazer">↻ O que vamos fazer</button></div></div><div class="face back" aria-hidden="true"><span class="d">05 e 06/06 · 2 noites</span><span class="n">O que vamos fazer</span><p>Duas noites em tendas confortáveis, com cama pronta e fogueira. Um dia inteiro para um cânion de paredes amarelas com cachoeira e para um vale aberto onde as manadas de bisões cruzam a estrada. À noite, céu estrelado.</p><ul class="acts"><li>🏕️ glamping</li><li>🦬 bisões</li><li>🏞️ cânion e cachoeira</li><li>✨ céu estrelado</li></ul><div class="pact"><button class="pgo" data-gophase="mt">Ver no roteiro →</button><button class="pflip" aria-label="Voltar para a frente do card">↻ Voltar</button></div></div></div></div>
+    <div class="phase c-sky"><div class="pin"><div class="face front"><span class="d">07 e 08/06 · volta</span><span class="n">✈ Jackson → Brasil</span><p>No dia 07, ~3h do glamping até Jackson, passando pelo mirante do Grand Prismatic, e mais uma noite no mesmo hotel. No dia 08, só 15 min até o aeroporto para devolver o carro e embarcar. Chegada no Brasil em 09/06.</p><span class="stay">Voos <span class="tbc">A CONFIRMAR</span></span><div class="pact"><button class="pgo" data-goleg="l9">Ver no mapa →</button><button class="pflip" aria-label="Virar o card e ver o que vamos fazer">↻ O que vamos fazer</button></div></div><div class="face back" aria-hidden="true"><span class="d">07 e 08/06 · volta</span><span class="n">O que vamos fazer</span><p>Uma manhã vendo ursos e lobos de perto, uma última trilha curta até um mirante, estrada de volta pelas montanhas, jantar de despedida e uma noite tranquila antes do voo. No último dia, só alguns minutos até o aeroporto.</p><ul class="acts"><li>🥾 trilha curta</li><li>🍽️ despedida</li><li>✈️ voo para casa</li></ul><div class="pact"><button class="pgo" data-goleg="l9">Ver no mapa →</button><button class="pflip" aria-label="Voltar para a frente do card">↻ Voltar</button></div></div></div></div>
+  </div>
+
+  <h3 class="sec">Mapa dos trajetos <small>toque num trecho para destacar · use + e − ou a roda do mouse para dar zoom</small></h3>
+  <div class="mapcard">
+    <div class="mapwrap">
+      <div class="maptoggle" role="group" aria-label="Escala do mapa">
+        <button id="mapAll" aria-pressed="true">Viagem toda</button>
+        <button id="mapParks" aria-pressed="false">Região dos parques</button>
+      </div>
+      <div class="mapstage" id="mapstage">
+        <svg id="map" viewBox="0 0 900 520" role="img" aria-label="Mapa estilizado com Minnesota, Wyoming e Montana e os trajetos da viagem"></svg>
+        <div class="zoomctl" role="group" aria-label="Zoom do mapa">
+          <button id="zIn" aria-label="Aproximar">+</button>
+          <button id="zOut" aria-label="Afastar">−</button>
+          <button id="zReset" class="zr" aria-label="Voltar ao mapa inteiro">⟲</button>
+        </div>
+        <span class="zoomhint" id="zhint">Role o mouse para dar zoom · arraste para mover</span>
+      </div>
+    </div>
+    <div class="legs" id="legs"></div>
+  </div>
+  <p class="hint">Mapa desenhado à mão a partir das coordenadas reais; os traçados seguem as estradas principais de forma aproximada. “Abrir no Google Maps” mostra a rota exata.</p>
+
+  <h3 class="sec">Temperatura esperada <small>médias de junho (normais 1991–2020), não previsão</small></h3>
+  <div class="weather" id="weather"></div>
+  <p class="hint">No fim de maio o Minnesota costuma ficar um pouco abaixo da média de junho. Nos parques, chuva em ~40% dos dias e pequena chance de neve no começo de junho. Fontes: Current Results (NOAA) e Weather on This Day.</p>
+</section>
+
+<!-- ROTEIRO -->
+<section class="panel c-mn" id="roteiro" role="tabpanel" hidden>
+  <div class="panel-head"><h2>Dia a dia</h2><p>No máximo duas atividades principais por dia. Cada dia mostra onde dormir, o tempo de carro e os passeios ligados.</p></div>
+  <div class="route" id="route" role="group" aria-label="Filtrar dias por trecho">
+    <button class="stop" data-phase="all" aria-pressed="true"><span class="dot"></span><span class="nm">Viagem toda</span><span class="dt">25/05 a 08/06</span></button>
+    <button class="stop c-mn" data-phase="mn" aria-pressed="false"><span class="dot"></span><span class="nm">Fergus Falls</span><span class="dt">25 a 31/05</span></button>
+    <button class="stop fly c-jh" data-phase="jh" aria-pressed="false"><span class="dot"></span><span class="nm">Jackson e Grand Teton</span><span class="dt">01 a 04/06 e 08/06</span></button>
+    <button class="stop c-ys" data-phase="ys" aria-pressed="false"><span class="dot"></span><span class="nm">Travessias</span><span class="dt">05 e 07/06</span></button>
+    <button class="stop c-mt" data-phase="mt" aria-pressed="false"><span class="dot"></span><span class="nm">West Yellowstone</span><span class="dt">06/06</span></button>
+  </div>
+  <div class="days" id="days"></div>
+</section>
+
+<!-- HOSPEDAGEM -->
+<section class="panel c-mt" id="hospedagem" role="tabpanel" hidden>
+  <div class="panel-head"><h2>Hospedagem</h2><p>Três bases, 14 noites: Fergus Falls, um hotel só em Jackson (4 noites na chegada e 1 antes do voo) e 2 noites de glamping. Toque em “Vamos ficar aqui” para registrar a escolha; todos da família veem a mesma marcação.</p></div>
+  <div class="syncline" id="sync2"><i></i><span>Escolhas salvas só neste aparelho até conectar.</span></div>
+  <div id="stays" style="display:grid;gap:28px"></div>
+  <div class="note"><b>Frio e ursos.</b> No começo de junho as madrugadas perto dos parques ficam entre 1 e 8 °C. Comida, pasta de dente e lixo sempre no carro ou em caixa fechada, nunca dentro da tenda.</div>
+</section>
+
+<!-- PASSEIOS -->
+<section class="panel c-ys" id="passeios" role="tabpanel" hidden>
+  <div class="panel-head"><h2>Passeios</h2><p>Tudo o que está no roteiro e ideias extras com preço por pessoa. Marquem “Queremos” nos que toparem: entram no orçamento automaticamente.</p></div>
+  <nav class="pnav" id="pnav" aria-label="Tipos de passeio"></nav>
+  <div class="ptools">
+    <div class="pseg" role="group" aria-label="Mostrar">
+      <button data-pf="all" aria-pressed="true">Tudo</button>
+      <button data-pf="plan" aria-pressed="false">No roteiro</button>
+      <button data-pf="idea" aria-pressed="false">Ideias para decidir</button>
+      <button data-pf="free" aria-pressed="false">Grátis</button>
+    </div>
+    <label class="psel"><span>Região</span>
+      <select id="preg">
+        <option value="all">Todas</option>
+        <option value="mn">Minnesota</option>
+        <option value="jh">Jackson e Grand Teton</option>
+        <option value="ys">Yellowstone</option>
+        <option value="mt">West Yellowstone</option>
+      </select>
+    </label>
+  </div>
+  <div id="pgrid"></div>
+  <p class="hint">Imagens ilustrativas. “Ver fotos” abre fotos reais em outra aba. Quem edita a página vê “Adicionar foto” para colocar uma foto de verdade em cada card.</p>
+  <div class="box c-ys">
+    <h4>Bons passeios que ficam fora das nossas datas</h4>
+    <ul class="offlist">
+      <li><b>Old West Cookout em Roosevelt (Yellowstone):</b> jantar de cowboy com ida a cavalo ou de carroça, US$ 95 a 137. Em 2026 começou em 06/06; se em 2027 abrir antes, encaixa no dia 05/06.</li>
+      <li><b>Cruzeiro no Yellowstone Lake:</b> US$ 25. Em 2026 começou em 12/06.</li>
+      <li><b>Gôndolas de Teton Village (Evening e Sweetwater):</b> em 2026 abriram em 06/06 e 13/06.</li>
+    </ul>
+    <p class="hint">As datas de 2027 das atividades de Yellowstone saem em 05/11/2026.</p>
+  </div>
+</section>
+
+<!-- RESTAURANTES -->
+<section class="panel c-jh" id="restaurantes" role="tabpanel" hidden>
+  <div class="panel-head"><h2>Restaurantes e bares</h2><p>Onde comer e beber em cada parte da viagem, do café da manhã barato ao jantar comemorativo da formatura. Marquem ★ nos favoritos; a lista é compartilhada.</p></div>
+  <div class="pfilters" role="group" aria-label="Filtrar por lugar">
+    <button class="chipbtn" data-rf="all" aria-pressed="true">Todos</button>
+    <button class="chipbtn c-mn" data-rf="mn" aria-pressed="false"><i></i>Fergus Falls</button>
+    <button class="chipbtn c-jh" data-rf="jh" aria-pressed="false"><i></i>Jackson</button>
+    <button class="chipbtn c-sky" data-rf="gt" aria-pressed="false"><i></i>Grand Teton</button>
+    <button class="chipbtn c-ys" data-rf="ys" aria-pressed="false"><i></i>Yellowstone</button>
+    <button class="chipbtn c-mt" data-rf="mt" aria-pressed="false"><i></i>West Yellowstone</button>
+  </div>
+  <div class="pfilters" role="group" aria-label="Filtrar por tipo">
+    <button class="chipbtn" data-rk="all" aria-pressed="true">Qualquer hora</button>
+    <button class="chipbtn" data-rk="Café da manhã" aria-pressed="false">Café da manhã</button>
+    <button class="chipbtn" data-rk="Almoço" aria-pressed="false">Almoço</button>
+    <button class="chipbtn" data-rk="Jantar" aria-pressed="false">Jantar</button>
+    <button class="chipbtn" data-rk="Bar" aria-pressed="false">Bares</button>
+    <button class="chipbtn" data-rk="Doce" aria-pressed="false">Sorvete e doces</button>
+    <button class="chipbtn" data-rk="fav" aria-pressed="false">★ Favoritos</button>
+  </div>
+  <p class="hint">Preço por pessoa, aproximado: $ até ~US$ 15 · $$ ~US$ 15 a 35 · $$$ acima de ~US$ 35. Estimativa minha, sem bebida e gorjeta (15 a 20% nos EUA). Confirmem horário antes de ir.</p>
+  <div class="rgrid" id="rgrid"></div>
+</section>
+
+<!-- RESERVAS -->
+<section class="panel" id="reservas" role="tabpanel" hidden style="--c:var(--alert)">
+  <div class="panel-head"><h2>Reservas e pendências</h2><p>Marque o que já foi resolvido. A lista é a mesma para toda a família.</p></div>
+  <div class="syncline" id="sync"><i></i><span>Salvando só neste aparelho até conectar.</span></div>
+  <div class="progress" aria-hidden="true"><span id="prog" style="width:0"></span></div>
+  <div class="tasks" id="tasks"></div>
+</section>
+
+<!-- ORÇAMENTO -->
+<section class="panel c-mt" id="orcamento" role="tabpanel" hidden>
+  <div class="panel-head"><h2>Orçamento estimado</h2><p>Valores iniciais são estimativas minhas; troquem pelos preços reais conforme reservarem (ficam salvos só no seu navegador). A linha de passeios soma o que a família marcou como “Queremos”.</p></div>
+  <div class="budget">
+    <div class="brows" id="brows"></div>
+    <aside class="summary" aria-live="polite">
+      <div><div class="eyebrow" style="color:inherit;opacity:.8">Total para 5 pessoas</div><div class="big" id="tUsd">US$ –</div></div>
+      <div class="row"><span>Por pessoa</span><span class="mono" id="tPer">–</span></div>
+      <div class="row"><span>Em reais</span><span class="mono" id="tBrl">–</span></div>
+      <label for="fx">Câmbio R$/US$ <input type="number" id="fx" step="0.05" min="1" value="5.50"></label>
+      <div>
+        <p class="fine" style="margin-bottom:6px">Taxa dos parques para estrangeiros</p>
+        <div class="seg" role="group" aria-label="Forma de pagar os parques">
+          <button id="feePass" aria-pressed="true">Passe anual<br>US$ 250</button>
+          <button id="feeSur" aria-pressed="false">US$ 100 por pessoa<br>em cada parque</button>
+        </div>
+      </div>
+      <p class="fine">Sem passagens Brasil ↔ EUA, alimentação e compras. Passe de US$ 250 cobrindo o carro inteiro: A CONFIRMAR.</p>
+    </aside>
+  </div>
+  <button class="reset" id="resetBudget">Voltar aos valores iniciais</button>
+</section>
+
+<!-- INFOS -->
+<section class="panel" id="infos" role="tabpanel" hidden style="--c:var(--muted)">
+  <div class="panel-head"><h2>Informações úteis</h2><p>Volta para o Brasil, documentos, segurança nos parques e as fontes de tudo.</p></div>
+  <h3 class="sec">Volta para o Brasil <small>roteiro supõe 08/06 saindo de Jackson</small></h3>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Opção</th><th>Como funciona</th><th>A favor</th><th>Contra</th></tr></thead>
+      <tbody>
+        <tr class="rec"><td>A. Multidestino (recomendada)</td><td>Uma passagem: Brasil → Minneapolis em 25/05 e Jackson (JAC) → Brasil em 08/06, com conexão em Denver, Dallas ou Atlanta</td><td>Carro retirado e devolvido no aeroporto de Jackson, a 15 min do hotel. Conexão protegida no mesmo bilhete</td><td>Voos de Jackson costumam ser mais caros</td></tr>
+        <tr><td>B. Ida e volta por Minneapolis</td><td>Internacional ida e volta por MSP + voo doméstico Jackson → Minneapolis em 08/06</td><td>Internacional costuma sair mais barato</td><td>Um voo a mais. Bilhetes separados não protegem a conexão</td></tr>
+        <tr><td>C. Voltar por Bozeman</td><td>Sair do glamping direto para Bozeman (~1h) em 07/06</td><td>Um dia a menos de viagem e de estrada</td><td>Carro de Jackson devolvido em Bozeman paga taxa de devolução em outra cidade</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="box c-mn">
+    <h4>Alternativa para comparar: tudo por Fargo</h4>
+    <p>Fargo fica a ~1h de Fergus Falls (Minneapolis fica a ~3h). Não tem voo direto Fargo → Jackson; sempre há uma conexão, normalmente em Denver (United), a partir de ~US$ 144 por pessoa só ida <span class="tbc">A CONFIRMAR</span>.</p>
+    <ul>
+      <li><b>Como seria:</b> Brasil → Atlanta → Fargo em 25/05 (a Delta voa direto Atlanta → Fargo desde dez/2025), carro retirado e devolvido em Fargo, e em 01/06 Fargo → Denver → Jackson.</li>
+      <li><b>A favor:</b> ~4h a menos de estrada no total (1h + 1h em vez de 3h + 3h).</li>
+      <li><b>Contra:</b> passagem para Fargo costuma ser mais cara, e o dia 01/06 ganha uma conexão a mais.</li>
+    </ul>
+    <p class="hint">Vale cotar as duas opções na hora de comprar. Se Fargo sair parecido no preço, compensa.</p>
+  </div>
+  <div class="cards2">
+    <div class="box c-sky"><h4>Documentos e taxas</h4><ul>
+      <li>Visto americano B1/B2 válido para todos os brasileiros. <span class="tbc">A CONFIRMAR</span></li>
+      <li>Desde 01/01/2026, Yellowstone e Grand Teton cobram <b>US$ 100 por pessoa de 16+ anos</b> sem residência nos EUA, além de US$ 35 por carro em cada parque.</li>
+      <li><b>Melhor opção: passe anual para não residentes, US$ 250.</b> Cobre a taxa de US$ 100 e a entrada de todos no mesmo carro, nos dois parques, quantas vezes entrarem por 12 meses. Sem o passe, seriam ~US$ 1.070.</li>
+      <li>A Bianca pode pagar como residente se tiver carteira de motorista ou ID de Minnesota. <span class="tbc">A CONFIRMAR</span></li>
+      <li>Carteira de motorista brasileira + PID para dirigir. Confirmar com a locadora.</li></ul></div>
+    <div class="box c-jh"><h4>O que levar</h4><ul>
+      <li>Casaco corta-vento, fleece, gorro e luvas finas para as madrugadas.</li>
+      <li>Roupa de banho para Chico Hot Springs.</li>
+      <li>Protetor solar, óculos escuros e garrafa de água: altitude acima de 2.000 m.</li>
+      <li>Calçado de trilha leve e binóculo para ver os bisões em Hayden Valley.</li></ul></div>
+    <div class="box c-ys"><h4>Segurança nos parques</h4><ul>
+      <li>Bisões e alces: no mínimo 23 m. Ursos e lobos: 91 m.</li>
+      <li>Nas áreas termais, só nas passarelas. A água ferve e o chão é fino.</li>
+      <li>Spray anti-urso para trilhas: compra em Jackson, não vai no avião.</li>
+      <li>Sinal de celular fraco nos parques: baixar mapas offline antes.</li></ul></div>
+  </div>
+  <h3 class="sec">Fontes <small>consultadas em 23/10/2026</small></h3>
+  <ul class="sources" id="sources"></ul>
+</section>
+
+</div>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  const $ = (s, r=document) => r.querySelector(s);
+  const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+  const store = {
+    get(k, d){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
+    set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+  };
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const TBC = '<span class="tbc">A CONFIRMAR</span>';
+  const usd = v => "US$ " + Math.round(v).toLocaleString("pt-BR");
+  const gimg = q => "https://www.google.com/search?tbm=isch&q=" + encodeURIComponent(q);
+  const gmap = q => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
+  const gdir = (o, d, w) => "https://www.google.com/maps/dir/?api=1&origin=" + encodeURIComponent(o) + "&destination=" + encodeURIComponent(d) + (w ? "&waypoints=" + encodeURIComponent(w) : "") + "&travelmode=driving";
+
+  $("#countdown").textContent = Math.max(0, Math.ceil((new Date(2027,4,25) - new Date()) / 86400000));
+
+  /* ================= Weather ================= */
+  const WX = [
+    {pl:"Minneapolis",w:"25/05 e 01/06",hi:26,lo:16,c:"mn"},
+    {pl:"Fergus Falls",w:"25 a 31/05",hi:25,lo:14,c:"mn"},
+    {pl:"Jackson",w:"01 a 04 e 07/06",hi:21,lo:3,c:"jh"},
+    {pl:"Grand Teton (Moran)",w:"02 a 04/06",hi:19,lo:3,c:"jh"},
+    {pl:"Old Faithful",w:"05 e 07/06",hi:18,lo:2,c:"ys"},
+    {pl:"Canyon",w:"06/06",hi:17,lo:0,c:"ys"},
+    {pl:"West Yellowstone",w:"05 e 06/06",hi:20,lo:1,c:"mt"}
+  ];
+  $("#weather").innerHTML = WX.map(x => {
+    const left = Math.max(0,(x.lo+2)/32*100), width = Math.max(4,(x.hi-x.lo)/32*100);
+    return '<div class="wx c-'+x.c+'"><span class="pl">'+esc(x.pl)+'</span><span class="when">'+esc(x.w)+'</span>'+
+      '<div class="t"><span class="hi">'+x.hi+'°</span><span class="lo">'+x.lo+'°</span></div>'+
+      '<div class="bar" aria-hidden="true"><span style="left:'+left+'%;width:'+width+'%"></span></div>'+
+      '<span class="when">máx. / mín. em °C</span></div>';
+  }).join("");
+
+  /* ================= Map ================= */
+  const STATES = {
+    MN:[[-97.23,49.0],[-95.15,49.0],[-95.15,49.38],[-94.8,49.32],[-94.6,48.72],[-93.0,48.6],[-91.5,48.05],[-89.5,48.0],[-92.1,46.75],[-92.3,46.1],[-92.9,45.6],[-92.75,45.1],[-92.8,44.75],[-91.2,43.9],[-91.2,43.5],[-96.45,43.5],[-96.45,45.3],[-96.85,45.6],[-96.56,45.94],[-96.6,46.0],[-96.8,47.0]],
+    ND:[[-104.05,49],[-97.23,49],[-96.8,47],[-96.6,46],[-96.56,45.94],[-104.05,45.94]],
+    SD:[[-104.05,45.94],[-96.56,45.94],[-96.85,45.6],[-96.45,45.3],[-96.45,43.5],[-96.6,42.5],[-98.5,43.0],[-104.05,43.0]],
+    MT:[[-116.05,49],[-104.05,49],[-104.05,45],[-111.05,45],[-111.05,44.5],[-112.8,44.4],[-113.5,45.0],[-114.5,45.6],[-114.5,46.6],[-116.05,47.9]],
+    WY:[[-111.05,45],[-104.05,45],[-104.05,41],[-111.05,41]],
+    ID:[[-117.2,49],[-116.05,49],[-116.05,47.9],[-114.5,46.6],[-114.5,45.6],[-113.5,45.0],[-112.8,44.4],[-111.05,44.5],[-111.05,41],[-117.2,41]],
+    NE:[[-104.05,43],[-98.5,43.0],[-96.6,42.5],[-96.0,41],[-104.05,41]],
+    IA:[[-96.45,43.5],[-91.2,43.5],[-91.2,41],[-96.0,41],[-96.6,42.5]],
+    WI:[[-92.1,46.75],[-89.5,48.0],[-87,46.5],[-87,41],[-91.2,41],[-91.2,43.9],[-92.8,44.75],[-92.75,45.1],[-92.9,45.6],[-92.3,46.1]]
+  };
+  const STATE_LABELS = {MN:[-94.6,46.9,"MINNESOTA"],ND:[-100.4,47.4,"DAKOTA DO NORTE"],SD:[-100.3,44.4,"DAKOTA DO SUL"],MT:[-106.6,46.4,"MONTANA"],WY:[-106.4,43.7,"WYOMING"],ID:[-115.3,43.2,"IDAHO"]};
+  const PARKS = {
+    YNP:[[-111.15,45.11],[-110.0,45.11],[-109.83,44.95],[-109.83,44.13],[-111.05,44.13],[-111.15,44.5]],
+    GTNP:[[-110.95,43.62],[-110.62,43.6],[-110.45,43.85],[-110.52,44.13],[-110.78,44.13],[-110.88,43.92]]
+  };
+  const PT = {
+    msp:[44.88,-93.22,"Minneapolis (MSP)","mn"], ff:[46.28,-96.08,"Fergus Falls","mn"],
+    jac:[43.61,-110.74,"Aeroporto de Jackson","jh"], jh:[43.48,-110.76,"Jackson","jh"],
+    jenny:[43.75,-110.72,"Jenny Lake","jh"], mormon:[43.66,-110.66,"Mormon Row","jh"], oxbow:[43.87,-110.55,"Oxbow Bend","jh"],
+    of:[44.46,-110.83,"Old Faithful","ys"], gp:[44.52,-110.84,"Grand Prismatic","ys"], canyon:[44.72,-110.50,"Canyon","ys"], hayden:[44.65,-110.46,"Hayden Valley","ys"],
+    
+    camp:[44.75,-111.2,"Glamping (Under Canvas)","mt"], wyt:[44.66,-111.17,"West Yellowstone","mt"]
+  };
+  const W = {stcloud:[45.56,-94.16], alex:[45.88,-95.38], moran:[43.84,-110.51], south:[44.13,-110.67], wthumb:[44.42,-110.57], madison:[44.65,-110.86], norris:[44.73,-110.70], gardiner:[45.03,-110.71], tower:[44.92,-110.42], livingston:[45.66,-110.56], liv2:[45.70,-110.90], lake:[44.55,-110.40], brin:[43.0,-90.6], brout:[42.55,-107.0]};
+  const LEGS = [
+    {id:"l0",c:"sky",ic:"✈",t:"Ida: Brasil → Minneapolis",d:"25/05 · voo com uma conexão nos EUA · horário A CONFIRMAR",pts:["brin","msp"],fly:true,intl:true},
+    {id:"l1",c:"mn",ic:"1",t:"Chegada: Minneapolis → Fergus Falls",d:"25/05 · carro alugado em MSP · ~3h, ~290 km",pts:["msp","stcloud","alex","ff"],o:"Minneapolis-Saint Paul International Airport",de:"Fergus Falls, MN"},
+    {id:"l2",c:"mn",ic:"2",t:"Fergus Falls → Minneapolis",d:"01/06 cedo · carro · ~3h · devolver em MSP",pts:["ff","alex","stcloud","msp"],o:"Fergus Falls, MN",de:"Minneapolis-Saint Paul International Airport"},
+    {id:"l3",c:"sky",ic:"✈",t:"Voo Minneapolis → Jackson Hole",d:"01/06 · Delta direto · ~2h30",pts:["msp","jac"],fly:true},
+    {id:"l4",c:"jh",ic:"3",t:"Grand Teton (bate-volta)",d:"02 a 04/06 · ~25 a 50 min de Jackson",pts:["jh","mormon","jenny","oxbow"],o:"Jackson, WY",de:"Oxbow Bend, Grand Teton",w:"Mormon Row Historic District|Jenny Lake Visitor Center"},
+    {id:"l5",c:"ys",ic:"4",t:"Travessia: Jackson → Old Faithful → glamping",d:"05/06 · ~3h de carro + paradas",pts:["jh","moran","south","wthumb","of","gp","madison","wyt","camp"],o:"Jackson, WY",de:"Under Canvas West Yellowstone",w:"Old Faithful|Grand Prismatic Spring"},
+    {id:"l6",c:"mt",ic:"5",t:"Canyon e Hayden Valley",d:"06/06 · ~1h15 até Canyon",pts:["camp","wyt","madison","norris","canyon","hayden"],o:"Under Canvas West Yellowstone",de:"Hayden Valley, Yellowstone",w:"Artist Point, Yellowstone"},
+    {id:"l8",c:"ys",ic:"6",t:"Descida: glamping → Jackson",d:"07/06 · ~3h, com ursos e lobos e o mirante do Grand Prismatic",pts:["camp","wyt","madison","gp","of","wthumb","south","moran","jh"],o:"Under Canvas West Yellowstone",de:"Jackson, WY",w:"Fairy Falls Trailhead, Yellowstone"},
+    {id:"l9",c:"sky",ic:"✈",t:"Volta: Jackson → Brasil",d:"08/06 · 15 min do hotel ao aeroporto · conexão em Denver, Dallas ou Atlanta · chega 09/06",pts:["jac","brout"],fly:true,intl:true}
+  ];
+  const getP = k => PT[k] || W[k];
+  const VIEWS = {
+    all:{lon0:-114.6,lon1:-88.6,lat0:42.2,lat1:49.6,w:900,h:Math.round(900*7.4/(26*Math.cos(45.5*Math.PI/180))),labels:["msp","ff","jh","camp"]},
+    parks:{lon0:-112.7,lon1:-108.9,lat0:43.35,lat1:45.3,w:900,h:Math.round(900*1.95/(3.8*Math.cos(45.5*Math.PI/180))),labels:Object.keys(PT).filter(k => k!=="msp" && k!=="ff")}
+  };
+  let view = "all", activeLeg = null;
+  const Z = {z:1, cx:0, cy:0, max:8};
+  function proj(v){
+    const kx = Math.cos(45.5*Math.PI/180);
+    const sx = v.w/((v.lon1-v.lon0)*kx), sy = v.h/(v.lat1-v.lat0), s = Math.min(sx, sy);
+    const ox = (v.w - (v.lon1-v.lon0)*kx*s)/2, oy = (v.h - (v.lat1-v.lat0)*s)/2;
+    return (lat, lon) => [ox + (lon - v.lon0)*kx*s, oy + (v.lat1 - lat)*s];
+  }
+  function drawMap(){
+    const v = VIEWS[view], P_ = proj(v), svg = $("#map");
+    const sc = Math.min(2, Math.max(1, v.w/(svg.clientWidth||v.w))) / Z.z; svg.style.setProperty("--k", sc.toFixed(3));
+    applyVB();
+    const poly = pts => pts.map(p => P_(p[1], p[0]).map(n => n.toFixed(1)).join(",")).join(" ");
+    let h = '<rect width="'+v.w+'" height="'+v.h+'" fill="var(--land2)"/>';
+    if(view==="all"){ const c0 = P_(49,-114.6); h += '<rect x="0" y="0" width="'+v.w+'" height="'+c0[1].toFixed(1)+'" fill="var(--sky-soft)"/><text class="mstate" x="'+(v.w*0.32)+'" y="'+(c0[1]/2+5).toFixed(1)+'" text-anchor="middle">CANADÁ</text>'; }
+    Object.keys(STATES).forEach((k,i) => { h += '<polygon points="'+poly(STATES[k])+'" fill="'+(["MN","WY","MT"].includes(k)?'var(--land)':'var(--land2)')+'" stroke="var(--surface)" stroke-width="2" vector-effect="non-scaling-stroke"/>'; });
+    Object.keys(PARKS).forEach(k => { h += '<polygon points="'+poly(PARKS[k])+'" fill="var(--park)" stroke="var(--mn)" stroke-width="1.2" stroke-dasharray="4 3" vector-effect="non-scaling-stroke"/>'; });
+    Object.keys(STATE_LABELS).forEach(k => { const L = STATE_LABELS[k], q = P_(L[1], L[0]); if(q[0]>0 && q[0]<v.w && q[1]>0 && q[1]<v.h) h += '<text class="mstate" x="'+q[0]+'" y="'+q[1]+'" text-anchor="middle">'+L[2]+'</text>'; });
+    if(view==="parks"){
+      const y = P_(44.30,-110.30), g = P_(43.80,-110.98);
+      h += '<text class="mstate" x="'+y[0]+'" y="'+y[1]+'" text-anchor="middle" style="fill:var(--mn);opacity:1">YELLOWSTONE</text>';
+      h += '<text class="mstate" x="'+g[0]+'" y="'+g[1]+'" text-anchor="end" style="fill:var(--mn);opacity:1">GRAND TETON</text>';
+    } else {
+      const y = P_(44.35,-109.75); h += '<text class="mlabel small" x="'+(y[0])+'" y="'+(y[1])+'" style="fill:var(--mn)">Yellowstone</text>';
+    }
+    LEGS.forEach(L => {
+      if(L.intl && view!=="all") return;
+      const pts = L.pts.map(k => P_(getP(k)[0], getP(k)[1]));
+      let d;
+      if(L.intl){ const a = pts[0], b = pts[1]; d = "M"+a.map(n=>n.toFixed(1)).join(",")+" L"+b.map(n=>n.toFixed(1)).join(","); }
+      else if(L.fly){ const a = pts[0], b = pts[1], mx = (a[0]+b[0])/2, my = Math.min(a[1],b[1]) - (view==="all"?80:0); d = "M"+a.join(",")+" Q"+mx+","+my+" "+b.join(","); }
+      else d = "M" + pts.map(p => p.map(n => n.toFixed(1)).join(",")).join(" L");
+      const on = !activeLeg || activeLeg===L.id;
+      h += '<path class="route-path" d="'+d+'" stroke="var(--'+L.c+')" stroke-width="'+((activeLeg===L.id?6:3.5)*Math.sqrt(sc*Z.z)).toFixed(1)+'" vector-effect="non-scaling-stroke" opacity="'+(on?1:.18)+'"'+(L.fly?' stroke-dasharray="2 8"':'')+' data-leg="'+L.id+'"/>';
+    });
+    v.labels.forEach(k => {
+      const p = PT[k], q = P_(p[0], p[1]);
+      if(q[0]<0||q[0]>v.w||q[1]<0||q[1]>v.h) return;
+      const right = !(view==="parks" && ["jh","jenny","of","gp","camp","wyt"].includes(k));
+      h += '<circle cx="'+q[0]+'" cy="'+q[1]+'" r="'+(6.5*Math.sqrt(sc)).toFixed(1)+'" fill="var(--'+p[3]+')" stroke="var(--surface)" stroke-width="2.5" vector-effect="non-scaling-stroke"/>';
+      const vert = view==="all" && (k==="msp" || k==="camp");
+      h += vert ? '<text class="mlabel" x="'+q[0]+'" y="'+(k==="msp" ? q[1]+18*sc : q[1]-12*sc)+'" text-anchor="'+(k==="msp"?'end':'middle')+'">'+esc(p[2])+'</text>'
+                : '<text class="mlabel" x="'+(q[0]+(right?10:-10)*sc)+'" y="'+(q[1]+4)+'" text-anchor="'+(right?'start':'end')+'">'+esc(p[2])+'</text>';
+    });
+    if(view==="all"){ const a = P_(42.75,-90.4), b = P_(42.45,-106.85); h += '<text class="mlabel" x="'+a[0]+'" y="'+a[1]+'" text-anchor="end" style="fill:var(--sky)">✈ ida, do Brasil</text><text class="mlabel" x="'+b[0]+'" y="'+b[1]+'" text-anchor="start" style="fill:var(--sky)">✈ volta ao Brasil</text>'; }
+    svg.innerHTML = h;
+  }
+  function drawLegs(){
+    $("#legs").innerHTML = '<div class="eyebrow" style="padding:0 4px 4px">Principais deslocamentos</div>' + LEGS.map(L =>
+      '<div class="leg c-'+L.c+'" role="button" tabindex="0" data-leg="'+L.id+'" aria-pressed="'+(activeLeg===L.id)+'"><span class="ic">'+esc(L.ic)+'</span><b>'+esc(L.t)+'</b><span>'+esc(L.d)+(L.o?' · <a href="'+esc(gdir(L.o,L.de,L.w))+'" target="_blank" rel="noopener">Abrir no Google Maps</a>':'')+'</span></div>'
+    ).join("") + '<div class="eyebrow" style="padding:10px 4px 4px">Lugares</div>' +
+      '<div style="display:flex;flex-wrap:wrap;gap:6px;padding:0 4px">'+["Minneapolis, MN","Fergus Falls, MN","Hillcrest Lutheran Academy, Fergus Falls","Jackson, WY","Grand Teton National Park","Yellowstone National Park","West Yellowstone, MT"].map(q => '<a class="chipbtn" style="text-decoration:none;color:inherit" href="'+esc(gmap(q))+'" target="_blank" rel="noopener">'+esc(q.split(",")[0])+'</a>').join("")+'</div>';
+  }
+  function setLeg(id){
+    activeLeg = activeLeg===id ? null : id;
+    const L = LEGS.find(x => x.id===activeLeg);
+    if(L){ const inParks = !L.intl && L.pts.every(k => { const p = getP(k); return p[1] < -109 && p[1] > -112; }); setView(inParks ? "parks" : "all", true); }
+    drawMap(); drawLegs();
+  }
+  let mapRT; addEventListener("resize", () => { clearTimeout(mapRT); mapRT = setTimeout(drawMap, 150); });
+  function clampZ(){
+    const v = VIEWS[view]; Z.z = Math.min(Z.max, Math.max(1, Z.z));
+    const hw = v.w/(2*Z.z), hh = v.h/(2*Z.z);
+    Z.cx = Math.min(v.w-hw, Math.max(hw, Z.cx)); Z.cy = Math.min(v.h-hh, Math.max(hh, Z.cy));
+  }
+  function applyVB(){
+    const v = VIEWS[view]; if(Z.z===1){ Z.cx = v.w/2; Z.cy = v.h/2; } clampZ();
+    const w = v.w/Z.z, h = v.h/Z.z;
+    $("#map").setAttribute("viewBox", (Z.cx-w/2).toFixed(2)+" "+(Z.cy-h/2).toFixed(2)+" "+w.toFixed(2)+" "+h.toFixed(2));
+    $("#mapstage").classList.toggle("zoomed", Z.z>1.001);
+    $("#zIn").disabled = Z.z>=Z.max-1e-3; $("#zOut").disabled = $("#zReset").disabled = Z.z<=1.001;
+  }
+  /* zoom keeping the map point under (px,py) — fractions of the visible area — fixed */
+  function zoomAt(f, fx, fy){
+    const v = VIEWS[view], w0 = v.w/Z.z, h0 = v.h/Z.z;
+    const mx = Z.cx - w0/2 + fx*w0, my = Z.cy - h0/2 + fy*h0;
+    const nz = Math.min(Z.max, Math.max(1, Z.z*f)); if(nz===Z.z) return false;
+    const w1 = v.w/nz, h1 = v.h/nz;
+    Z.z = nz; Z.cx = mx - fx*w1 + w1/2; Z.cy = my - fy*h1 + h1/2;
+    drawMap(); return true;
+  }
+  let zAnim = 0;
+  function zoomSmooth(f){
+    cancelAnimationFrame(zAnim);
+    const from = Z.z, to = Math.min(Z.max, Math.max(1, Z.z*f)); if(to===from) return;
+    if(matchMedia("(prefers-reduced-motion: reduce)").matches){ zoomAt(to/from, .5, .5); return; }
+    const t0 = performance.now(), D = 260;
+    (function step(t){ const k = Math.min(1, (t-t0)/D), e = 1-Math.pow(1-k,3), target = from*Math.pow(to/from, e);
+      zoomAt(target/Z.z, .5, .5); if(k<1) zAnim = requestAnimationFrame(step); })(t0);
+  }
+  function hideHint(){ const h = $("#zhint"); if(h) h.style.opacity = 0; }
+  setTimeout(hideHint, 9000);
+  $("#zIn").addEventListener("click", () => { zoomSmooth(1.6); hideHint(); });
+  $("#zOut").addEventListener("click", () => zoomSmooth(1/1.6));
+  $("#zReset").addEventListener("click", () => zoomSmooth(1/Z.z));
+  (function(){
+    const st = $("#mapstage"), svg = $("#map"), ptrs = new Map(); let start = null, moved = false, pinch = null;
+    const frac = e => { const r = svg.getBoundingClientRect(); return [(e.clientX-r.left)/r.width, (e.clientY-r.top)/r.height]; };
+    st.addEventListener("wheel", e => {
+      if(e.deltaY > 0 && Z.z<=1.001) return;
+      e.preventDefault(); hideHint(); cancelAnimationFrame(zAnim);
+      const f = Math.exp(-e.deltaY*(e.deltaMode===1?0.05:0.0022)); const [fx,fy] = frac(e); zoomAt(f, fx, fy);
+    }, {passive:false});
+    st.addEventListener("dblclick", e => { if(e.target.closest("[data-leg]")) return; const [fx,fy] = frac(e); zoomAt(1.8, fx, fy); hideHint(); });
+    st.addEventListener("pointerdown", e => {
+      if(e.target.closest(".zoomctl")) return;
+      ptrs.set(e.pointerId, [e.clientX, e.clientY]); moved = false;
+      if(ptrs.size===2){ const [a,b] = [...ptrs.values()]; pinch = {d:Math.hypot(a[0]-b[0], a[1]-b[1]), z:Z.z}; start = null; }
+      else if(Z.z>1.001){ start = {x:e.clientX, y:e.clientY, cx:Z.cx, cy:Z.cy}; }
+    });
+    st.addEventListener("pointermove", e => {
+      if(!ptrs.has(e.pointerId)) return; ptrs.set(e.pointerId, [e.clientX, e.clientY]);
+      const r = svg.getBoundingClientRect(), v = VIEWS[view];
+      if(pinch && ptrs.size===2){
+        const [a,b] = [...ptrs.values()], d = Math.hypot(a[0]-b[0], a[1]-b[1]);
+        const fx = ((a[0]+b[0])/2-r.left)/r.width, fy = ((a[1]+b[1])/2-r.top)/r.height;
+        zoomAt(pinch.z*d/pinch.d/Z.z, fx, fy); moved = true; return;
+      }
+      if(!start) return;
+      const dx = e.clientX-start.x, dy = e.clientY-start.y;
+      if(!moved && Math.hypot(dx,dy) < 5) return;
+      if(!moved){ moved = true; st.classList.add("drag"); try{ st.setPointerCapture(e.pointerId); }catch(_){} hideHint(); }
+      Z.cx = start.cx - dx*(v.w/Z.z)/r.width; Z.cy = start.cy - dy*(v.h/Z.z)/r.height; applyVB();
+    });
+    const end = e => { ptrs.delete(e.pointerId); if(ptrs.size<2) pinch = null; if(!ptrs.size){ start = null; st.classList.remove("drag"); } };
+    st.addEventListener("pointerup", end); st.addEventListener("pointercancel", end);
+    st.addEventListener("click", e => { if(moved){ e.stopPropagation(); e.preventDefault(); moved = false; } }, true);
+  })();
+  function setView(v, quiet){ Z.z = 1; view = v; $("#mapAll").setAttribute("aria-pressed", String(v==="all")); $("#mapParks").setAttribute("aria-pressed", String(v==="parks")); if(!quiet) drawMap(); }
+  $("#mapAll").addEventListener("click", () => setView("all"));
+  $("#mapParks").addEventListener("click", () => setView("parks"));
+  $("#legs").addEventListener("click", e => { if(e.target.closest("a")) return; const l = e.target.closest("[data-leg]"); if(l) setLeg(l.dataset.leg); });
+  $("#legs").addEventListener("keydown", e => { if(e.key!=="Enter" && e.key!==" ") return; const l = e.target.closest("[data-leg]"); if(l){ e.preventDefault(); setLeg(l.dataset.leg); } });
+  $("#map").addEventListener("click", e => { const p = e.target.closest("[data-leg]"); if(p) setLeg(p.dataset.leg); });
+  drawMap(); drawLegs();
+
+  /* ================= Animated herd ================= */
+  (function(){
+    const herd = $("#herd"); if(!herd) return;
+    const TPL = '<g class="bflip"><g fill="var(--bison)"><g class="lg" data-hx="28" data-ph="1"><rect x="25.5" y="25" width="5.5" height="10" rx="2.5"/><g class="knee"><rect x="26" y="33" width="4.5" height="8.5" rx="2"/><rect x="25.6" y="40" width="5.3" height="2.6" rx="1" fill="var(--mtn3)" opacity=".55"/></g></g><g class="lg" data-hx="56" data-ph="0"><rect x="53.5" y="25" width="5.5" height="10" rx="2.5"/><g class="knee"><rect x="54" y="33" width="4.5" height="8.5" rx="2"/><rect x="53.6" y="40" width="5.3" height="2.6" rx="1" fill="var(--mtn3)" opacity=".55"/></g></g><g class="bbody"><path d="M14 21 C13 9 21 2 31 2 C39 2 44 5 50 8 C58 11 65 15 65 23 C65 30 61 33 55 33 L23 33 C17 33 14 28 14 21 Z"/><path d="M14 21 C13 9 21 2 31 2 C39 2 44 5 50 8 C58 11 65 15 65 23 C65 30 61 33 55 33 L23 33 C17 33 14 28 14 21 Z" fill="url(#bshadeG)"/><g class="btail"><path d="M64 16 C66.5 18 67 22 66 27" fill="none" stroke="var(--bison)" stroke-width="2.2" stroke-linecap="round"/><ellipse cx="66" cy="28" rx="1.8" ry="2.6"/></g><g class="bhead"><path d="M18 12 C10 10 4 14 2.5 21 C1.5 27 3.5 31 8 31.5 C11.5 31.8 14 29.5 16.5 27 Z"/><path d="M5 28.5 C3.5 33 5.5 37 9 36.5 C10.5 34 10.5 31 9.5 29 Z"/><path d="M9.5 14.5 C7 12 7.5 9.5 10 8.5" fill="none" stroke="var(--bison)" stroke-width="2" stroke-linecap="round"/><circle cx="7" cy="19" r="1" fill="var(--surface)" opacity=".7"/></g></g><g class="lg" data-hx="22" data-ph="0"><rect x="19.5" y="25" width="5.5" height="10" rx="2.5"/><g class="knee"><rect x="20" y="33" width="4.5" height="8.5" rx="2"/><rect x="19.6" y="40" width="5.3" height="2.6" rx="1" fill="var(--mtn3)" opacity=".55"/></g></g><g class="lg" data-hx="50" data-ph="1"><rect x="47.5" y="25" width="5.5" height="10" rx="2.5"/><g class="knee"><rect x="48" y="33" width="4.5" height="8.5" rx="2"/><rect x="47.6" y="40" width="5.3" height="2.6" rx="1" fill="var(--mtn3)" opacity=".55"/></g></g></g></g>';
+    const NS = "http://www.w3.org/2000/svg";
+    // x, y (pés), escala, faixa de passeio, velocidade, opacidade
+    const CONF = [
+      {x:110, y:147, sc:.48, min:-60, max:150, sp:8, op:.82},
+      {x:270, y:146, sc:.56, min:-110, max:80, sp:9, op:.88},
+      {x:500, y:158, sc:.88, min:-110, max:60, sp:14, op:1},
+      {x:575, y:161, sc:.52, min:-130, max:60, sp:15, op:1, calf:true},
+      {x:735, y:157, sc:1, min:-120, max:40, sp:16, op:1}
+    ];
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const B = CONF.map((c, idx) => {
+      const g = document.createElementNS(NS, "g"); g.innerHTML = TPL; g.setAttribute("opacity", c.op); herd.appendChild(g);
+      const legs = [...g.querySelectorAll(".lg")].map(l => ({el:l, knee:l.querySelector(".knee"), hx:+l.dataset.hx, off:l.dataset.ph==="1" ? Math.PI : 0}));
+      return Object.assign({}, c, {g, flip:g.querySelector(".bflip"), body:g.querySelector(".bbody"), head:g.querySelector(".bhead"), tail:g.querySelector(".btail"), legs,
+        pos: (Math.random()-.5)*40, dir:-1, face:1, state:"graze", until: 1 + Math.random()*4 + idx, target:0, phase:Math.random()*6, w:0, hr0:0, flick:0});
+    });
+    function place(b){ b.g.setAttribute("transform", "translate("+(b.x + b.pos).toFixed(2)+" "+(b.y - 42.5*b.sc).toFixed(2)+") scale("+b.sc+")"); b.flip.setAttribute("transform", "translate(34 0) scale("+b.face.toFixed(3)+" 1) translate(-34 0)"); }
+    B.forEach(place);
+    if(reduce) return;
+    let t = 0, last = 0, raf = 0, visible = true;
+    function pick(b){
+      if(b.state==="graze" || Math.random() < .35){
+        let target = b.min + Math.random()*(b.max - b.min);
+        if(Math.abs(target - b.pos) < 30) target = b.pos + (target > b.pos ? 50 : -50);
+        b.target = Math.max(b.min, Math.min(b.max, target)); b.state = "walk"; b.dir = b.target < b.pos ? -1 : 1;
+      } else { b.state = "graze"; b.until = t + 3 + Math.random()*5; }
+    }
+    function step(b, dt){
+      const faceT = b.dir < 0 ? 1 : -1;
+      b.face += (faceT - b.face) * Math.min(1, dt*6);
+      const turning = Math.abs(faceT - b.face) > .05;
+      let walking = false;
+      if(b.state==="walk"){
+        if(!turning){ b.pos += b.dir*b.sp*dt; walking = true; b.phase += dt*(b.calf ? 10 : 7.2); }
+        if((b.dir<0 && b.pos<=b.target) || (b.dir>0 && b.pos>=b.target)){ b.pos = b.target; pick(b); }
+      } else if(t > b.until) pick(b);
+      b.w += ((walking ? 1 : 0) - b.w) * Math.min(1, dt*5);
+      if(!walking && b.w > .02) b.phase += dt*7.2*b.w;
+      b.legs.forEach(L => {
+        const ph = b.phase + L.off;
+        L.el.setAttribute("transform", "rotate("+(-20*Math.sin(ph)*b.w).toFixed(2)+" "+L.hx+" 26)");
+        L.knee.setAttribute("transform", "rotate("+(34*Math.max(0, Math.sin(ph - .9))*b.w).toFixed(2)+" "+L.hx+" 34)");
+      });
+      const bob = -Math.abs(Math.cos(b.phase))*1.6*b.w + Math.sin(t*1.6 + b.x)*.4*(1-b.w);
+      b.body.setAttribute("transform", "translate(0 "+bob.toFixed(2)+")");
+      const hr = b.state==="graze" && !turning ? -30 + Math.sin(t*5 + b.x)*2.5 : Math.sin(b.phase*2)*3*b.w;
+      b.hr0 += (hr - b.hr0)*Math.min(1, dt*3);
+      b.head.setAttribute("transform", "rotate("+(-b.hr0).toFixed(2)+" 17 15) translate(0 "+(Math.max(0,-b.hr0)/6).toFixed(2)+")");
+      if(Math.random() < dt*.25) b.flick = 1;
+      b.flick = Math.max(0, b.flick - dt*1.4);
+      b.tail.setAttribute("transform", "rotate("+(Math.sin(b.flick*Math.PI*3)*22*b.flick + (walking?Math.sin(b.phase)*6:0)).toFixed(2)+" 64 15)");
+      place(b);
+    }
+    function frame(ms){
+      raf = 0;
+      const dt = last ? Math.min(.05, (ms - last)/1000) : 0; last = ms; t += dt;
+      B.forEach(b => step(b, dt));
+      if(visible && !document.hidden) raf = requestAnimationFrame(frame); else last = 0;
+    }
+    function start(){ if(!raf && visible && !document.hidden){ last = 0; raf = requestAnimationFrame(frame); } }
+    if("IntersectionObserver" in window) new IntersectionObserver(es => { visible = es[0].isIntersecting; start(); }).observe(herd.closest("svg"));
+    document.addEventListener("visibilitychange", start);
+    start();
+  })();
+
+  /* ================= Família passeando ================= */
+  (function(){
+    const fam = $("#family"); if(!fam) return;
+    const NS = "http://www.w3.org/2000/svg", U = .16, SKIN = "#f2d3bd", SKIN2 = "#e4bea4", HAIR = "#2a201c";
+    // x relativo, altura (cm), cabelo, cores (blusa, calça), e quem dá a mão
+    const PEOPLE = [
+      {x:0,  h:190, hair:"gray",  top:"#9b4a3c", pants:"#7d6f58", w:.105, hold:"front"},
+      {x:12, h:176, hair:"long",  top:"#7a9e7e", pants:"#3b3f4a", w:.09,  hold:"back"},
+      {x:26, h:172, hair:"long",  top:"#d9a441", pants:"#33415a", w:.088, wave:true},
+      {x:40, h:185, hair:"curly", top:"#3d5a80", pants:"#2c3646", w:.105, point:true},
+      {x:51, h:175, hair:"long",  top:"#c96f4a", pants:"#3a3a44", w:.09}
+    ];
+    const f = n => n.toFixed(2);
+    function build(p){
+      const H = p.h*U, hip = -.5*H, sh = -.8*H, hr = .072*H, hy = -H + hr, lw = .078*H, aw = .062*H, AL = .36*H, KN = -.25*H, tw = p.w*H;
+      const leg = (cls, shade) => '<g class="'+cls+'"><rect x="'+f(-lw/2)+'" y="'+f(hip)+'" width="'+f(lw)+'" height="'+f(KN-hip+lw*.4)+'" rx="'+f(lw/2)+'" fill="'+p.pants+'"/><g class="kn"><rect x="'+f(-lw/2)+'" y="'+f(KN-lw*.3)+'" width="'+f(lw)+'" height="'+f(-KN-.035*H+lw*.3)+'" rx="'+f(lw/2)+'" fill="'+p.pants+'"/><ellipse cx="'+f(lw*.45)+'" cy="'+f(-.025*H)+'" rx="'+f(lw*.95)+'" ry="'+f(.028*H)+'" fill="#2b2522"/></g>'+(shade?'<rect x="'+f(-lw/2)+'" y="'+f(hip)+'" width="'+f(lw)+'" height="'+f(-hip)+'" fill="#000" opacity=".18"/>':'')+'</g>';
+      const arm = (cls, shade) => '<g class="'+cls+'"><rect x="'+f(-aw/2)+'" y="'+f(sh)+'" width="'+f(aw)+'" height="'+f(AL*.55)+'" rx="'+f(aw/2)+'" fill="'+p.top+'"/><rect x="'+f(-aw*.42)+'" y="'+f(sh+AL*.45)+'" width="'+f(aw*.84)+'" height="'+f(AL*.5)+'" rx="'+f(aw*.42)+'" fill="'+(shade?SKIN2:SKIN)+'"/><circle cx="0" cy="'+f(sh+AL)+'" r="'+f(aw*.62)+'" fill="'+(shade?SKIN2:SKIN)+'"/>'+(shade?'<rect x="'+f(-aw/2)+'" y="'+f(sh)+'" width="'+f(aw)+'" height="'+f(AL*.55)+'" rx="'+f(aw/2)+'" fill="#000" opacity=".15"/>':'')+'</g>';
+      let hairBack = "", hairTop = "";
+      if(p.hair==="long"){
+        hairBack = '<path d="M'+f(-hr*1.05)+' '+f(hy-hr*.2)+' Q'+f(-hr*1.25)+' '+f(hy+hr*2.4)+' '+f(-hr*.85)+' '+f(hy+hr*3.1)+' L'+f(hr*.05)+' '+f(hy+hr*2.6)+' Q'+f(-hr*.2)+' '+f(hy+hr*1.2)+' '+f(-hr*.1)+' '+f(hy)+' Z" fill="'+HAIR+'"/>';
+        hairTop = '<path d="M'+f(-hr*1.08)+' '+f(hy+hr*.35)+' C'+f(-hr*1.2)+' '+f(hy-hr*1.3)+' '+f(hr*1.1)+' '+f(hy-hr*1.45)+' '+f(hr*1.05)+' '+f(hy-hr*.15)+' C'+f(hr*.4)+' '+f(hy-hr*.75)+' '+f(-hr*.3)+' '+f(hy-hr*.4)+' '+f(-hr*.35)+' '+f(hy+hr*.5)+' Z" fill="'+HAIR+'"/>';
+      } else if(p.hair==="curly"){
+        [[-.9,-.25],[-.7,-.8],[-.15,-1.05],[.45,-.95],[.9,-.5],[-1.05,.3]].forEach(c => { hairTop += '<circle cx="'+f(c[0]*hr)+'" cy="'+f(hy+c[1]*hr)+'" r="'+f(hr*.48)+'" fill="'+HAIR+'"/>'; });
+      } else {
+        hairTop = '<path d="M'+f(-hr*1.06)+' '+f(hy+hr*.45)+' C'+f(-hr*1.15)+' '+f(hy-hr*1.25)+' '+f(hr*1.05)+' '+f(hy-hr*1.35)+' '+f(hr*1.02)+' '+f(hy-hr*.25)+' C'+f(hr*.3)+' '+f(hy-hr*.6)+' '+f(-hr*.4)+' '+f(hy-hr*.45)+' '+f(-hr*.45)+' '+f(hy+hr*.55)+' Z" fill="#4a4441"/><path d="M'+f(-hr*1.05)+' '+f(hy+hr*.1)+' Q'+f(-hr*.8)+' '+f(hy-hr*.55)+' '+f(-hr*.25)+' '+f(hy-hr*.6)+'" fill="none" stroke="#b3ada6" stroke-width="'+f(hr*.28)+'" stroke-linecap="round"/>';
+      }
+      const head = '<g class="hd">'+hairBack+'<rect x="'+f(-aw*.45)+'" y="'+f(hy+hr*.6)+'" width="'+f(aw*.9)+'" height="'+f(sh-hy)+'" fill="'+SKIN2+'"/><circle cx="0" cy="'+f(hy)+'" r="'+f(hr)+'" fill="'+SKIN+'"/><circle cx="'+f(hr*.95)+'" cy="'+f(hy+hr*.15)+'" r="'+f(hr*.22)+'" fill="'+SKIN+'"/><circle cx="'+f(hr*.5)+'" cy="'+f(hy-hr*.12)+'" r="'+f(hr*.13)+'" fill="#2a201c"/>'+hairTop+'</g>';
+      const torso = '<path d="M'+f(-tw)+' '+f(sh+.02*H)+' Q'+f(-tw)+' '+f(sh-.03*H)+' '+f(-tw*.4)+' '+f(sh-.03*H)+' L'+f(tw*.4)+' '+f(sh-.03*H)+' Q'+f(tw)+' '+f(sh-.03*H)+' '+f(tw)+' '+f(sh+.02*H)+' L'+f(tw*.85)+' '+f(hip+.04*H)+' L'+f(-tw*.85)+' '+f(hip+.04*H)+' Z" fill="'+p.top+'"/>';
+      const g = document.createElementNS(NS, "g");
+      g.innerHTML = '<g class="pb">'+arm("ab", true)+leg("lb", true)+leg("lf", false)+torso+head+arm("af", false)+'</g>';
+      g.setAttribute("transform", "translate("+p.x+" 0)"); fam.appendChild(g);
+      return Object.assign({}, p, {H, hip, sh, KN, AL, el:g, pb:g.querySelector(".pb"), hd:g.querySelector(".hd"), lf:g.querySelector(".lf"), lb:g.querySelector(".lb"), af:g.querySelector(".af"), ab:g.querySelector(".ab"),
+        kf:g.querySelector(".lf .kn"), kb:g.querySelector(".lb .kn"), arm:0, look:0, lookT:0});
+    }
+    const P = PEOPLE.map(build);
+    const G = {x:0, y:161, min:-70, max:975, sp:8.5, pos:330, dir:1, face:1, state:"rest", until:2, target:0, goal:975, ph:0, w:0, gesture:null, gT:0};
+    const CX = 25;
+    function place(){ fam.setAttribute("transform", "translate("+f(G.x+G.pos)+" "+G.y+") translate("+CX+" 0) scale("+G.face.toFixed(3)+" 1) translate("+(-CX)+" 0)"); }
+    place();
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    function pose(p, dt, t){
+      const r = 30/p.H, ph = G.ph*r + (p.x*.07), w = G.w, s = Math.sin(ph);
+      const rot = (el, a, x, y) => el.setAttribute("transform", "rotate("+f(a)+" "+f(x)+" "+f(y)+")");
+      rot(p.lf, 24*s*w, 0, p.hip); rot(p.lb, -24*s*w, 0, p.hip);
+      rot(p.kf, 30*Math.max(0, Math.sin(ph-1.2))*w, 0, p.KN); rot(p.kb, 30*Math.max(0, Math.sin(ph+Math.PI-1.2))*w, 0, p.KN);
+      let af = -20*s*w, ab = 20*s*w;
+      if(p.hold==="front") af = -33 + Math.sin(t*1.3)*2;
+      if(p.hold==="back") ab = 36 + Math.sin(t*1.3)*2;
+      let target = 0;
+      if(G.gesture===p && G.state==="rest"){ const k = Math.max(0, Math.min(1, G.gT*2.5, (G.gEnd - G.gT)*2.5)); target = p.point ? -115*k : -150*k + (p.wave ? Math.sin(G.gT*9)*18*k : 0); }
+      p.arm += (target - p.arm)*Math.min(1, dt*8);
+      if(Math.abs(p.arm) > .5) af = p.arm;
+      rot(p.af, af, 0, p.sh); rot(p.ab, ab, 0, p.sh);
+      const bob = -Math.abs(Math.cos(ph))*.03*p.H*w + Math.sin(t*1.8 + p.x)*.15*(1-w);
+      p.pb.setAttribute("transform", "translate(0 "+f(bob)+")");
+      if(t > p.lookT){ p.lookT = t + 2 + Math.random()*4; p.lookTo = G.state==="rest" ? (Math.random()-.5)*16 : 0; }
+      p.look += ((p.lookTo||0) - p.look)*Math.min(1, dt*3);
+      p.hd.setAttribute("transform", "rotate("+f(p.look)+" 0 "+f(p.sh)+")");
+    }
+    if(reduce){ P.forEach(p => pose(p, 0, 0)); return; }
+    let t = 0, last = 0, raf = 0, visible = true;
+    function pick(){
+      if(G.state==="rest"){
+        // atravessa a tela toda; às vezes faz uma parada no meio do caminho
+        if(Math.abs(G.pos - G.goal) < 1) G.goal = G.goal===G.max ? G.min : G.max;
+        G.dir = G.goal > G.pos ? 1 : -1;
+        const left = Math.abs(G.goal - G.pos);
+        G.target = (left > 300 && Math.random() < .6) ? G.pos + G.dir*(150 + Math.random()*(left - 250)) : G.goal;
+        G.state = "walk";
+      } else {
+        const edge = G.pos===G.min || G.pos===G.max;
+        G.state = "rest"; G.until = t + (edge ? 1.5 + Math.random()*1.5 : 3 + Math.random()*3);
+        const cand = P.filter(p => p.point || p.wave); G.gesture = Math.random() < .75 ? cand[Math.floor(Math.random()*cand.length)] : null; G.gT = -1 - Math.random(); G.gEnd = 2.2;
+      }
+    }
+    function frame(ms){
+      raf = 0;
+      const dt = last ? Math.min(.05, (ms - last)/1000) : 0; last = ms; t += dt;
+      G.face += (G.dir - G.face)*Math.min(1, dt*5);
+      const turning = Math.abs(G.dir - G.face) > .05;
+      let walking = false;
+      if(G.state==="walk"){
+        if(!turning){ G.pos += G.dir*G.sp*dt; walking = true; }
+        if((G.dir>0 && G.pos>=G.target) || (G.dir<0 && G.pos<=G.target)){ G.pos = G.target; pick(); }
+      } else { G.gT += dt; if(t > G.until) pick(); }
+      G.w += ((walking ? 1 : 0) - G.w)*Math.min(1, dt*4);
+      if(G.w > .01) G.ph += dt*7.4*Math.max(G.w, .2);
+      P.forEach(p => pose(p, dt, t)); place();
+      if(visible && !document.hidden) raf = requestAnimationFrame(frame); else last = 0;
+    }
+    function start(){ if(!raf && visible && !document.hidden){ last = 0; raf = requestAnimationFrame(frame); } }
+    if("IntersectionObserver" in window) new IntersectionObserver(es => { visible = es[0].isIntersecting; start(); }).observe(fam.closest("svg"));
+    document.addEventListener("visibilitychange", start);
+    start();
+  })();
+
+  /* ================= Bandeira balançando ================= */
+  (function(){
+    const fg = $("#flagG"); if(!fg) return;
+    const W = 54, H = W/1.9, N = 40, sw = W/N, sh = H/13;
+    let content = '';
+    for(let i=0;i<13;i++) content += '<rect x="0" y="'+(i*sh).toFixed(2)+'" width="'+W+'" height="'+(sh+.05).toFixed(2)+'" fill="'+(i%2?'#fff':'#b22234')+'"/>';
+    const cw = W*.4, ch = sh*7;
+    content += '<rect x="0" y="0" width="'+cw.toFixed(2)+'" height="'+ch.toFixed(2)+'" fill="#3c3b6e"/>';
+    for(let r=0;r<9;r++){ const cols = r%2 ? 5 : 6; for(let c=0;c<cols;c++) content += '<circle cx="'+((c + (r%2 ? 1 : .5))*cw/6).toFixed(2)+'" cy="'+((r+.9)*ch/10).toFixed(2)+'" r=".42" fill="#fff"/>'; }
+    let defs = '<g id="usflag">'+content+'</g>', strips = '';
+    for(let i=0;i<N;i++){
+      defs += '<clipPath id="fc'+i+'"><rect x="'+(i*sw - .06).toFixed(2)+'" y="-1" width="'+(sw+.12).toFixed(2)+'" height="'+(H+2).toFixed(2)+'"/></clipPath>';
+      strips += '<g class="fs"><g clip-path="url(#fc'+i+')"><use href="#usflag"/></g><rect class="fsh" x="'+(i*sw - .06).toFixed(2)+'" y="0" width="'+(sw+.12).toFixed(2)+'" height="'+H.toFixed(2)+'" fill="#000" opacity="0"/></g>';
+    }
+    const POLE = 96;
+    fg.innerHTML = '<defs>'+defs+'</defs>'+
+      '<ellipse cx="0" cy="'+POLE+'" rx="7" ry="2" fill="#000" opacity=".18"/>'+
+      '<rect x="-1.3" y="-1" width="2.6" height="'+(POLE+1)+'" rx="1.1" fill="#d9d4cb"/><rect x=".2" y="-1" width="1.1" height="'+(POLE+1)+'" fill="#000" opacity=".15"/>'+
+      '<circle cx="0" cy="-2.6" r="2.6" fill="#d8b04a"/>'+
+      '<g class="flagcloth" transform="translate(1.3 2)">'+strips+'</g>';
+    const S = [...fg.querySelectorAll(".fs")].map((g,i) => ({g, sh:g.querySelector(".fsh"), i}));
+    function paint(t){
+      const gust = .75 + .25*Math.sin(t*.37) + .12*Math.sin(t*1.13);
+      S.forEach(s => {
+        const u = (s.i + .5)/N, a = 3.2*u*gust, ph = t*4.2 - s.i*.22;
+        const dy = a*Math.sin(ph), slope = Math.cos(ph)*u;
+        s.g.setAttribute("transform", "translate("+(-u*u*1.2*gust).toFixed(2)+" "+dy.toFixed(2)+")");
+        s.sh.setAttribute("fill", slope > 0 ? "#000" : "#fff");
+        s.sh.setAttribute("opacity", (Math.abs(slope)*(slope > 0 ? .22 : .16)).toFixed(3));
+      });
+    }
+    fg.setAttribute("transform", "translate(34 54)");
+    if(matchMedia("(prefers-reduced-motion: reduce)").matches){ paint(1.3); return; }
+    let raf = 0, t0 = 0, visible = true;
+    function frame(ms){ raf = 0; if(!t0) t0 = ms; paint((ms - t0)/1000); if(visible && !document.hidden) raf = requestAnimationFrame(frame); }
+    function start(){ if(!raf && visible && !document.hidden) raf = requestAnimationFrame(frame); }
+    if("IntersectionObserver" in window) new IntersectionObserver(es => { visible = es[0].isIntersecting; start(); }).observe(fg.closest("svg"));
+    document.addEventListener("visibilitychange", start);
+    start();
+  })();
+
+  /* ================= Day and night ================= */
+  (function(){
+    const hero = $(".hero"), sunG = $("#sunG"), sunRed = $("#sunRed"), moon = $("#moonG"), terr = $("#nightTerrain"), clouds = $("#clouds");
+    const dusk = $(".skylayer .dusk"), night = $(".skylayer .night"), stars = $(".skylayer .stars");
+    if(!hero || !sunG) return;
+    const CYCLE = 150, START = 5; // segundos: ~55 de dia, ~20 de pôr do sol, ~55 de noite, ~20 de nascer do sol
+    const ss = (a, b, x) => { const t = Math.max(0, Math.min(1, (x - a)/(b - a))); return t*t*(3 - 2*t); };
+    const lerp = (a, b, t) => a + (b - a)*t;
+    function paint(p){
+      const n = ss(.38, .5, p) * (1 - ss(.86, .98, p));
+      const d = Math.max(ss(.32, .42, p) * (1 - ss(.44, .54, p)), ss(.84, .9, p) * (1 - ss(.92, 1, p)));
+      let sx, sy;
+      if(p < .38){ sx = lerp(790, 812, p/.38); sy = lerp(68, 82, p/.38); }
+      else if(p < .52){ const t = ss(.38, .52, p); sx = lerp(812, 832, t); sy = lerp(82, 160, t); }
+      else if(p < .86){ sx = 770; sy = 170; }
+      else { const t = ss(.86, 1, p); sx = lerp(770, 790, t); sy = lerp(160, 68, t); }
+      sunG.setAttribute("transform", "translate("+sx.toFixed(1)+" "+sy.toFixed(1)+")");
+      sunRed.setAttribute("opacity", (Math.max(ss(.3, .48, p) * (1 - ss(.5, .56, p)), (1 - ss(.9, 1, p)) * ss(.84, .88, p)) * .75).toFixed(3));
+      let mx = 230, my = 200;
+      if(p > .42 && p < .94){
+        const rise = ss(.42, .58, p), set = ss(.8, .94, p);
+        mx = lerp(205, 300, ss(.42, .94, p)); my = lerp(200, 52, rise) + (200 - 52)*set;
+      }
+      moon.setAttribute("transform", "translate("+mx.toFixed(1)+" "+my.toFixed(1)+")");
+      dusk.style.opacity = (d*.75).toFixed(3); night.style.opacity = (n*.94).toFixed(3); stars.style.opacity = ss(.5, .62, p) * (1 - ss(.82, .9, p));
+      terr.setAttribute("opacity", (n*.48 + d*.12).toFixed(3));
+      const fl = $("#flagG"); if(fl) fl.style.filter = "brightness("+(1 - n*.5 - d*.12).toFixed(3)+")";
+      clouds.style.opacity = (1 - n*.75).toFixed(3);
+      hero.classList.toggle("is-night", n > .55);
+    }
+    if(matchMedia("(prefers-reduced-motion: reduce)").matches){ paint(.05); return; }
+    let t0 = performance.now() - START*1000, raf = 0, visible = true;
+    function frame(ms){ raf = 0; paint(((ms - t0)/1000 % CYCLE)/CYCLE); if(visible && !document.hidden) raf = requestAnimationFrame(frame); }
+    function start(){ if(!raf && visible && !document.hidden) raf = requestAnimationFrame(frame); }
+    if("IntersectionObserver" in window) new IntersectionObserver(es => { visible = es[0].isIntersecting; start(); }).observe(hero);
+    document.addEventListener("visibilitychange", start);
+    paint(START/CYCLE); start();
+  })();
+
+  /* ================= Illustrated scenes ================= */
+  function mountains(){
+    return '<polygon fill="var(--mtn1)" points="0,120 50,92 100,104 150,72 190,90 240,66 290,98 320,90 320,180 0,180"/>' +
+           '<polygon fill="var(--mtn2)" points="0,140 60,112 110,124 140,84 160,52 172,34 186,58 198,46 214,76 240,70 280,108 320,100 320,180 0,180"/>' +
+           '<polygon fill="var(--snow)" points="160,52 172,34 186,58 178,54 172,62 166,50"/>';
+  }
+  function trees(y){ let s=""; [[14,0],[26,6],[282,2],[296,8]].forEach(t=>{ s+='<polygon fill="var(--mtn3)" points="'+t[0]+','+y+' '+(t[0]+7)+','+(y-26+t[1])+' '+(t[0]+14)+','+y+'"/>'; }); return s; }
+  const BISON = '<path d="M8 18 C6 8 14 0 26 0 C36 0 42 4 50 6 C58 8 62 14 60 22 C59 27 54 28 50 28 L16 28 C11 28 8 24 8 18 Z"/><path d="M8 14 C2 14 -2 20 0 26 C2 30 6 30 9 28 Z"/><rect x="14" y="26" width="4" height="12" rx="1.5"/><rect x="22" y="26" width="4" height="12" rx="1.5"/><rect x="44" y="26" width="4" height="12" rx="1.5"/><rect x="52" y="26" width="4" height="12" rx="1.5"/>';
+  let sid = 0;
+  function scene(type){
+    const g = "g" + (sid++);
+    const sky = '<defs><linearGradient id="'+g+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--sky1)"/><stop offset=".75" stop-color="var(--sky2)"/><stop offset="1" stop-color="var(--sky3)"/></linearGradient></defs><rect width="320" height="180" fill="url(#'+g+')"/>';
+    let b = "";
+    switch(type){
+      case "geyser": b = mountains() + '<rect y="140" width="320" height="40" fill="var(--rock)"/><path fill="var(--steam)" opacity=".95" d="M150 140 C146 110 140 90 148 70 C152 56 146 44 154 30 C158 22 166 22 170 30 C178 44 172 56 176 70 C184 90 178 110 174 140 Z"/><ellipse cx="162" cy="140" rx="34" ry="5" fill="var(--water)"/>' + trees(142); break;
+      case "prism": b = '<polygon fill="var(--mtn1)" points="0,90 80,70 160,82 240,64 320,80 320,180 0,180"/><rect y="88" width="320" height="92" fill="var(--rock)"/><ellipse cx="160" cy="138" rx="140" ry="36" fill="var(--prism3)"/><ellipse cx="160" cy="138" rx="112" ry="28" fill="var(--prism2)"/><ellipse cx="160" cy="138" rx="80" ry="20" fill="var(--mn)" opacity=".7"/><ellipse cx="160" cy="138" rx="58" ry="14" fill="var(--prism1)"/><path fill="var(--steam)" opacity=".55" d="M120 128 C110 110 130 100 124 86 C140 96 150 110 140 128 Z"/>'; break;
+      case "terrace": b = mountains() + '<g><path fill="var(--steam)" d="M30 180 L60 140 L120 140 L140 118 L200 118 L220 100 L270 100 L300 180 Z"/><path fill="var(--prism3)" opacity=".45" d="M60 140 L120 140 L118 146 L62 146 Z M140 118 L200 118 L198 124 L142 124 Z M220 100 L270 100 L268 106 L222 106 Z"/><path fill="var(--prism2)" opacity=".6" d="M70 150 L110 150 L108 160 L72 160 Z M150 128 L190 128 L188 136 L152 136 Z"/></g>'; break;
+      case "falls": b = '<polygon fill="var(--rock)" points="0,40 120,60 130,180 0,180"/><polygon fill="var(--prism2)" points="320,30 196,58 186,180 320,180"/><polygon fill="var(--prism3)" opacity=".45" points="0,90 110,100 116,180 0,180"/><rect x="138" y="58" width="44" height="122" fill="var(--steam)" opacity=".95"/><rect x="146" y="58" width="6" height="122" fill="var(--water)" opacity=".5"/><rect x="166" y="58" width="5" height="122" fill="var(--water)" opacity=".5"/><ellipse cx="160" cy="174" rx="44" ry="10" fill="var(--steam)"/><g fill="var(--mtn3)"><polygon points="10,44 18,20 26,44"/><polygon points="290,36 298,12 306,36"/></g>'; break;
+      case "lake": b = mountains() + '<rect y="124" width="320" height="56" fill="var(--water)"/><g opacity=".35" transform="translate(0 248) scale(1 -1)"><polygon fill="var(--mtn2)" points="110,124 140,84 160,52 172,34 186,58 198,46 214,76 240,124"/></g><path d="M60 150 h30 M200 160 h40 M120 168 h24" stroke="var(--steam)" stroke-width="2" opacity=".7"/>' + trees(126); break;
+      case "hot": b = mountains() + '<rect y="122" width="320" height="58" fill="var(--mn)" opacity=".5"/><rect x="60" y="132" width="200" height="34" rx="6" fill="var(--water)"/><path fill="var(--steam)" opacity=".7" d="M100 132 C94 118 108 110 102 98 C116 108 118 122 112 132 Z M180 132 C174 116 188 108 182 94 C196 106 198 120 192 132 Z"/>'; break;
+      case "river": b = mountains() + '<rect y="130" width="320" height="50" fill="var(--mn)" opacity=".55"/><path fill="var(--water)" d="M0 170 C80 150 120 168 170 150 C220 134 260 146 320 136 L320 150 C262 160 230 150 180 166 C130 180 80 166 0 180 Z"/>' + trees(134); break;
+      case "raft": b = mountains() + '<rect y="128" width="320" height="52" fill="var(--water)"/><g transform="translate(130 136)"><rect width="64" height="14" rx="7" fill="var(--prism3)"/><circle cx="16" cy="-4" r="5" fill="var(--bison)"/><circle cx="32" cy="-4" r="5" fill="var(--bison)"/><circle cx="48" cy="-4" r="5" fill="var(--bison)"/></g>' + trees(130); break;
+      case "prairie": b = mountains() + '<rect y="134" width="320" height="46" fill="var(--prism2)" opacity=".55"/><g fill="var(--bison)" transform="translate(70 120)">'+BISON+'</g><g fill="var(--bison)" transform="translate(190 128) scale(.75)">'+BISON+'</g>'; break;
+      case "barn": b = mountains() + '<rect y="136" width="320" height="44" fill="var(--prism2)" opacity=".5"/><g transform="translate(120 102)"><polygon fill="var(--bison)" points="0,22 20,6 40,0 60,6 80,22 80,46 0,46"/><rect x="32" y="26" width="16" height="20" fill="var(--rock)"/><polygon fill="var(--prism3)" points="-4,24 20,4 40,-3 60,4 84,24 80,22 60,8 40,2 20,8 0,22"/></g>'; break;
+      case "town": b = '<polygon fill="var(--mtn2)" points="0,110 60,80 120,96 200,60 260,86 320,74 320,180 0,180"/><rect y="130" width="320" height="50" fill="var(--mn)" opacity=".5"/><g fill="var(--jh)"><rect x="20" y="104" width="50" height="40"/></g><g fill="var(--mt)"><rect x="250" y="100" width="56" height="44"/></g><path d="M110 150 C110 70 210 70 210 150" fill="none" stroke="var(--rock)" stroke-width="16" stroke-dasharray="3 2"/>'; break;
+      case "gondola": b = mountains() + '<rect y="140" width="320" height="40" fill="var(--mn)" opacity=".5"/><line x1="0" y1="150" x2="320" y2="40" stroke="var(--bison)" stroke-width="2"/><g transform="translate(176 76)"><line x1="10" y1="-14" x2="10" y2="0" stroke="var(--bison)" stroke-width="2"/><rect width="22" height="20" rx="4" fill="var(--jh)"/><rect x="4" y="4" width="14" height="7" fill="var(--sky1)"/></g>' + trees(144); break;
+      case "rodeo": b = '<circle cx="250" cy="70" r="26" fill="var(--sun)"/><polygon fill="var(--mtn2)" points="0,120 80,96 160,110 240,92 320,108 320,180 0,180"/><rect y="132" width="320" height="48" fill="var(--rock)"/><g stroke="var(--bison)" stroke-width="4"><line x1="0" y1="130" x2="320" y2="130"/><line x1="0" y1="146" x2="320" y2="146"/></g><g fill="var(--bison)"><rect x="20" y="118" width="6" height="40"/><rect x="100" y="118" width="6" height="40"/><rect x="180" y="118" width="6" height="40"/><rect x="260" y="118" width="6" height="40"/></g><path fill="var(--bison)" d="M120 112 l10 -14 l20 -2 l8 -10 l6 4 l-4 10 l10 8 l-4 14 l-6 -6 l-12 2 l-4 12 l-6 0 l2 -12 l-16 0 l-6 12 l-6 -2 l6 -14 z"/>'; break;
+      case "mall": b = '<rect y="120" width="320" height="60" fill="var(--rock)" opacity=".6"/><rect x="30" y="70" width="260" height="70" rx="4" fill="var(--mt)"/><g fill="var(--sky1)"><rect x="50" y="86" width="40" height="30"/><rect x="140" y="86" width="40" height="30"/><rect x="230" y="86" width="40" height="30"/></g><circle cx="160" cy="58" r="22" fill="none" stroke="var(--jh)" stroke-width="5"/>'; break;
+      default: b = mountains();
+    }
+    return '<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' + sky + b + '</svg>';
+  }
+
+  /* ================= Data: days ================= */
+  const DAYS = [
+    {p:"mn",wd:"ter",d:"25",m:"mai",t:"Chegada",pl:"Minneapolis → Fergus Falls",a1:["Manhã","Chegada em MSP e retirada do carro"],a2:["Tarde","Estrada até Fergus Falls e mercado"],dr:"~3h",ps:[],tips:["Minnesota fica 2h atrás de Brasília em maio.","Mercado na chegada para café da manhã e lanches da semana."]},
+    {p:"mn",wd:"qua",d:"26",m:"mai",t:"Dia com a Bianca",pl:"Fergus Falls",a1:["Manhã","Livre, descanso da viagem"],a2:["Tarde","Centro e beira do Otter Tail River"],ps:["riverwalk"],tips:["Dia leve de propósito, para recuperar do voo.","Sorvete no Uncle Eddie's no fim da tarde."]},
+    {p:"mn",wd:"qui",d:"27",m:"mai",t:"Jantar dos pais",pl:"Hillcrest Lutheran Academy",a1:["Dia","Livre, preparação"],a2:["Noite","Jantar dos pais na Hillcrest",true],atbc:true,ps:[],tips:["Confirmar com a escola horário e traje do jantar."]},
+    {p:"mn",wd:"sex",d:"28",m:"mai",t:"Lagos do Minnesota",pl:"Maplewood State Park (~35 min)",a1:["Manhã","Maplewood State Park: mirantes e lagos"],a2:["Tarde","Descanso"],dr:"~35 min",ps:["maplewood","alexandria"],tips:["Alternativa: Alexandria (~45 min), com o Big Ole e o Runestone Museum."]},
+    {p:"mn",wd:"sáb",d:"29",m:"mai",t:"Fim de semana da formatura",pl:"Fergus Falls",a1:["Dia","Atividades de formatura da escola"],a2:["Noite","Livre: Outstate Brewing ou Union Avenue"],atbc:true,ps:[],tips:["Pedir à Bianca a programação oficial do fim de semana."]},
+    {p:"mn",wd:"dom",d:"30",m:"mai",t:"Formatura da Bianca",pl:"Hillcrest Lutheran Academy",a1:["Dia","Cerimônia de formatura",true],a2:["Noite","Jantar comemorativo (ideia: Zens Steak and Seafood)"],atbc:true,ps:[],tips:["Reservar o jantar comemorativo com antecedência: muitas famílias na cidade."]},
+    {p:"mn",wd:"seg",d:"31",m:"mai",t:"Memorial Day e malas",pl:"Fergus Falls",a1:["Manhã","Arrumar e guardar as coisas da Bianca"],a2:["Tarde","Malas e dormir cedo"],ps:[],tips:["Feriado nacional: algumas lojas com horário reduzido."]},
+    {p:"jh",wd:"ter",d:"01",m:"jun",t:"Voo para Jackson Hole",pl:"Fergus Falls → MSP → JAC",a1:["Manhã","Estrada até MSP, devolver carro, voo (~2h30)"],a2:["Fim de tarde","Check-in e primeira volta pela Town Square"],dr:"~3h + voo",ps:["townsquare"],tips:["Sair de Fergus Falls por volta das 6h se o voo for no fim da manhã.","O aeroporto de Jackson fica dentro de Grand Teton: ~15 min até a cidade.","Jantar: Snake River Brewing, perto do hotel."]},
+    {p:"jh",wd:"qua",d:"02",m:"jun",t:"Grand Teton e rodeio",pl:"Mormon Row, Jenny Lake e rodeio",a1:["Manhã","Mormon Row ao nascer do sol, depois o destaque do dia: barco em Jenny Lake + trilha fácil até Hidden Falls",true],a2:["Noite","Jackson Hole Rodeo, quarta às 20h"],dr:"~30 min cada trecho",ps:["mormon","jenny","rodeo"],tips:["Barco: o primeiro sai às 9h (até 05/06 funciona das 9h às 17h). Chegar cedo para fugir da fila.","Não tem reserva: compra o bilhete no píer leste e embarca. Saídas a cada 10 a 15 min.","Banheiro só no lado do centro de visitantes; ir antes de embarcar.","Quem tiver fôlego: mais ~800 m de subida até Inspiration Point.","Almoço: Dornan's, em Moose, com vista para os Tetons."]},
+    {p:"jh",wd:"qui",d:"03",m:"jun",t:"Snake River e Snow King",pl:"Oxbow Bend e cidade",a1:["Manhã","Flutuação no Snake River ou Oxbow Bend + Signal Mountain"],a2:["Tarde","Gôndola do Snow King e centro de Jackson"],dr:"~50 min até Oxbow",ps:["float","oxbow","snowking","coaster","tram","elk"],tips:["Almoço: Trapper Grill, em Signal Mountain Lodge."]},
+    {p:"jh",wd:"sex",d:"04",m:"jun",t:"Teton Village e dia livre",pl:"Teton Village e Jackson",a1:["Manhã","Aerial Tram até o topo do Rendezvous Mountain"],a2:["Tarde","Livre: compras, National Elk Refuge ou descanso no hotel"],dr:"~25 min até Teton Village",ps:["tram","elk"],tips:["Pegar o tram cedo, antes das nuvens da tarde.","Arrumar as malas à noite: amanhã é dia de travessia. Deixar no hotel o que não for usar no glamping."]},
+    {p:"ys",wd:"sáb",d:"05",m:"jun",t:"Travessia até West Yellowstone",pl:"Jackson → Old Faithful → West Yellowstone",a1:["Manhã","Grand Teton pela estrada e Old Faithful (ver uma erupção)",true],a2:["Tarde","Grand Prismatic pela passarela e check-in no glamping"],dr:"~3h de carro no total",ps:["oldfaithful","prismatic","westthumb"],tips:["Sair de Jackson às 8h, sem pressa.","Almoço no Bear Paw Deli ou na cafeteria do Old Faithful Lodge.","Chegada ao glamping por volta das 17h."]},
+    {p:"mt",wd:"dom",d:"06",m:"jun",t:"Canyon e bisões",pl:"Grand Canyon of the Yellowstone e Hayden Valley",a1:["Manhã","Grand Canyon of the Yellowstone: Artist Point e North Rim",true],a2:["Tarde","Hayden Valley para ver as manadas de bisões"],dr:"~1h15 até Canyon",ps:["canyon","hayden"],tips:["Sorvete na Canyon Lodge Ice Creamery.","Levar binóculo; bisões na pista atrasam a volta.","Jantar em West Yellowstone (ideia: Madison Crossing Lounge)."]},
+    {p:"ys",wd:"seg",d:"07",m:"jun",t:"Descida até Jackson",pl:"West Yellowstone → Grand Prismatic → Jackson",a1:["Manhã","Grizzly & Wolf Discovery Center na saída da cidade, depois trilha curta até o mirante do Grand Prismatic",true],a2:["Tarde","Descer por Grand Teton e check-in no mesmo hotel de Jackson"],dr:"~3h de carro no total",ps:["grizzly","prismatic"],tips:["O centro de ursos fica ao lado da entrada oeste, no caminho de saída: chegar na abertura (horário 2027 A CONFIRMAR) e ficar ~1h30.","Do estacionamento ao mirante são ~1,3 km de subida leve.","Jantar de despedida em Jackson (ideia: Gun Barrel)."]},
+    {p:"jh",wd:"ter",d:"08",m:"jun",t:"Volta ao Brasil",pl:"Jackson → aeroporto de Jackson (JAC)",a1:["Manhã","Check-out, devolver o carro no aeroporto e embarcar"],a2:["",""],dr:"~15 min até o aeroporto",atbc:true,ps:[],tips:["Chegada no Brasil em 09/06, conforme a conexão.","Encher o tanque antes de devolver o carro."]}
+  ];
+
+  /* ================= Data: passeios ================= */
+  const P = [
+    {id:"riverwalk",t:"cidade",ph:"mn",day:"26/05",st:"plan",sc:"river",n:"Otter Tail River e centro de Fergus Falls",w:"Fergus Falls, MN",d:"Caminhada leve pela beira do rio e pelo centro histórico da cidade da Bianca.",price:0,pl:"grátis",dur:"1 a 2h",q:"Fergus Falls Minnesota Otter Tail River downtown"},
+    {id:"maplewood",t:"paisagem",ph:"mn",day:"28/05",st:"plan",sc:"lake",n:"Maplewood State Park",w:"~35 min de Fergus Falls",d:"Parque estadual com lagos, colinas e mirantes. Trilhas curtas e estrada cênica pela paisagem de pradaria.",price:null,pl:"permissão diária por carro",dur:"meio dia",q:"Maplewood State Park Minnesota"},
+    {id:"alexandria",t:"cidade",ph:"mn",day:"28/05",st:"idea",sc:"town",n:"Alexandria: Big Ole e Runestone Museum",w:"~45 min de Fergus Falls",d:"Cidade de lagos com a estátua viking Big Ole e o museu da pedra rúnica de Kensington. Alternativa para dia de chuva.",price:null,pl:"museu",dur:"meio dia",q:"Alexandria Minnesota Big Ole Runestone Museum"},
+    {id:"moa",t:"cidade",ph:"mn",day:"25/05 ou 01/06",st:"idea",sc:"mall",n:"Mall of America",w:"Bloomington, ao lado do aeroporto de MSP",d:"O maior shopping dos EUA, com parque de diversões dentro. Só se o voo de chegada for cedo ou o de Jackson for à tarde.",price:0,pl:"entrada grátis",dur:"2 a 3h",q:"Mall of America Bloomington"},
+    {id:"townsquare",t:"cidade",ph:"jh",day:"01/06",st:"plan",sc:"town",n:"Town Square e arcos de chifres",w:"Centro de Jackson",d:"Praça central com quatro arcos de chifres de alce, calçadas de madeira, lojas de faroeste e o Million Dollar Cowboy Bar.",price:0,pl:"grátis",dur:"2h",q:"Jackson Wyoming town square antler arch"},
+    {id:"mormon",t:"paisagem",ph:"jh",day:"02/06, nascer do sol",st:"plan",sc:"barn",n:"Mormon Row",w:"Grand Teton, ~25 min de Jackson",d:"Os celeiros dos pioneiros com os Tetons atrás: uma das fotos mais clássicas do Oeste. Bisões costumam pastar por perto.",price:0,pl:"incluído na entrada do parque",dur:"1h",q:"Mormon Row Moulton Barn Grand Teton"},
+    {id:"jenny",t:"aventura",ph:"jh",day:"02/06",st:"plan",sc:"lake",n:"Barco em Jenny Lake + Hidden Falls",w:"Grand Teton, ~30 min de Jackson",d:"O barco cruza o lago aos pés dos Tetons e já faz parte do passeio. Do outro lado, ~800 m de trilha fácil até a cachoeira Hidden Falls (~1,6 km ida e volta). Sem o barco, a volta no lago a pé daria ~8 km. Quem quiser sobe mais ~800 m até o mirante Inspiration Point. Saídas a cada 10 a 15 min, sem reserva; de 15/05 a 05/06 das 9h às 17h.",price:20,pl:"ida e volta, adulto (13 a 61 anos); 62+ US$ 18",dur:"2 a 3h",q:"Jenny Lake boat Hidden Falls Inspiration Point",link:"https://jennylakeboating.com/boat-trips/shuttle-service/",def:true,yr:"tabela 2026, consultada em 24/10/2026"},
+    {id:"rodeo",t:"cidade",ph:"jh",day:"02/06 (quarta), 20h",st:"idea",sc:"rodeo",n:"Jackson Hole Rodeo",w:"Teton County Fairgrounds, Jackson",d:"Rodeio de verdade, com montaria em touro, laço e corrida de barril, toda quarta e sábado desde o Memorial Day. Cai na nossa quarta em Jackson.",price:62,pl:"arquibancada: US$ 55 a 69",dur:"20h às 22h",q:"Jackson Hole Rodeo",link:"https://www.townsquareinns.com/blog/jackson-hole-rodeo/",yr:"preço 2026"},
+    {id:"float",t:"aventura",ph:"jh",day:"03/06, manhã",st:"idea",sc:"raft",n:"Flutuação no Snake River",w:"Saída de Signal Mountain Lodge (~50 min)",d:"Descida tranquila de bote, sem corredeiras, com guia. Duas horas no rio vendo os Tetons, águias e às vezes alces. Temporada 2027: 08/05 a 30/09.",price:99,pl:"adulto (13+)",dur:"3h30",q:"Snake River scenic float trip Grand Teton",link:"https://www.signalmountainlodge.com/things-to-do/scenic-float-trips/",yr:"preço 2027"},
+    {id:"oxbow",t:"paisagem",ph:"jh",day:"03/06",st:"plan",sc:"lake",n:"Oxbow Bend e Signal Mountain",w:"Grand Teton, ~50 min de Jackson",d:"A curva do Snake River com o Mount Moran refletido na água. Depois, estrada até o topo do Signal Mountain para ver o vale inteiro.",price:0,pl:"incluído na entrada do parque",dur:"2h",q:"Oxbow Bend Grand Teton Mount Moran"},
+    {id:"snowking",t:"aventura",ph:"jh",day:"03/06",st:"plan",sc:"gondola",n:"Gôndola do Snow King",w:"Jackson, a 5 min da praça",d:"Sobe a montanha da própria cidade em poucos minutos, com vista de Jackson e dos Tetons. Em 2026 abriu em 22/05.",price:35,pl:"adulto",dur:"1h30",q:"Snow King Mountain gondola Jackson",link:"https://www.jacksonholetraveler.com/article/summer-snow-king-mountain",def:true,yr:"preço 2026"},
+    {id:"coaster",t:"aventura",ph:"jh",day:"03/06",st:"idea",sc:"gondola",n:"Cowboy Coaster ou Alpine Slide",w:"Snow King, Jackson",d:"Montanha-russa de trilho na encosta (a única do estado) ou tobogã de verão. Diversão rápida depois da gôndola.",price:35,pl:"coaster; slide US$ 25",dur:"30 min",q:"Snow King Cowboy Coaster Jackson",link:"https://www.jacksonholetraveler.com/article/summer-snow-king-mountain",yr:"preço 2026"},
+    {id:"tram",t:"aventura",ph:"jh",day:"04/06, manhã",st:"plan",sc:"gondola",n:"Aerial Tram de Teton Village",w:"Teton Village, ~25 min de Jackson",d:"O bondinho vermelho sobe até o topo do Rendezvous Mountain, a mais de 3.000 m, ainda com neve em junho. Programa da manhã do dia 04.",price:67,pl:"adulto",dur:"2h",q:"Jackson Hole Aerial Tram Rendezvous Mountain",link:"https://www.jacksonhole.com/summer-tram-rates.html",yr:"preço 2026",note:"Abertura do verão 2027 a confirmar."},
+    {id:"elk",t:"fauna",ph:"jh",day:"04/06, tarde",st:"idea",sc:"prairie",n:"National Elk Refuge",w:"Saída norte de Jackson",d:"Refúgio onde milhares de alces passam o inverno. No verão a estrada tem bisões, aves e vista aberta para o vale.",price:0,pl:"grátis",dur:"1h",q:"National Elk Refuge Jackson summer"},
+    {id:"westthumb",t:"geo",ph:"ys",day:"05/06, se der tempo",st:"idea",sc:"lake",n:"West Thumb Geyser Basin",w:"Yellowstone, beira do lago",d:"Fontes termais coloridas à beira do Yellowstone Lake, com passarela curta. Parada de 30 a 45 min no caminho.",price:0,pl:"incluído na entrada do parque",dur:"45 min",q:"West Thumb Geyser Basin Yellowstone"},
+    {id:"oldfaithful",t:"geo",ph:"ys",day:"05/06",st:"plan",sc:"geyser",n:"Old Faithful e Upper Geyser Basin",w:"Yellowstone",d:"O gêiser mais famoso do mundo, com erupções a cada ~90 min. Em volta, passarelas com dezenas de gêiseres e a piscina Morning Glory.",price:0,pl:"incluído na entrada do parque",dur:"2 a 3h",q:"Old Faithful eruption Upper Geyser Basin Morning Glory Pool"},
+    {id:"prismatic",t:"geo",ph:"ys",day:"05/06 (passarela) e 07/06 (mirante)",st:"plan",sc:"prism",n:"Grand Prismatic Spring",w:"Yellowstone, Midway Geyser Basin",d:"A maior fonte termal dos EUA, com anéis azul, amarelo e laranja. A passarela mostra de perto; o mirante de Fairy Falls mostra de cima.",price:0,pl:"incluído na entrada do parque",dur:"1 a 2h",q:"Grand Prismatic Spring overlook"},
+    {id:"mammoth",t:"geo",ph:"ys",day:"opcional, ~1h20 do glamping",st:"idea",sc:"terrace",n:"Mammoth Hot Springs",w:"Yellowstone, entrada norte",d:"Terraços de travertino brancos e alaranjados que parecem uma cascata de pedra. Alces costumam deitar no gramado da vila.",price:0,pl:"incluído na entrada do parque",dur:"1h30",q:"Mammoth Hot Springs terraces Yellowstone"},
+    {id:"canyon",t:"paisagem",ph:"ys",day:"06/06",st:"plan",sc:"falls",n:"Grand Canyon of the Yellowstone",w:"Yellowstone, área de Canyon",d:"Cânion de paredes amarelas com a Lower Falls, de 94 m. Artist Point é o mirante clássico; o North Rim leva até a borda da cachoeira.",price:0,pl:"incluído na entrada do parque",dur:"2 a 3h",q:"Grand Canyon of the Yellowstone Artist Point Lower Falls"},
+    {id:"hayden",t:"fauna",ph:"ys",day:"06/06, tarde",st:"plan",sc:"prairie",n:"Hayden Valley",w:"Yellowstone, 20 min ao sul de Canyon",d:"Vale aberto onde manadas de bisões atravessam a estrada. O melhor lugar perto do roteiro para ver bisões. Levar binóculo.",price:0,pl:"incluído na entrada do parque",dur:"1h",q:"Hayden Valley bison Yellowstone"},
+    {id:"lamar",t:"fauna",ph:"ys",day:"fora do roteiro, ~2h30 do glamping",st:"idea",sc:"prairie",n:"Lamar Valley",w:"Yellowstone, nordeste",d:"O “Serengeti americano”: o melhor lugar do parque para ver lobos, ursos, bisões e antílopes, principalmente no começo da manhã.",price:0,pl:"incluído na entrada do parque",dur:"manhã",q:"Lamar Valley wolves bison"},
+    {id:"grizzly",t:"fauna",ph:"mt",day:"07/06, manhã",st:"plan",sc:"prairie",n:"Grizzly & Wolf Discovery Center",w:"West Yellowstone, ao lado da entrada oeste",d:"Centro de conservação com ursos-pardos e lobos que não podem voltar à natureza. Programa tranquilo para a tarde do dia leve.",price:null,pl:"",dur:"1h30",q:"Grizzly and Wolf Discovery Center West Yellowstone",link:"https://www.grizzlydiscoveryctr.org/"}
+  ];
+  const PMAP = Object.fromEntries(P.map(p => [p.id, p]));
+  const PTYPES = [
+    {k:"geo",ic:"♨️",n:"Gêiseres e fontes termais",d:"O que só existe em Yellowstone",ts:"var(--ys-soft)",tc:"var(--ys)"},
+    {k:"paisagem",ic:"⛰️",n:"Paisagens e mirantes",d:"As fotos clássicas dos Tetons e do cânion",ts:"var(--mn-soft)",tc:"var(--mn)"},
+    {k:"fauna",ic:"🦬",n:"Bisões e vida selvagem",d:"Onde ver bisões, alces, ursos e lobos",ts:"var(--jh-soft)",tc:"var(--jh)"},
+    {k:"aventura",ic:"🚡",n:"Barcos, teleféricos e aventura",d:"Passeios com ingresso: os que entram no orçamento",ts:"var(--sky-soft)",tc:"var(--sky)"},
+    {k:"cidade",ic:"🤠",n:"Cidades, cultura e compras",d:"Velho Oeste, rodeio e programas leves",ts:"var(--mt-soft)",tc:"var(--mt)"}
+  ];
+  const pSort = p => { const m = /(\d{2})\/(\d{2})/.exec(p.day||""); return m ? (+m[2])*100 + (+m[1]) : 9999; };
+
+  /* ================= Data: restaurants ================= */
+  const R = [
+    {id:"zens",ph:"mn",n:"Zens Steak and Seafood",k:["Jantar"],c:"$$$",w:"107 E Lincoln Ave, Fergus Falls",d:"Steakhouse no centro: a melhor aposta para o jantar comemorativo da formatura.",sig:"Carnes e frutos do mar",tbc:"preço"},
+    {id:"mabel",ph:"mn",n:"Mabel Murphy's",k:["Almoço","Jantar"],c:"$$",w:"3401 MN-210, Fergus Falls",d:"Restaurante de família; pela janela dá para ver veados se alimentando.",sig:"Comida americana caseira"},
+    {id:"union",ph:"mn",n:"Union Avenue Bar & Eatery",k:["Jantar","Bar"],c:"$$",w:"114 S Union Ave, Fergus Falls",d:"Bar e restaurante no centro, bom para uma noite com a Bianca e os amigos.",sig:"Petiscos e drinks"},
+    {id:"outstate",ph:"mn",n:"Outstate Brewing Company",k:["Bar"],c:"$",w:"309 S Vine St, Fergus Falls",d:"Cervejaria artesanal local, clima descontraído.",sig:"Cervejas da casa"},
+    {id:"toast",ph:"mn",n:"TÖAST",k:["Café da manhã"],c:"$",w:"116 S Union Ave, Fergus Falls",d:"Café no centro para começar o dia.",sig:"Café e torradas"},
+    {id:"donpablo",ph:"mn",n:"Don Pablo's",k:["Almoço","Jantar"],c:"$",w:"108 E Lincoln Ave, Fergus Falls",d:"Mexicano no centro, com especiais da semana.",sig:"Pratos mexicanos"},
+    {id:"eddie",ph:"mn",n:"Uncle Eddie's Ice Cream",k:["Doce"],c:"$",w:"217 W Lincoln Ave, Fergus Falls",d:"Sorveteria do centro para o fim da tarde.",sig:"Sorvete"},
+    {id:"cowboy",ph:"jh",n:"Million Dollar Cowboy Bar",k:["Bar","Jantar"],c:"$$",w:"25 N Cache St, Jackson",d:"O bar mais famoso de Jackson: banquetas de sela, música country ao vivo e steakhouse no andar de baixo.",sig:"Nachos e drinks"},
+    {id:"silver",ph:"jh",n:"Silver Dollar Bar (The Wort Hotel)",k:["Bar"],c:"$$",w:"50 N Glenwood St, Jackson",d:"Bar de faroeste com moedas de prata de 1921 incrustadas no balcão. Música ao vivo durante a semana.",sig:"Coquetéis clássicos"},
+    {id:"saddle",ph:"jh",n:"Saddle Rock Saloon",k:["Bar"],c:"$$",w:"145 W Deloney Ave, Jackson",d:"Saloon do Velho Oeste no Jackson Hole Playhouse, com garçons que cantam músicas de cowboy.",sig:"Salsaparrilha e coquetéis"},
+    {id:"srb",ph:"jh",n:"Snake River Brewing",k:["Almoço","Jantar","Bar"],c:"$",w:"Centro de Jackson",d:"Cervejaria com comida farta e preço justo. Boa para a primeira noite.",sig:"Hambúrguer de bisão"},
+    {id:"gunbarrel",ph:"jh",n:"Gun Barrel Steak & Game House",k:["Jantar"],c:"$$$",w:"Jackson",d:"Casa de carnes de caça: o lugar para provar bisão e alce.",sig:"Trio de filés: boi, bisão e alce"},
+    {id:"bubba",ph:"jh",n:"Bubba's Bar-B-Que",k:["Café da manhã","Almoço","Jantar"],c:"$",w:"Jackson",d:"Churrasco americano e café da manhã desde as 6h, ótimo antes de sair para o parque.",sig:"Combo de duas carnes"},
+    {id:"virginian",ph:"jh",n:"The Virginian",k:["Café da manhã"],c:"$",w:"Virginian Lodge, Jackson",d:"Café da manhã farto por menos de US$ 12, segundo o guia.",sig:"Corned beef hash, French toast"},
+    {id:"persephone",ph:"jh",n:"Persephone Bakery",k:["Café da manhã","Doce"],c:"$$",w:"Jackson",d:"Padaria charmosa, cheia de manhã.",sig:"Cookie de s'mores"},
+    {id:"yeahbuddy",ph:"jh",n:"Yeah Buddy Pizza",k:["Almoço","Jantar"],c:"$$",w:"20 W Broadway (andar de cima), Jackson",d:"Pizza napolitana com deck sobre a Broadway.",sig:"Pizza com alce ou bisão"},
+    {id:"pinky",ph:"jh",n:"Pinky G's Pizzeria",k:["Jantar"],c:"$",w:"50 W Broadway, Jackson",d:"Pizza estilo Nova York aberta até tarde; boa depois do rodeio.",sig:"Fatias gigantes"},
+    {id:"stillwest",ph:"jh",n:"StillWest Brewery & Grill",k:["Almoço","Jantar","Bar"],c:"$$",w:"45 E Snow King Ave, Jackson",d:"Cervejaria com terraço aos pés do Snow King. Combina com a tarde da gôndola.",sig:"Cerveja da casa e comida feita na hora"},
+    {id:"moos",ph:"jh",n:"Moo's Gourmet Ice Cream",k:["Doce"],c:"$",w:"Jackson",d:"Sorveteria local.",sig:"Sorvete de huckleberry, a fruta típica da região"},
+    {id:"dornans",ph:"gt",n:"Dornan's (Chuckwagon e Pizza Pasta)",k:["Almoço"],c:"$",w:"Moose, entrada sul de Grand Teton",d:"Almoço com os Tetons de frente, no caminho de Jenny Lake.",sig:"Pizza, massas e grelhados"},
+    {id:"trapper",ph:"gt",n:"Trapper Grill",k:["Almoço","Jantar"],c:"$",w:"Signal Mountain Lodge, Grand Teton",d:"Casual, à beira do Jackson Lake; combina com a flutuação ou Oxbow Bend.",sig:"Costelinha, hambúrguer e nachos"},
+    {id:"pioneer",ph:"gt",n:"Pioneer Grill",k:["Café da manhã","Almoço"],c:"$",w:"Jackson Lake Lodge, Grand Teton",d:"Lanchonete clássica com balcão em zigue-zague, dentro do lodge.",sig:"Clássicos de diner"},
+    {id:"bearpaw",ph:"ys",n:"Bear Paw Deli (Old Faithful Inn)",k:["Almoço"],c:"$",w:"Old Faithful",d:"Sanduíches e sorvete para comer rápido entre uma erupção e outra. Aberto de 30/04 a 11/10/2027.",sig:"Sanduíches"},
+    {id:"ofcafe",ph:"ys",n:"Old Faithful Lodge Cafeteria",k:["Almoço"],c:"$",w:"Old Faithful",d:"Cafeteria com janelões virados para o gêiser. Aberta de 07/05 a 03/10/2027.",sig:"Pratos quentes simples"},
+    {id:"ofinn",ph:"ys",n:"Old Faithful Inn Dining Room",k:["Almoço","Jantar"],c:"$$",w:"Old Faithful Inn",d:"Salão do hotel histórico de troncos. Jantar exige reserva.",sig:"Buffet e pratos do Oeste"},
+    {id:"canyonice",ph:"ys",n:"Canyon Lodge Ice Creamery",k:["Doce"],c:"$",w:"Canyon Village",d:"Sorvete depois de Artist Point. Aberta de 21/05 a 08/09/2027.",sig:"Sorvete"},
+    {id:"canyoneat",ph:"ys",n:"Canyon Lodge Eatery",k:["Almoço"],c:"$",w:"Canyon Village",d:"Refeitório do lodge, prático para o almoço do dia 05/06.",sig:"Pratos rápidos",tbc:"datas 2027"},
+    {id:"runningbear",ph:"mt",n:"Running Bear Pancake House",k:["Café da manhã"],c:"$",w:"538 Madison Ave, West Yellowstone",d:"Café da manhã clássico antes de entrar no parque.",sig:"Panquecas com gotas de chocolate"},
+    {id:"bookpeddler",ph:"mt",n:"The Book Peddler",k:["Café da manhã","Sorvete e doces"],c:"$",w:"106 Canyon St, West Yellowstone",d:"Livraria com café; bom para levar algo para o carro.",sig:"Cinnamon roll e latte de huckleberry"},
+    {id:"ernies",ph:"mt",n:"Ernie's Bakery & Deli",k:["Almoço"],c:"$",w:"406 Highway 20, West Yellowstone",d:"Sanduíches e lanches embalados para comer dentro do parque.",sig:"Boxed lunch montado na hora"},
+    {id:"petes",ph:"mt",n:"Pete's Rocky Mountain Pizza",k:["Jantar"],c:"$$",w:"112 Canyon St, West Yellowstone",d:"Pizzaria da cidade, boa para jantar depois de um dia no parque.",sig:"Pizza The Wrangler e espaguete de alce"},
+    {id:"otter",ph:"mt",n:"Slippery Otter Pub & Eatery",k:["Jantar","Bar"],c:"$$",w:"139 N Canyon St, West Yellowstone",d:"Pub com comida farta e cervejas locais.",sig:"Hambúrguer de alce"},
+    {id:"madriz",ph:"mt",n:"Cafe Madriz",k:["Jantar"],c:"$$",w:"311 Canyon St, West Yellowstone",d:"Tapas espanholas, uma mudança do cardápio de hambúrguer.",sig:"Paella"},
+    {id:"madison",ph:"mt",n:"Madison Crossing Lounge",k:["Jantar","Bar"],c:"$$$",w:"121 Madison Ave, West Yellowstone",d:"O jantar mais caprichado da cidade: bom para a despedida da viagem.",sig:"Risoto de cogumelos e bread pudding"}
+  ];
+
+  /* ================= Data: stays ================= */
+  const STAYS = [
+    {k:"ff",c:"mn",t:"Fergus Falls",dates:"25 a 31/05 · 7 noites",opts:[
+      {id:"casa",tag:"rec",tl:"Recomendado",n:"Casa de temporada inteira",tp:"Airbnb ou Vrbo",price:"preço A CONFIRMAR",ps:"",cap:"5 pessoas, 2 a 3 quartos",bk:"Agora: fim de semana de formatura lota",pro:["Cozinha: economiza nas refeições da semana","Sala para a família e a Bianca juntas"],con:["Taxa de limpeza alta em estadias curtas"],links:[["Ver fotos",gimg("Fergus Falls MN vacation rental house")]]},
+      {id:"hotel",tag:"b",tl:"Alternativa",n:"Hotel de rede econômica",tp:"AmericInn, Super 8 ou similar",price:"a partir de ~US$ 80",ps:"por quarto/noite (Expedia, out/2026)",cap:"2 quartos para 5",bk:"Agora, com cancelamento grátis",pro:["Café da manhã incluído na maioria","Cancelamento flexível"],con:["Precisa de 2 quartos","Sem cozinha"],links:[["Ver fotos",gimg("hotels Fergus Falls Minnesota")]]}
+    ]},
+    {k:"jh",c:"jh",t:"Hotel único em Jackson",dates:"01 a 04/06 + 07/06 · 5 noites",opts:[
+      {id:"town",tag:"rec",tl:"Recomendado",n:"Hotel no centro de Jackson",tp:"Hotel simples a pé da praça",price:"preço A CONFIRMAR",ps:"junho é alta temporada",cap:"2 quartos ou suíte familiar",bk:"Agora: centro lota no verão",pro:["Rodeio, praça, bares e Snow King a pé","~15 min do aeroporto, ~25 min de Mormon Row"],con:["Jackson é uma das cidades mais caras do Oeste","Duas reservas no mesmo hotel: pedir para guardar malas entre 05 e 07/06"],links:[["Ver fotos",gimg("Jackson Wyoming downtown hotel town square")]]},
+      {id:"idaho",tag:"b",tl:"Mais econômico",n:"Victor ou Driggs, Idaho",tp:"Motel ou casa de temporada",price:"preço A CONFIRMAR",ps:"",cap:"2 quartos ou casa para 5",bk:"Até março/2027",pro:["Bem mais barato que Jackson"],con:["~40 min pelo Teton Pass, ida e volta todo dia","Rodeio termina às 22h: volta à noite"],links:[["Ver fotos",gimg("Driggs Idaho Teton valley")]]},
+      {id:"hostel",tag:"b",tl:"Alternativa",n:"The Hostel, Teton Village",tp:"Hotel econômico de montanha",price:"~US$ 318",ps:"média por quarto em junho (Kayak)",cap:"confirmar quartos para 5",bk:"Até março/2027",pro:["Ao lado do Aerial Tram"],con:["~25 min do centro de Jackson"],links:[["Ver fotos",gimg("The Hostel Teton Village")],["Kayak","https://www.kayak.com/Teton-Village-Hotels-The-Hostel.321576.ksp"]]}
+    ]},
+    {k:"mt",c:"mt",t:"Glamping perto de Yellowstone",dates:"05 e 06/06 · 2 noites",opts:[
+      {id:"undercanvas",tag:"rec",tl:"Recomendado: menos estrada",n:"Under Canvas West Yellowstone",tp:"Glamping a ~10 min da entrada oeste",price:"US$ 379+",ps:"por tenda/noite (2026); 2027 A CONFIRMAR",cap:"Suite with Kids (até 6) ou Madison River Suite (até 7)",bk:"Site da Under Canvas, assim que abrir 2027",pro:["É só chegar: camas prontas, roupa de cama, aquecedor a lenha","Banheiro privativo nas tendas Deluxe e Suite","~50 min de Old Faithful e ~3h de Jackson","Restaurante e fogueira no local"],con:["O mais caro: para 5 adultos, Suite with Kids ou 2 tendas","Café da manhã à parte, no restaurante do camping","Abertura da temporada 2027 a confirmar"],links:[["Ver fotos",gimg("Under Canvas West Yellowstone tent")],["Site","https://www.undercanvas.com/camps/west-yellowstone/"]]},
+      {id:"dreamcatcher",tag:"b",tl:"Vibe aberta: tipis com vista",n:"Dreamcatcher Tipi Hotel",tp:"Tipis num vale aberto em Gardiner, MT, ~10 min da entrada norte",price:"~US$ 400–440",ps:"média por tipi/noite (Kayak, out/2026); junho ~12% mais barato",cap:"tipi para 5: 2 camas de casal ou king + 2 de solteiro",bk:"Assim que abrir 2027: lota cedo",pro:["Tudo incluso: café da manhã, aquecedores e manta térmica","Nota 9,8 em 481 avaliações","Uma tipi só para os 5","Banheiro com chuveiro quente, aquecido, a poucos passos"],con:["Entrada norte: 05 e 07/06 ficam ~1h mais longos que em West Yellowstone","Mammoth e o vale Lamar ficam perto; Old Faithful a ~1h45"],links:[["Ver fotos",gimg("Dreamcatcher Tipi Hotel Gardiner Montana")],["Hotels.com","https://uk.hotels.com/ho617422/dreamcatcher-tipi-hotel-gardiner-united-states-of-america/"],["Kayak","https://www.kayak.com/Gardiner-Hotels-Dreamcatcher-Tipi-Hotel.2613514.ksp"]]},
+      {id:"dreamin",tag:"b",tl:"A referência: Paradise Valley",n:"Yellowstone Dreamin' Camp",tp:"Glamping em Paradise Valley, MT",price:"~US$ 259",ps:"média por tenda/noite (Up & Away, 2025)",cap:"tenda Premier de ~50 m² para até 6: king + queen + sofá-cama",bk:"Direto com o camping: 406-224-1599",pro:["Tudo incluso: camas prontas, colchão aquecido, aquecedor e café da manhã","Uma tenda só para os 5","Rancho de 10 ha com vista de montanha e fogueira","~45 min da entrada norte; ~1h do aeroporto de Bozeman"],con:["~1h45 de carro até as atrações e ~5h até Jackson","6 banheiros com chuveiro compartilhados","Fica fora do parque","Temporada 2027 a confirmar"],links:[["Ver fotos",gimg("Yellowstone Dreamin Retreat glamping Emigrant")],["Site","https://yellowstonedreamincamp.com/"],["Booking","https://www.booking.com/hotel/us/yellowstone-dreamin-camp-emigrant.html"]]},
+      {id:"ucnorth",tag:"b",tl:"Vibe aberta: Paradise Valley",n:"Under Canvas North Yellowstone",tp:"Tendas safári no Paradise Valley, MT, perto do Dreamin'",price:"a partir de US$ 296",ps:"por tenda/noite (ficha 2026); 2027 A CONFIRMAR",cap:"Suite with Kids: até 4 adultos + 2, ou River Suite para 6",bk:"Site da Under Canvas, assim que abrir 2027",pro:["Mesmo vale aberto do Dreamin', com rio e montanhas","Banheiro privativo em todas as tendas","Restaurante e fogueira no local"],con:["~45 min da entrada norte; ~2h até Canyon","~5h até Jackson no dia 07"],links:[["Ver fotos",gimg("Under Canvas North Yellowstone Paradise Valley")],["Site","https://www.undercanvas.com/camps/north-yellowstone/"]]},
+      {id:"ytipis",tag:"b",tl:"Vibe aberta: tipis",n:"Yellowstone Tipis",tp:"Tipis em Gardiner, MT, a minutos do Arco Roosevelt",price:"~US$ 487",ps:"média por noite (Up & Away, 2025)",cap:"tenda com 2 queens para 4: precisa de mais uma unidade para 5",bk:"Expedia ou direto",pro:["Café da manhã incluso","Cama aquecida e aquecedor","Banheiro privativo para cada tipi"],con:["Não cabe 5 numa unidade só","Entrada norte: dias 05 e 07 mais longos"],links:[["Ver fotos",gimg("Yellowstone Tipis Gardiner Montana")],["Expedia","https://www.expedia.co.uk/Gardiner-Hotels-Yellowstone-Tipis.h105667415.Hotel-Information"]]},
+      {id:"starbell",tag:"b",tl:"Mais barato: 5 numa tenda",n:"Starlight Retreat: Family Bell Tent",tp:"Glamping em Island Park, Idaho, ~20 min da entrada oeste",price:"a partir de US$ 165",ps:"por tenda/noite (site oficial, 2026); 2027 A CONFIRMAR",cap:"até 5: cama king, futon e cama de solteiro com bicama",bk:"Site oficial, assim que abrir 2027",pro:["Menos da metade do Under Canvas","Uma tenda só para os 5","Edredons grossos e roupa de cama incluídos","Abre poucos dias antes do Memorial Day: pega o 05/06"],con:["Banheiro e chuveiro coletivos, a poucos passos","Sem aquecedor: noites de junho podem chegar perto de 0 °C","Cerca de 20 min a mais por trecho do que em West Yellowstone"],links:[["Ver fotos",gimg("Starlight Retreat Yellowstone family bell tent")],["Site","https://starlightretreat.com/tents/starlight-family-bell-tent/"]]},
+      {id:"starsafari",tag:"b",tl:"Barato e espaçoso",n:"Starlight Retreat: Family Safari",tp:"Tenda safári em Island Park, Idaho",price:"a partir de US$ 198",ps:"por tenda/noite (site oficial, 2026); 2027 A CONFIRMAR",cap:"até 7: cama king, 2 beliches e futon",bk:"Site oficial, assim que abrir 2027",pro:["Sobra espaço para 5 e as malas","Mesmo camping da bell tent, com fogueira e vista de montanha"],con:["Banheiro coletivo","Sem aquecedor nem isolamento","Beliches: 2 pessoas dormem em cima"],links:[["Ver fotos",gimg("Starlight Retreat Yellowstone family safari tent")],["Site","https://starlightretreat.com/tents/starlight-family-safari/"]]},
+      {id:"startipi",tag:"b",tl:"O mais diferente",n:"Starlight Retreat: Grand Tipi",tp:"Tipi de lona em Island Park, Idaho",price:"a partir de US$ 235",ps:"por tipi/noite (site oficial, 2026); 2027 A CONFIRMAR",cap:"até 5: cama king, daybed com bicama e futon",bk:"Site oficial, assim que abrir 2027",pro:["Experiência de tipi, bem fotogênica","Ainda bem mais barato que o Under Canvas"],con:["Banheiro coletivo","Sem aquecedor"],links:[["Ver fotos",gimg("Starlight Retreat Yellowstone grand tipi")],["Site","https://starlightretreat.com/tents/starlight-grand-tipi/"]]},
+      {id:"belltent",tag:"b",tl:"Alternativa barata",n:"Yellowstone Glamping, Henrys Lake",tp:"Bell tent para 5 ou tipi para 7, Island Park, Idaho",price:"a partir de ~US$ 152",ps:"por noite (Booking, out/2026); 2027 A CONFIRMAR",cap:"bell tent: king + 3 camas dobráveis + sofá-cama; tipi: até 7",bk:"Vrbo, Expedia ou Booking",pro:["Toalhas e roupa de cama incluídas","Tipi tem bateria solar para luz e celular","Fogueira comunitária com s'mores"],con:["Fora da rede elétrica","Banheiro coletivo; avaliações citam água quente que acaba de manhã","Temporada do tipi começa em junho: confirmar 05/06"],links:[["Ver fotos",gimg("Yellowstone Family Tipi Henrys Lake Island Park")],["Bell tent (Vrbo)","https://www.vrbo.com/pt-br/imovel/p3114454vb"],["Tipi (Expedia)","https://www.expedia.co.uk/Island-Park-Hotels-Yellowstone-Family-Tipi-Sleeps-7.h90288712.Hotel-Information"]]},
+      {id:"wander",tag:"b",tl:"Mais simples",n:"Wander Camp Yellowstone",tp:"Bell tents num rancho em Island Park, Idaho",price:"~US$ 144",ps:"média por tenda/noite (Up & Away, 2025)",cap:"até 3 por tenda: precisa de 2 tendas para 5",bk:"Hotels.com ou Airbnb",pro:["Aquecedor a propano opcional (US$ 20/noite)","Restaurante simples no local"],con:["2 tendas: sai parecido com o Starlight","Sem eletricidade; levar toalha","Banheiro coletivo, água não potável"],links:[["Ver fotos",gimg("Wander Camp Yellowstone bell tent")],["Hotels.com","https://www.hotels.com/ho1969162240/wander-camp-yellowstone-island-park-united-states-of-america/"]]},
+    ]}
+  ];
+  const STAY_DEFAULT = {ff:"casa",jh:"town",mt:"undercanvas"};
+  const PH_STAY = {mn:"ff",jh:"jh",ys:"mt",mt:"mt"};
+
+  /* ================= Shared state ================= */
+  let db = null, canWrite = true, assets = null;
+  let doneMap = store.get("rw-done", {}), picks = store.get("rw-picks", {}), stayPick = store.get("rw-stay", {}), favs = store.get("rw-favs", {});
+  let photos = {};
+
+  /* ================= Roteiro ================= */
+  function act(a, tbc){
+    if(!a[1]) return "";
+    return '<div class="act'+(a[2]?' key':'')+'"><small>'+esc(a[0])+'</small>'+esc(a[1])+(a[2]&&tbc?' '+TBC:'')+'</div>';
+  }
+  function stayName(d){
+    if(d.d==="08" && d.m==="jun") return "";
+    const s = STAYS.find(x => x.k===(d.d==="07" && d.m==="jun" ? "jh" : PH_STAY[d.p])); if(!s) return "";
+    const id = stayPick[s.k] || STAY_DEFAULT[s.k];
+    const o = s.opts.find(x => x.id===id); return o ? o.n : "";
+  }
+  let phase = "all";
+  function renderDays(){
+    $("#days").innerHTML = DAYS.filter(d => phase==="all" || d.p===phase).map(d => {
+      const sleep = stayName(d);
+      const ps = d.ps.map(id => PMAP[id]).filter(Boolean);
+      return '<article class="day c-'+d.p+'">'+
+        '<div class="date"><span class="wd">'+d.wd+'</span><span class="d">'+d.d+'</span><span class="m">'+d.m+'</span></div>'+
+        '<div class="body">'+
+          '<div class="top"><h4>'+esc(d.t)+'</h4><span class="place">'+esc(d.pl)+'</span></div>'+
+          '<div class="acts">'+act(d.a1,d.atbc)+act(d.a2,d.atbc)+'</div>'+
+          '<div class="meta">'+(d.dr?'<span class="drive">🚗 '+esc(d.dr)+'</span>':'')+(sleep ? '<span>Dormir: <b>'+esc(sleep)+'</b></span>' : '')+
+            (ps.length ? '<span>Passeios: '+ps.map(p => '<button class="linkbtn" data-goto="'+p.id+'">'+esc(p.n.split(" (")[0])+'</button>').join(", ")+'</span>' : '')+
+          '</div>'+
+          '<details class="tips"><summary>dicas</summary><ul>'+d.tips.map(t=>'<li>'+esc(t)+'</li>').join("")+'</ul></details>'+
+        '</div></article>';
+    }).join("");
+  }
+  $$(".stop").forEach(b => b.addEventListener("click", () => { phase = b.dataset.phase; $$(".stop").forEach(x => x.setAttribute("aria-pressed", String(x===b))); renderDays(); }));
+  $$("[data-goleg]").forEach(b => b.addEventListener("click", () => { activeLeg = null; setLeg(b.dataset.goleg); $(".mapcard").scrollIntoView({behavior:"smooth", block:"start"}); }));
+  $$(".phase").forEach(card => card.addEventListener("click", e => {
+    if(e.target.closest(".pgo")) return;
+    const on = card.classList.toggle("flipped");
+    card.querySelector(".front").setAttribute("aria-hidden", String(on)); card.querySelector(".back").setAttribute("aria-hidden", String(!on));
+    const f = card.querySelector((on ? ".back" : ".front") + " .pflip"); if(f && e.target.closest(".pflip")) setTimeout(() => f.focus({preventScroll:true}), 350);
+  }));
+  $$("[data-gophase]").forEach(b => b.addEventListener("click", () => { phase = b.dataset.gophase; $$(".stop").forEach(x => x.setAttribute("aria-pressed", String(x.dataset.phase===phase))); renderDays(); showTab("roteiro"); }));
+  $("#days").addEventListener("click", e => {
+    const g = e.target.closest("[data-goto]"); if(!g) return;
+    pf = "all"; preg = "all"; $("#preg").value = "all"; $$("[data-pf]").forEach(x => x.setAttribute("aria-pressed", String(x.dataset.pf==="all")));
+    renderPasseios(); showTab("passeios");
+    const el = document.getElementById("p-"+g.dataset.goto); if(el) el.scrollIntoView({behavior:"smooth", block:"center"});
+  });
+
+  /* ================= Hospedagem ================= */
+  function renderStays(){
+    $("#stays").innerHTML = STAYS.map(s => {
+      const chosen = stayPick[s.k] || STAY_DEFAULT[s.k];
+      return '<div class="stayblock c-'+s.c+'"><div class="stay-head"><h3>'+esc(s.t)+'</h3><span class="nights">'+esc(s.dates)+'</span></div><div class="opts">'+
+        s.opts.map(o => '<article class="opt'+(o.id===chosen?' chosen':'')+'">'+
+          '<div><span class="pill '+o.tag+'">'+esc(o.tl)+'</span></div>'+
+          '<h4>'+esc(o.n)+'</h4><div class="place">'+esc(o.tp)+'</div>'+
+          (o.price.indexOf("A CONFIRMAR")>=0 ? '<div>Preço '+TBC+(o.ps?' <span class="hint">'+esc(o.ps)+'</span>':'')+'</div>' : '<div class="price">'+esc(o.price)+(o.ps?' <small>'+esc(o.ps)+'</small>':'')+'</div>')+
+          '<dl><dt>Cabem</dt><dd>'+esc(o.cap)+'</dd><dt>Reservar</dt><dd>'+esc(o.bk)+'</dd></dl>'+
+          '<ul class="pro">'+o.pro.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul>'+
+          '<ul class="con">'+o.con.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul>'+
+          '<div class="links">'+o.links.map(l=>'<a href="'+esc(l[1])+'" target="_blank" rel="noopener">'+esc(l[0])+'</a>').join("")+'</div>'+
+          '<button class="choose" data-stay="'+s.k+'" data-opt="'+o.id+'"'+(canWrite?'':' disabled')+'>'+(o.id===chosen?'✓ Escolha da família':'Vamos ficar aqui')+'</button>'+
+        '</article>').join("")+'</div></div>';
+    }).join("");
+  }
+  $("#stays").addEventListener("click", async e => {
+    const b = e.target.closest("[data-stay]"); if(!b || b.disabled) return;
+    stayPick = Object.assign({}, stayPick, {[b.dataset.stay]: b.dataset.opt});
+    renderStays(); renderDays();
+    if(db){ try{ await db.doc("stays/"+b.dataset.stay).set({opt:b.dataset.opt}); }catch(err){ handleWriteErr(err); } }
+    else store.set("rw-stay", stayPick);
+  });
+
+  /* ================= Passeios ================= */
+  let pf = "all";
+  const isOn = p => (p.id in picks) ? !!picks[p.id] : !!p.def;
+  function priceHtml(p){
+    if(p.price===0) return '<span class="v">Grátis</span><span class="place">'+esc(p.pl)+'</span>';
+    if(p.price===null) return '<span class="v">'+TBC+'</span><span class="place">'+esc(p.pl)+'</span>';
+    return '<span class="v">US$ '+p.price+' <small>'+esc(p.pl)+'</small></span><span class="place">'+esc(p.yr||"")+'</span>';
+  }
+  let preg = "all";
+  function pCard(p){
+    const ph = photos[p.id];
+    const img = ph ? '<img src="/_blob/'+encodeURIComponent(ph)+'" alt="Foto: '+esc(p.n)+'" loading="lazy">' : scene(p.sc);
+    const tag = p.st==="idea" ? '<span class="pill idea">Ideia: vocês topam?</span>' : '<span class="pill rec">No roteiro</span>';
+    const m = /(\d{2}\/\d{2})/.exec(p.day||"");
+    const ups = assets ? '<div class="ups"><label for="up-'+p.id+'">'+(ph?'Trocar foto':'Adicionar foto')+'</label><input type="file" accept="image/jpeg,image/png,image/webp" id="up-'+p.id+'" data-up="'+p.id+'"></div>' : '';
+    const priced = p.price!==null && p.price>0;
+    return '<article class="pcard c-'+p.ph+'" id="p-'+p.id+'">'+
+      '<div class="pimg">'+img+'<div class="ptag">'+tag+'</div>'+(m?'<span class="pdate">'+m[1]+'</span>':'')+ups+'</div>'+
+      '<div class="pbody"><h4>'+esc(p.n)+'</h4><div class="where">'+esc(p.w)+' · '+esc(p.day)+'</div>'+
+        '<p>'+esc(p.d)+'</p>'+(p.note ? '<p class="hint">'+esc(p.note)+'</p>' : '')+
+        '<div class="hint">Duração: '+esc(p.dur)+'</div>'+
+        '<div class="pprice">'+priceHtml(p)+'</div>'+
+        '<div class="pfoot">'+
+          (priced ? '<label class="want"><input type="checkbox" data-pick="'+p.id+'"'+(isOn(p)?' checked':'')+(canWrite?'':' disabled')+'> Queremos</label>' : '<span class="hint">'+(p.price===0?'Sem custo extra':'Preço a confirmar')+'</span>')+
+          '<span style="display:flex;gap:12px"><a href="'+gimg(p.q)+'" target="_blank" rel="noopener">Ver fotos</a>'+(p.link?'<a href="'+esc(p.link)+'" target="_blank" rel="noopener">Site</a>':'')+'</span>'+
+        '</div></div></article>';
+  }
+  function renderPasseios(){
+    const list = P.filter(p => (preg==="all" || p.ph===preg) && (pf==="all" || (pf==="idea" ? p.st==="idea" : pf==="plan" ? p.st!=="idea" : pf==="free" ? p.price===0 : true)));
+    let nav = "", html = "";
+    PTYPES.forEach(T => {
+      const items = list.filter(p => p.t===T.k).sort((a,b) => pSort(a)-pSort(b));
+      const inPlan = items.filter(p => p.st!=="idea").length;
+      nav += '<a href="#ps-'+T.k+'" data-psec="'+T.k+'" style="--ts:'+T.ts+';--tc:'+T.tc+'"'+(items.length?'':' aria-disabled="true"')+'><span class="ic" aria-hidden="true">'+T.ic+'</span><span><b>'+esc(T.n)+'</b><small>'+items.length+(items.length===1?' passeio':' passeios')+'</small></span></a>';
+      if(!items.length) return;
+      html += '<section class="psec" id="ps-'+T.k+'" style="--ts:'+T.ts+'"><div class="psec-h"><span class="ic" aria-hidden="true">'+T.ic+'</span><div><h3>'+esc(T.n)+'</h3><p>'+esc(T.d)+'</p></div><span class="cnt">'+inPlan+' no roteiro · '+(items.length-inPlan)+(items.length-inPlan===1?' ideia':' ideias')+'</span></div><div class="pgrid">'+items.map(pCard).join("")+'</div></section>';
+    });
+    $("#pnav").innerHTML = nav;
+    $("#pgrid").innerHTML = html || '<div class="pempty">Nenhum passeio com esses filtros. <button class="chipbtn" id="pclear">Limpar filtros</button></div>';
+  }
+  $("#pnav").addEventListener("click", e => { const a = e.target.closest("[data-psec]"); if(!a) return; e.preventDefault(); const el = document.getElementById("ps-"+a.dataset.psec); if(el) el.scrollIntoView({behavior:"smooth", block:"start"}); });
+  $("#preg").addEventListener("change", e => { preg = e.target.value; renderPasseios(); });
+  $("#pgrid").addEventListener("click", e => { if(e.target.id!=="pclear") return; pf = "all"; preg = "all"; $("#preg").value = "all"; $$("[data-pf]").forEach(x => x.setAttribute("aria-pressed", String(x.dataset.pf==="all"))); renderPasseios(); });
+  $$("[data-pf]").forEach(b => b.addEventListener("click", () => { pf = b.dataset.pf; $$("[data-pf]").forEach(x => x.setAttribute("aria-pressed", String(x===b))); renderPasseios(); }));
+  $("#pgrid").addEventListener("change", async e => {
+    const t = e.target;
+    if(t.dataset.pick){
+      const id = t.dataset.pick, val = t.checked;
+      picks = Object.assign({}, picks, {[id]: val}); calc();
+      if(db){ try{ await db.doc("picks/"+id).set({on:val}); }catch(err){ handleWriteErr(err); } }
+      else store.set("rw-picks", picks);
+    }
+    if(t.dataset.up && t.files && t.files[0] && assets){
+      const id = t.dataset.up, lab = t.previousElementSibling; if(lab) lab.textContent = "Enviando…";
+      try{
+        const r = await assets.upload(t.files[0]);
+        photos = Object.assign({}, photos, {[id]: r.id});
+        if(db) await db.doc("photos/"+id).set({asset:r.id});
+        renderPasseios();
+      }catch(err){
+        if(lab) lab.textContent = err && err.code==="too_large" ? "Foto grande demais (máx. 20 MB)" : err && err.code==="unsupported_type" ? "Use JPG, PNG ou WebP" : "Não enviou. Tente de novo";
+      }
+    }
+  });
+
+  /* ================= Restaurantes ================= */
+  let rf = "all", rk = "all";
+  const RPH = {mn:"mn",jh:"jh",gt:"sky",ys:"ys",mt:"mt"};
+  const RPL = {mn:"Fergus Falls",jh:"Jackson",gt:"Grand Teton",ys:"Yellowstone",mt:"West Yellowstone"};
+  function renderRest(){
+    const list = R.filter(r => (rf==="all" || r.ph===rf) && (rk==="all" || (rk==="fav" ? favs[r.id] : r.k.includes(rk))));
+    $("#rgrid").innerHTML = list.length ? list.map(r =>
+      '<article class="rcard c-'+RPH[r.ph]+'">'+
+        '<div class="rtop"><h4>'+esc(r.n)+'</h4><span class="cost">'+esc(r.c)+'</span></div>'+
+        '<div class="kind"><span>'+esc(RPL[r.ph])+'</span>'+r.k.map(k => '<span>'+esc(k==="Doce"?"Sorvete e doces":k)+'</span>').join("")+'</div>'+
+        '<p>'+esc(r.d)+'</p>'+
+        '<div class="sig"><b>Peça:</b> '+esc(r.sig)+'</div>'+
+        (r.tbc ? '<div>'+TBC+' <span class="hint">'+esc(r.tbc)+'</span></div>' : '')+
+        '<div class="rfoot"><a href="'+esc(gmap(r.n+" "+r.w))+'" target="_blank" rel="noopener">'+esc(r.w)+'</a>'+
+          '<button class="fav" data-fav="'+r.id+'" aria-pressed="'+(!!favs[r.id])+'"'+(canWrite?'':' disabled')+'>'+(favs[r.id]?'★ Favorito':'☆ Favoritar')+'</button></div>'+
+      '</article>').join("") : '<p class="hint">Nenhum lugar com esse filtro ainda. Marquem ★ nos cards para montar a lista de favoritos.</p>';
+  }
+  $$("[data-rf]").forEach(b => b.addEventListener("click", () => { rf = b.dataset.rf; $$("[data-rf]").forEach(x => x.setAttribute("aria-pressed", String(x===b))); renderRest(); }));
+  $$("[data-rk]").forEach(b => b.addEventListener("click", () => { rk = b.dataset.rk; $$("[data-rk]").forEach(x => x.setAttribute("aria-pressed", String(x===b))); renderRest(); }));
+  $("#rgrid").addEventListener("click", async e => {
+    const b = e.target.closest("[data-fav]"); if(!b || b.disabled) return;
+    const id = b.dataset.fav, val = !favs[id];
+    favs = Object.assign({}, favs, {[id]: val}); renderRest();
+    if(db){ try{ await db.doc("favs/"+id).set({on:val}); }catch(err){ handleWriteErr(err); } }
+    else store.set("rw-favs", favs);
+  });
+
+  /* ================= Reservas ================= */
+  const TASKS = [
+    {id:"glamping",w:"now",wl:"Agora",t:"Reservar o Under Canvas West Yellowstone (05 a 07/06, 2 noites)",d:"Ver quando abrem as reservas de 2027 e a data de abertura da temporada. Tenda Suite para 5 ou 2 tendas com banheiro privativo."},
+    {id:"hotel-jac",w:"now",wl:"Agora",t:"Reservar o hotel de Jackson (01 a 05/06 e 07 a 08/06)",d:"Centro de Jackson lota em junho. Mesmo hotel nas duas estadias; preferir cancelamento grátis."},
+    {id:"hotel-ff",w:"now",wl:"Agora",t:"Reservar hospedagem em Fergus Falls (25/05 a 01/06)",d:"Fim de semana de formatura lota. Preferir cancelamento grátis."},
+    {id:"vistos",w:"now",wl:"Agora",t:"Conferir vistos americanos de todos",d:"Precisam estar válidos até junho/2027."},
+    {id:"horarios-escola",w:"now",wl:"Agora",t:"Pedir à Hillcrest os horários do jantar dos pais e da formatura",d:"Fecha os dias 27 e 30/05."},
+    {id:"ideias",w:"soon",wl:"Até nov/2026",t:"Decidir as ideias de passeio",d:"Rodeio, flutuação, coaster, bondinho, Hayden Valley."},
+    {id:"passagens",w:"soon",wl:"Até jan/2027",t:"Comprar passagens: Brasil → Minneapolis e Jackson → Brasil (08/06)",d:"Comparar as opções A, B e C da aba Infos."},
+    {id:"voo-jac",w:"soon",wl:"Até jan/2027",t:"Comprar voo Minneapolis → Jackson (01/06)",d:"Delta direto, ~2h30."},
+    {id:"carros",w:"later",wl:"Até mar/2027",t:"Reservar carros: retirar e devolver em MSP (25/05 a 01/06) e em Jackson (01 a 08/06)",d:"Retirar e devolver no mesmo aeroporto evita a taxa de devolução em outra cidade. SUV para 5 com malas."},
+    {id:"chico-jantar",w:"later",wl:"Até mai/2027",t:"Reservar o jantar comemorativo em Fergus Falls (30/05)",d:"E o jantar de despedida em West Yellowstone (06/06)."},
+    {id:"passeios-res",w:"later",wl:"Até abr/2027",t:"Comprar os passeios pagos escolhidos",d:"Flutuação tem vagas limitadas; rodeio e Snow King compram online."},
+    {id:"passe",w:"later",wl:"Antes da viagem",t:"Comprar o passe anual para não residentes (US$ 250)",d:"Cobre todos no mesmo carro (NPS). Comprar online no Recreation.gov ou na primeira entrada, em Grand Teton."}
+  ];
+  function renderTasks(){
+    $("#tasks").innerHTML = TASKS.map(t => {
+      const done = !!doneMap[t.id];
+      return '<div class="task'+(done?' done':'')+'"><input type="checkbox" id="tk-'+t.id+'" data-id="'+t.id+'"'+(done?' checked':'')+(canWrite?'':' disabled')+'>'+
+        '<label for="tk-'+t.id+'"><b>'+esc(t.t)+'</b><span>'+esc(t.d)+'</span></label><span class="when '+t.w+'">'+esc(t.wl)+'</span></div>';
+    }).join("");
+    const n = TASKS.filter(t => doneMap[t.id]).length;
+    $("#prog").style.width = Math.round(100*n/TASKS.length)+"%";
+    const urgent = TASKS.filter(t => t.w==="now" && !doneMap[t.id]).length;
+    const badge = $("#badge"); badge.textContent = urgent; badge.hidden = urgent===0;
+  }
+  $("#tasks").addEventListener("change", async e => {
+    const id = e.target.dataset && e.target.dataset.id; if(!id) return;
+    doneMap = Object.assign({}, doneMap, {[id]: e.target.checked}); renderTasks();
+    if(db){ try{ await db.doc("checklist/"+id).set({done: e.target.checked}); }catch(err){ handleWriteErr(err); } }
+    else store.set("rw-done", doneMap);
+  });
+
+  /* ================= Orçamento ================= */
+  const BUD0 = [
+    {g:"Hospedagem",c:"mt",id:"ff",l:"Fergus Falls",n:"casa ou 2 quartos, por noite",p:170,q:7},
+    {g:"Hospedagem",c:"mt",id:"jh",l:"Hotel em Jackson",n:"2 quartos, por noite",p:340,q:5},
+    {g:"Hospedagem",c:"mt",id:"gl",l:"Glamping Under Canvas",n:"Suite ou 2 tendas, por noite (estimativa)",p:600,q:2},
+    {g:"Transporte",c:"sky",id:"fl",l:"Voo MSP → JAC",n:"só ida, por pessoa",p:250,q:5},
+    {g:"Transporte",c:"sky",id:"c1",l:"Carro em Minneapolis",n:"minivan, retira e devolve em MSP, por dia",p:80,q:7},
+    {g:"Transporte",c:"sky",id:"c2",l:"Carro em Jackson",n:"SUV, retira e devolve em JAC, por dia",p:120,q:7},
+    {g:"Transporte",c:"sky",id:"gas",l:"Combustível",n:"total estimado",p:300,q:1}
+  ];
+  let bud = store.get("rw-bud7", null);
+  if(!Array.isArray(bud) || bud.length!==BUD0.length) bud = BUD0.map(b => ({p:b.p,q:b.q}));
+  let feeMode = store.get("rw-fee","pass"), fx = store.get("rw-fx", 5.5);
+  $("#fx").value = fx;
+  function renderBudRows(){
+    let html = "", g = "";
+    BUD0.forEach((b,i) => {
+      if(b.g!==g){ g=b.g; html += '<div class="bgroup c-'+b.c+'">'+esc(g)+'</div>'; }
+      html += '<div class="brow"><span class="lab">'+esc(b.l)+'<small>'+esc(b.n)+'</small></span>'+
+        '<input type="number" min="0" step="5" id="bp-'+b.id+'" data-i="'+i+'" data-k="p" value="'+bud[i].p+'" aria-label="Preço de '+esc(b.l)+' em dólares">'+
+        '<input type="number" min="0" step="1" id="bq-'+b.id+'" data-i="'+i+'" data-k="q" value="'+bud[i].q+'" aria-label="Quantidade de '+esc(b.l)+'">'+
+        '<span class="tot" id="bt-'+b.id+'"></span></div>';
+    });
+    html += '<div class="bgroup c-ys">Parques e passeios</div>';
+    html += '<div class="brow"><span class="lab">Yellowstone + Grand Teton<small id="feeNote"></small></span><span></span><span></span><span class="tot" id="bt-fee"></span></div>';
+    html += '<div class="brow"><span class="lab">Passeios marcados “Queremos”<small id="pNote"></small></span><span></span><span class="mono" style="text-align:right">×5</span><span class="tot" id="bt-p"></span></div>';
+    $("#brows").innerHTML = html;
+  }
+  function calc(){
+    if(!$("#bt-fee")) return;
+    let t = 0;
+    BUD0.forEach((b,i) => { const s = (+bud[i].p||0)*(+bud[i].q||0); t += s; $("#bt-"+b.id).textContent = usd(s); });
+    const f = feeMode==="pass" ? 250 : 5*100*2 + 35*2; t += f;
+    $("#bt-fee").textContent = usd(f);
+    $("#feeNote").textContent = feeMode==="pass" ? "passe anual para não residentes" : "5 × US$ 100 × 2 parques + US$ 35 por carro em cada";
+    const chosen = P.filter(p => p.price>0 && isOn(p));
+    const pt = chosen.reduce((a,p) => a + p.price*5, 0); t += pt;
+    $("#bt-p").textContent = usd(pt);
+    $("#pNote").textContent = chosen.length ? chosen.map(p => p.n.split(" (")[0]).join(", ") : "nenhum marcado ainda";
+    $("#tUsd").textContent = usd(t); $("#tPer").textContent = usd(t/5);
+    $("#tBrl").textContent = "R$ " + Math.round(t*(+fx||0)).toLocaleString("pt-BR");
+    $("#feePass").setAttribute("aria-pressed", String(feeMode==="pass")); $("#feeSur").setAttribute("aria-pressed", String(feeMode!=="pass"));
+  }
+  $("#brows").addEventListener("input", e => { const i = e.target.dataset.i; if(i===undefined) return; bud[i][e.target.dataset.k] = e.target.value===""?0:+e.target.value; store.set("rw-bud7", bud); calc(); });
+  $("#fx").addEventListener("input", e => { fx = +e.target.value; store.set("rw-fx", fx); calc(); });
+  $("#feePass").addEventListener("click", () => { feeMode="pass"; store.set("rw-fee",feeMode); calc(); });
+  $("#feeSur").addEventListener("click", () => { feeMode="sur"; store.set("rw-fee",feeMode); calc(); });
+  $("#resetBudget").addEventListener("click", () => { bud = BUD0.map(b => ({p:b.p,q:b.q})); fx=5.5; $("#fx").value=fx; store.set("rw-bud7",bud); store.set("rw-fx",fx); renderBudRows(); calc(); });
+
+  /* ================= Sources ================= */
+  const SRC = [
+    ["Under Canvas West Yellowstone","https://www.undercanvas.com/camps/west-yellowstone/"],["Destination Yellowstone: onde comer em West Yellowstone","https://destinationyellowstone.com/taste-west-yellowstone/"],["Grizzly & Wolf Discovery Center","https://www.grizzlydiscoveryctr.org/"],["Yellowstone Dreamin' Retreat","https://yellowstonedreaminretreat.com/"],["Visit Gardiner: Yellowstone Dreamin' Camp","https://www.visitgardinermt.com/?p=8238"],["CamplinQ: Yellowstone Dreamin Camp","https://camplinq.com/camps/yellowstone-dreamin-camp"],
+    ["Current Results: temperaturas de junho em Wyoming","https://www.currentresults.com/Weather/Wyoming/temperature-june.php"],["Current Results: temperaturas de junho em Minnesota","https://www.currentresults.com/Weather/Minnesota/temperature-june.php"],["Current Results: temperaturas de junho em Montana","https://www.currentresults.com/Weather/Montana/temperature-june.php"],["Weather on This Day: Yellowstone em 3 de junho","https://weatheronthisday.com/parks/yellowstone/6/3"],
+    ["Visit Fergus Falls: onde comer","https://visitfergusfalls.com/dining"],["Town Square Inns: bares de Jackson","https://www.townsquareinns.com/blog/bars-and-nightlife/"],["Town Square Inns: restaurantes de Jackson","https://www.townsquareinns.com/blog/must-eat-foods/"],["TravelAwaits: Jackson barato","https://www.travelawaits.com/2774599/best-jackson-hole-restaurants-on-a-budget/"],["Frommer's: restaurantes em Grand Teton","https://www.frommers.com/destinations/grand-teton-national-park/restaurants/"],["Yellowstone National Park Lodges: restaurantes","https://www.yellowstonenationalparklodges.com/dining/"],["Chico Hot Springs: piscinas","https://www.chicohotsprings.com/soak"],["Montana Living: Paradise Valley","https://www.montanaliving.com/blogs/taste-of-montana/112849925-dining-in-paradise-great-food-in-the-paradise-valley"],
+    ["Xanterra: atividades de verão em Yellowstone","https://cresmanual.xanterra.com/yellowstone-national-park/summer-activities-3/"],["NPS: barco de Jenny Lake","https://www.nps.gov/places/jenny-lake-west-shore-boat-dock.htm"],["Jenny Lake Boating: preços e horários 2026","https://jennylakeboating.com/boat-trips/shuttle-service/"],["Signal Mountain Lodge: flutuação","https://www.signalmountainlodge.com/things-to-do/scenic-float-trips/"],["Jackson Hole Traveler: Snow King","https://www.jacksonholetraveler.com/article/summer-snow-king-mountain"],["Jackson Hole Mountain Resort: Aerial Tram","https://www.jacksonhole.com/summer-tram-rates.html"],["Town Square Inns: rodeio","https://www.townsquareinns.com/blog/jackson-hole-rodeo/"],
+    ["Under Canvas West Yellowstone: ficha 2026","https://www.undercanvas.com/wp-content/uploads/2026/04/Under-Canvas-Fact-Sheet-2026-West-Yellowstone.docx.pdf"],["Yellowstone National Park Lodges: datas 2027","https://www.yellowstonenationalparklodges.com/stay/plan/opening-and-closing-dates/"],["Yellowstone Tourism: os 9 hotéis do parque","https://www.yellowstonetourism.org/lodging-in-yellowstone-national-park/"],["Starlight Retreat: tendas e preços","https://starlightretreat.com/"],["Up & Away: glampings em Yellowstone","https://upandawaymag.com/best-glamping-yellowstone/"],["Booking: glampings perto de Yellowstone","https://www.booking.com/glamping/region/us/yellowstone-national-park.html"],["Kayak: The Hostel","https://www.kayak.com/Teton-Village-Hotels-The-Hostel.321576.ksp"],["FlightsFrom: MSP → JAC","https://www.flightsfrom.com/MSP-JAC"],
+    ["Buckrail: taxa de US$ 100 para não residentes","https://buckrail.com/new-yellowstone-grand-teton-fee-structure-charges-100-per-nonresident/"],["ABC17/Stacker: detalhes da taxa","https://abc17news.com/stacker-travel/2026/01/30/100-national-park-fee-what-visitors-need-to-know/"]
+  ];
+  $("#sources").innerHTML = SRC.map(s => '<li><a href="'+esc(s[1])+'" target="_blank" rel="noopener">'+esc(s[0])+'</a></li>').join("");
+
+  /* ================= Tabs & sync ================= */
+  const TABS = ["panorama","roteiro","hospedagem","passeios","restaurantes","reservas","orcamento","infos"];
+  function showTab(name){
+    if(!TABS.includes(name)) name = "panorama";
+    TABS.forEach(t => { $("#"+t).hidden = t!==name; });
+    $$(".tabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab===name)));
+    store.set("rw-tab", name); window.scrollTo({top:0});
+    if(name==="panorama") drawMap();
+    moveInd(true);
+  }
+  const tabsEl = $(".tabs");
+  function moveInd(center){
+    const b = $('.tabs button[aria-selected="true"]'), ind = $(".tabind"); if(!b || !ind) return;
+    ind.style.width = b.offsetWidth + "px"; ind.style.transform = "translateX(" + b.offsetLeft + "px)";
+    ind.style.backgroundColor = getComputedStyle(b).getPropertyValue("--tc");
+    if(center) tabsEl.scrollTo({left: b.offsetLeft - (tabsEl.clientWidth - b.offsetWidth)/2});
+  }
+  function tabArrows(){
+    const max = tabsEl.scrollWidth - tabsEl.clientWidth;
+    $("#tabL").hidden = tabsEl.scrollLeft <= 4; $("#tabR").hidden = tabsEl.scrollLeft >= max - 4;
+  }
+  $("#tabL").addEventListener("click", () => tabsEl.scrollBy({left: -tabsEl.clientWidth*0.6}));
+  $("#tabR").addEventListener("click", () => tabsEl.scrollBy({left: tabsEl.clientWidth*0.6}));
+  tabsEl.addEventListener("scroll", tabArrows, {passive:true});
+  addEventListener("resize", () => { moveInd(false); tabArrows(); });
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(() => { moveInd(true); tabArrows(); });
+  $$(".tabs button").forEach(b => b.addEventListener("click", () => showTab(b.dataset.tab)));
+  function setSync(on, text){ $$("#sync, #sync2").forEach(s => { s.classList.toggle("on", on); s.lastElementChild.textContent = text; }); }
+  function handleWriteErr(err){
+    if(err && err.code==="invalid_argument"){ canWrite=false; setSync(true,"Você pode ver tudo, mas não alterar as marcações."); renderAll(); }
+    else setSync(false,"Não consegui salvar agora. Tente de novo em instantes.");
+  }
+  function renderAll(){ renderDays(); renderStays(); renderPasseios(); renderRest(); renderTasks(); calc(); }
+  renderBudRows(); renderAll();
+  (function(){ const h = (location.hash||"").slice(1); const t = TABS.includes(h) ? h : store.get("rw-tab","panorama"); TABS.forEach(x => { $("#"+x).hidden = x!==(TABS.includes(t)?t:"panorama"); }); $$(".tabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab===(TABS.includes(t)?t:"panorama")))); requestAnimationFrame(() => { moveInd(true); tabArrows(); }); })();
+
+  (async () => {
+    try{
+      if(!window.claude || !window.claude.use) return;
+      const d = await window.claude.use("db"); if(!d) return;
+      const u = await window.claude.use("user");
+      if(u && u.can){ try{ const c = await u.can("data.write"); if(c===false) canWrite=false; }catch(e){} }
+      db = d;
+      setSync(true, canWrite ? "Compartilhado com a família, atualiza ao vivo." : "Compartilhado (somente leitura para você).");
+      const lost = () => setSync(false, "Conexão perdida. Recarregue a página.");
+      db.collection("checklist").onSnapshot(s => { const m={}; s.docs.forEach(x => { const v=x.data(); if(v && v.done) m[x.id]=true; }); doneMap=m; renderTasks(); }, lost);
+      db.collection("picks").onSnapshot(s => { const m={}; s.docs.forEach(x => { const v=x.data(); if(v) m[x.id]=!!v.on; }); picks=m; renderPasseios(); calc(); }, lost);
+      db.collection("stays").onSnapshot(s => { const m={}; s.docs.forEach(x => { const v=x.data(); if(v && v.opt) m[x.id]=String(v.opt); }); stayPick=m; renderStays(); renderDays(); }, lost);
+      db.collection("favs").onSnapshot(s => { const m={}; s.docs.forEach(x => { const v=x.data(); if(v && v.on) m[x.id]=true; }); favs=m; renderRest(); }, lost);
+      db.collection("photos").onSnapshot(s => { const m={}; s.docs.forEach(x => { const v=x.data(); if(v && typeof v.asset==="string" && /^[0-9a-f]{32}$/.test(v.asset)) m[x.id]=v.asset; }); photos=m; renderPasseios(); }, () => {});
+      const a = await window.claude.use("assets"); if(a){ assets = a; renderPasseios(); }
+    }catch(e){}
+  })();
+})();
+</script>
+
+</body>
+</html>
