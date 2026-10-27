@@ -605,7 +605,7 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
     <table>
       <thead><tr><th>Opção</th><th>Como funciona</th><th>A favor</th><th>Contra</th></tr></thead>
       <tbody>
-        <tr class="rec"><td>A. Multidestino (recomendada)</td><td>Uma passagem: Brasil → Minneapolis em 25/05 e Jackson (JAC) → Brasil em 08/06, com conexão em Denver, Dallas ou Atlanta</td><td>Carro retirado e devolvido no aeroporto de Jackson, a 15 min do hotel. Conexão protegida no mesmo bilhete</td><td>Voos de Jackson costumam ser mais caros</td></tr>
+        <tr class="rec"><td>A. Multidestino (recomendada)</td><td>Uma passagem: Brasil → Minneapolis em 25/05 e Jackson (JAC) → Brasil em 08/06, com conexão em Denver, Dallas ou Atlanta</td><td>Carro retirado e devolvido no aeroporto de Jackson, a 15 min do hotel. Conexão protegida no mesmo bilhete</td><td>Voos de Jackson costumam ser mais caros. Estimativa: ~US$ 1.300 a 1.800 por pessoa (out/2026), A CONFIRMAR</td></tr>
         <tr><td>B. Ida e volta por Minneapolis</td><td>Internacional ida e volta por MSP + voo doméstico Jackson → Minneapolis em 08/06</td><td>Internacional costuma sair mais barato</td><td>Um voo a mais. Bilhetes separados não protegem a conexão</td></tr>
         <tr><td>C. Voltar por Bozeman</td><td>Sair do glamping direto para Bozeman (~1h) em 07/06</td><td>Um dia a menos de viagem e de estrada</td><td>Carro de Jackson devolvido em Bozeman paga taxa de devolução em outra cidade</td></tr>
       </tbody>
@@ -1461,12 +1461,13 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
     {g:"Hospedagem",c:"mt",id:"ff",l:"Fergus Falls",n:"casa ou 2 quartos, por noite",p:170,q:7},
     {g:"Hospedagem",c:"mt",id:"jh",l:"Hotel em Jackson",n:"2 quartos, por noite",p:340,q:5},
     {g:"Hospedagem",c:"mt",id:"gl",l:"Glamping Under Canvas",n:"Suite ou 2 tendas, por noite (estimativa)",p:600,q:2},
+    {g:"Transporte",c:"sky",id:"intl",l:"Voo Brasil → MSP + JAC → Brasil",n:"multidestino, por pessoa (estimativa out/2026)",p:1500,q:4},
     {g:"Transporte",c:"sky",id:"fl",l:"Voo MSP → JAC",n:"só ida, por pessoa",p:250,q:5},
     {g:"Transporte",c:"sky",id:"c1",l:"Carro em Minneapolis",n:"minivan, retira e devolve em MSP, por dia",p:80,q:7},
     {g:"Transporte",c:"sky",id:"c2",l:"Carro em Jackson",n:"SUV, retira e devolve em JAC, por dia",p:120,q:7},
     {g:"Transporte",c:"sky",id:"gas",l:"Combustível",n:"total estimado",p:300,q:1}
   ];
-  let bud = store.get("rw-bud7", null);
+  let bud = store.get("rw-bud8", null);
   if(!Array.isArray(bud) || bud.length!==BUD0.length) bud = BUD0.map(b => ({p:b.p,q:b.q}));
   let feeMode = store.get("rw-fee","pass"), fx = store.get("rw-fx", 5.5);
   $("#fx").value = fx;
@@ -1499,11 +1500,11 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
     $("#tBrl").textContent = "R$ " + Math.round(t*(+fx||0)).toLocaleString("pt-BR");
     $("#feePass").setAttribute("aria-pressed", String(feeMode==="pass")); $("#feeSur").setAttribute("aria-pressed", String(feeMode!=="pass"));
   }
-  $("#brows").addEventListener("input", e => { const i = e.target.dataset.i; if(i===undefined) return; bud[i][e.target.dataset.k] = e.target.value===""?0:+e.target.value; store.set("rw-bud7", bud); calc(); });
+  $("#brows").addEventListener("input", e => { const i = e.target.dataset.i; if(i===undefined) return; bud[i][e.target.dataset.k] = e.target.value===""?0:+e.target.value; store.set("rw-bud8", bud); calc(); });
   $("#fx").addEventListener("input", e => { fx = +e.target.value; store.set("rw-fx", fx); calc(); });
   $("#feePass").addEventListener("click", () => { feeMode="pass"; store.set("rw-fee",feeMode); calc(); });
   $("#feeSur").addEventListener("click", () => { feeMode="sur"; store.set("rw-fee",feeMode); calc(); });
-  $("#resetBudget").addEventListener("click", () => { bud = BUD0.map(b => ({p:b.p,q:b.q})); fx=5.5; $("#fx").value=fx; store.set("rw-bud7",bud); store.set("rw-fx",fx); renderBudRows(); calc(); });
+  $("#resetBudget").addEventListener("click", () => { bud = BUD0.map(b => ({p:b.p,q:b.q})); fx=5.5; $("#fx").value=fx; store.set("rw-bud8",bud); store.set("rw-fx",fx); renderBudRows(); calc(); });
 
   /* ================= Sources ================= */
   const SRC = [
