@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#f6f3ec">
+<script>window.RO=true</script>
 <title>Viagem EUA 2027</title>
 <script>try{var t=JSON.parse(localStorage.getItem("rw-theme")||"null");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -83,6 +84,10 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .isdark .themebtn .moon{transform:none;opacity:1}
 html.themefade, html.themefade *{transition:background-color .4s ease,color .4s ease,border-color .4s ease,fill .4s ease,stroke .4s ease !important}
 @media (prefers-reduced-motion:reduce){.themebtn svg{transition:none}}
+.roonly{display:none}.ro .roonly{display:block}.ro .rw{display:none}
+.ro .choose,.ro .want,.ro .fav,.ro .ups,.ro #resetBudget,.ro .task input{display:none!important}
+.ro .brow input,.ro #fx{border-color:transparent;background:transparent;pointer-events:none;-moz-appearance:textfield}
+.ro .brow input::-webkit-inner-spin-button,.ro #fx::-webkit-inner-spin-button{display:none}
 .tabslider{position:relative;flex:1;min-width:0;display:flex;align-items:stretch}
 .tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0;position:relative;scroll-behavior:smooth;scroll-snap-type:x proximity}
 .tabs button{scroll-snap-align:center}
@@ -521,7 +526,7 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
 
 <!-- HOSPEDAGEM -->
 <section class="panel c-mt" id="hospedagem" role="tabpanel" hidden>
-  <div class="panel-head"><h2>Hospedagem</h2><p>Três bases, 14 noites: Fergus Falls, um hotel só em Jackson (3 noites na chegada e 1 antes do voo) e 4 noites numa cabana em Island Park, perto de Yellowstone. Toque em “Vamos ficar aqui” para registrar a escolha; todos da família veem a mesma marcação.</p></div>
+  <div class="panel-head"><h2>Hospedagem</h2><p>Três bases, 14 noites: Fergus Falls, um hotel só em Jackson (3 noites na chegada e 1 antes do voo) e 4 noites numa cabana em Island Park, perto de Yellowstone.<span class="rw"> Toque em “Vamos ficar aqui” para registrar a escolha; todos da família veem a mesma marcação.</span></p></div>
   <div class="syncline" id="sync2"><i></i><span>Escolhas salvas só neste aparelho até conectar.</span></div>
   <div id="stays" style="display:grid;gap:28px"></div>
   <div class="note"><b>Frio e ursos.</b> No começo de junho as madrugadas perto dos parques ficam entre 1 e 8 °C. Comida, pasta de dente e lixo sempre no carro ou em caixa fechada, nunca dentro da tenda.</div>
@@ -529,7 +534,7 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
 
 <!-- PASSEIOS -->
 <section class="panel c-ys" id="passeios" role="tabpanel" hidden>
-  <div class="panel-head"><h2>Passeios</h2><p>Tudo o que está no roteiro e ideias extras com preço por pessoa. Marquem “Queremos” nos que toparem: entram no orçamento automaticamente.</p></div>
+  <div class="panel-head"><h2>Passeios</h2><p>Tudo o que está no roteiro e ideias extras com preço por pessoa.<span class="rw"> Marquem “Queremos” nos que toparem: entram no orçamento automaticamente.</span></p></div>
   <nav class="pnav" id="pnav" aria-label="Tipos de passeio"></nav>
   <div class="ptools">
     <div class="pseg" role="group" aria-label="Mostrar">
@@ -563,7 +568,7 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
 
 <!-- RESTAURANTES -->
 <section class="panel c-jh" id="restaurantes" role="tabpanel" hidden>
-  <div class="panel-head"><h2>Restaurantes e bares</h2><p>Onde comer e beber em cada parte da viagem, do café da manhã barato ao jantar comemorativo da formatura. Marquem ★ nos favoritos; a lista é compartilhada.</p></div>
+  <div class="panel-head"><h2>Restaurantes e bares</h2><p>Onde comer e beber em cada parte da viagem, do café da manhã barato ao jantar comemorativo da formatura. <span class="rw">Marquem ★ nos favoritos; a lista é compartilhada.</span></p></div>
   <div class="pfilters" role="group" aria-label="Filtrar por lugar">
     <button class="chipbtn" data-rf="all" aria-pressed="true">Todos</button>
     <button class="chipbtn c-mn" data-rf="mn" aria-pressed="false"><i></i>Fergus Falls</button>
@@ -587,7 +592,7 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
 
 <!-- RESERVAS -->
 <section class="panel" id="reservas" role="tabpanel" hidden style="--c:var(--alert)">
-  <div class="panel-head"><h2>Reservas e pendências</h2><p>Marque o que já foi resolvido. A lista é a mesma para toda a família.</p></div>
+  <div class="panel-head"><h2>Reservas e pendências</h2><p class="rw">Marque o que já foi resolvido. A lista é a mesma para toda a família.</p><p class="roonly">O que ainda precisa ser reservado ou decidido, por prazo.</p></div>
   <div class="syncline" id="sync"><i></i><span>Salvando só neste aparelho até conectar.</span></div>
   <div class="progress" aria-hidden="true"><span id="prog" style="width:0"></span></div>
   <div class="tasks" id="tasks"></div>
@@ -595,7 +600,7 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
 
 <!-- ORÇAMENTO -->
 <section class="panel c-mt" id="orcamento" role="tabpanel" hidden>
-  <div class="panel-head"><h2>Orçamento estimado</h2><p>Valores iniciais são estimativas minhas; troquem pelos preços reais conforme reservarem (ficam salvos só no seu navegador). A linha de passeios soma o que a família marcou como “Queremos”.</p></div>
+  <div class="panel-head"><h2>Orçamento estimado</h2><p class="rw">Valores iniciais são estimativas minhas; troquem pelos preços reais conforme reservarem (ficam salvos só no seu navegador). A linha de passeios soma o que a família marcou como “Queremos”.</p><p class="roonly">Estimativas da viagem para 5 pessoas, em dólar, com o total em reais. Os valores ainda serão confirmados nas reservas.</p></div>
   <div class="budget">
     <div class="brows" id="brows"></div>
     <aside class="summary" aria-live="polite">
@@ -671,8 +676,8 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
   const $ = (s, r=document) => r.querySelector(s);
   const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
   const store = {
-    get(k, d){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
-    set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+    get(k, d){ if(window.RO && k!=="rw-tab" && k!=="rw-theme") return d; try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
+    set(k, v){ if(window.RO && k!=="rw-tab" && k!=="rw-theme") return; try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
   };
   (function(){
     const root = document.documentElement, btn = document.getElementById("themeBtn"), mq = matchMedia("(prefers-color-scheme: dark)");
@@ -1305,7 +1310,8 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
   const PH_STAY = {mn:"ff",jh:"jh",ys:"mt",mt:"mt"};
 
   /* ================= Shared state ================= */
-  let db = null, canWrite = true, assets = null;
+  let db = null, canWrite = !window.RO, assets = null;
+  if(window.RO){ document.documentElement.classList.add("ro"); $("#fx").readOnly = true; $$("#sync, #sync2").forEach(x => x.hidden = true); }
   let doneMap = store.get("rw-done", {}), picks = store.get("rw-picks", {}), stayPick = store.get("rw-stay", {}), favs = store.get("rw-favs", {});
   let photos = {};
 
@@ -1523,8 +1529,8 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
     BUD0.forEach((b,i) => {
       if(b.g!==g){ g=b.g; html += '<div class="bgroup c-'+b.c+'">'+esc(g)+'</div>'; }
       html += '<div class="brow"><span class="lab">'+esc(b.l)+'<small>'+esc(b.n)+'</small></span>'+
-        '<input type="number" min="0" step="5" id="bp-'+b.id+'" data-i="'+i+'" data-k="p" value="'+bud[i].p+'" aria-label="Preço de '+esc(b.l)+' em dólares">'+
-        '<input type="number" min="0" step="1" id="bq-'+b.id+'" data-i="'+i+'" data-k="q" value="'+bud[i].q+'" aria-label="Quantidade de '+esc(b.l)+'">'+
+        '<input type="number" min="0" step="5" id="bp-'+b.id+'" data-i="'+i+'" data-k="p" value="'+bud[i].p+'"'+(window.RO?' readonly':'')+' aria-label="Preço de '+esc(b.l)+' em dólares">'+
+        '<input type="number" min="0" step="1" id="bq-'+b.id+'" data-i="'+i+'" data-k="q" value="'+bud[i].q+'"'+(window.RO?' readonly':'')+' aria-label="Quantidade de '+esc(b.l)+'">'+
         '<span class="tot" id="bt-'+b.id+'"></span></div>';
     });
     html += '<div class="bgroup c-ys">Parques e passeios</div>';
