@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#f6f3ec">
 <title>Viagem EUA 2027</title>
+<script>try{var t=JSON.parse(localStorage.getItem("rw-theme")||"null");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,6 +74,15 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .topbar .wrap{display:flex;align-items:center;gap:14px;min-height:54px}
 .brand{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:700;font-size:18px;white-space:nowrap}
 .brand svg{width:34px;height:20px;flex:none}
+.themebtn{flex:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);display:grid;place-items:center;cursor:pointer;padding:0;position:relative;overflow:hidden;transition:background-color .2s,border-color .2s,transform .2s}
+.themebtn:hover{border-color:var(--muted);transform:rotate(-8deg)}
+.themebtn:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
+.themebtn svg{width:20px;height:20px;grid-area:1/1;transition:transform .45s cubic-bezier(.3,1.4,.5,1),opacity .3s}
+.themebtn .moon{transform:rotate(-90deg) scale(.4);opacity:0}
+.isdark .themebtn .sunI{transform:rotate(90deg) scale(.4);opacity:0}
+.isdark .themebtn .moon{transform:none;opacity:1}
+html.themefade, html.themefade *{transition:background-color .4s ease,color .4s ease,border-color .4s ease,fill .4s ease,stroke .4s ease !important}
+@media (prefers-reduced-motion:reduce){.themebtn svg{transition:none}}
 .tabslider{position:relative;flex:1;min-width:0;display:flex;align-items:stretch}
 .tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0;position:relative;scroll-behavior:smooth;scroll-snap-type:x proximity}
 .tabs button{scroll-snap-align:center}
@@ -418,6 +428,7 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
     </nav>
     <button class="tabarrow r" id="tabR" aria-label="Próximas abas" hidden>›</button>
     </div>
+    <button class="themebtn" id="themeBtn" type="button" aria-label="Trocar para modo escuro" title="Modo claro / escuro"><svg class="sunI" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.3 14.6A8.5 8.5 0 0 1 9.4 3.7a8.5 8.5 0 1 0 10.9 10.9z"/></svg></button>
   </div>
 </header>
 
@@ -655,6 +666,17 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
     get(k, d){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
     set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
   };
+  (function(){
+    const root = document.documentElement, btn = document.getElementById("themeBtn"), mq = matchMedia("(prefers-color-scheme: dark)");
+    const isDark = () => { const t = root.getAttribute("data-theme"); return t ? t==="dark" : mq.matches; };
+    const sync = () => { const d = isDark(); root.classList.toggle("isdark", d); btn.setAttribute("aria-label", d ? "Trocar para modo claro" : "Trocar para modo escuro"); const m = document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute("content", getComputedStyle(document.body).backgroundColor); };
+    btn.addEventListener("click", () => {
+      const next = isDark() ? "light" : "dark";
+      root.classList.add("themefade"); root.setAttribute("data-theme", next); store.set("rw-theme", next); sync();
+      clearTimeout(btn._t); btn._t = setTimeout(() => root.classList.remove("themefade"), 450);
+    });
+    mq.addEventListener && mq.addEventListener("change", sync); sync();
+  })();
   const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
   const TBC = '<span class="tbc">A CONFIRMAR</span>';
   const usd = v => "US$ " + Math.round(v).toLocaleString("pt-BR");
