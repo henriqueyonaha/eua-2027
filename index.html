@@ -1480,7 +1480,7 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
     {id:"ideias",w:"soon",wl:"Até nov/2026",t:"Decidir as ideias de passeio",d:"Rodeio, flutuação, coaster, bondinho, Hayden Valley."},
     {id:"passagens",w:"soon",wl:"Até jan/2027",t:"Comprar passagens: Brasil → Minneapolis e Jackson → Brasil (08/06)",d:"Comparar as opções A, B e C da aba Infos."},
     {id:"voo-jac",w:"soon",wl:"Até jan/2027",t:"Comprar voo Minneapolis → Jackson (31/05)",d:"Delta direto, ~2h30. É Memorial Day: comprar cedo."},
-    {id:"carros",w:"later",wl:"Até mar/2027",t:"Reservar carros: retirar e devolver em MSP (25 a 31/05) e em Jackson (31/05 a 08/06)",d:"Retirar e devolver no mesmo aeroporto evita a taxa de devolução em outra cidade. SUV para 5 com malas."},
+    {id:"carros",w:"later",wl:"Até mar/2027",t:"Reservar carros: retirar e devolver em MSP (25 a 31/05) e em Jackson (31/05 a 08/06)",d:"Retirar e devolver no mesmo aeroporto evita a taxa de devolução em outra cidade. Categoria Premium/Large SUV estendido (Suburban ou Expedition MAX) para 5 pessoas e 6 malas grandes: com a 3ª fileira rebatida cabe tudo. Na retirada, conferir se a 2ª fileira é inteiriça (3 lugares) e se é 4x4."},
     {id:"chico-jantar",w:"later",wl:"Até mai/2027",t:"Reservar o jantar comemorativo em Fergus Falls (30/05)",d:"E o jantar de despedida em Jackson (07/06)."},
     {id:"passeios-res",w:"later",wl:"Até abr/2027",t:"Comprar os passeios pagos escolhidos",d:"Flutuação tem vagas limitadas; rodeio e Snow King compram online."},
     {id:"passe",w:"later",wl:"Antes da viagem",t:"Comprar o passe anual para não residentes (US$ 250)",d:"Cobre todos no mesmo carro (NPS). Comprar online no Recreation.gov ou na primeira entrada, em Grand Teton."}
@@ -1510,11 +1510,11 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
     {g:"Hospedagem",c:"mt",id:"gl",l:"Cabana em Island Park (Airbnb)",n:"nossa parte: 5 de 9 pessoas, ~R$ 13,3 mil (total de R$ 24 mil pelas 4 noites)",p:2424,q:1},
     {g:"Transporte",c:"sky",id:"intl",l:"Voo Brasil → MSP + JAC → Brasil",n:"multidestino, por pessoa (estimativa out/2026)",p:1500,q:4},
     {g:"Transporte",c:"sky",id:"fl",l:"Voo MSP → JAC",n:"só ida, por pessoa",p:250,q:5},
-    {g:"Transporte",c:"sky",id:"c1",l:"Carro em Minneapolis",n:"minivan, retira e devolve em MSP, por dia",p:80,q:6},
-    {g:"Transporte",c:"sky",id:"c2",l:"Carro em Jackson",n:"SUV, retira e devolve em JAC, por dia",p:120,q:8},
-    {g:"Transporte",c:"sky",id:"gas",l:"Combustível",n:"total estimado",p:300,q:1}
+    {g:"Transporte",c:"sky",id:"c1",l:"Carro em Minneapolis",n:"SUV grande estendido (Suburban ou Expedition MAX), retira e devolve em MSP, por dia (estimativa)",p:160,q:6},
+    {g:"Transporte",c:"sky",id:"c2",l:"Carro em Jackson",n:"SUV grande estendido 4x4 (Suburban ou Expedition MAX), retira e devolve em JAC, por dia (estimativa junho)",p:220,q:8},
+    {g:"Transporte",c:"sky",id:"gas",l:"Combustível",n:"total estimado, ~2.000 km com SUV grande",p:350,q:1}
   ];
-  let bud = store.get("rw-bud12", null);
+  let bud = store.get("rw-bud13", null);
   if(!Array.isArray(bud) || bud.length!==BUD0.length) bud = BUD0.map(b => ({p:b.p,q:b.q}));
   let feeMode = store.get("rw-fee","pass"), fx = store.get("rw-fx", 5.5);
   $("#fx").value = fx;
@@ -1547,11 +1547,11 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
     $("#tBrl").textContent = "R$ " + Math.round(t*(+fx||0)).toLocaleString("pt-BR");
     $("#feePass").setAttribute("aria-pressed", String(feeMode==="pass")); $("#feeSur").setAttribute("aria-pressed", String(feeMode!=="pass"));
   }
-  $("#brows").addEventListener("input", e => { const i = e.target.dataset.i; if(i===undefined) return; bud[i][e.target.dataset.k] = e.target.value===""?0:+e.target.value; store.set("rw-bud12", bud); calc(); });
+  $("#brows").addEventListener("input", e => { const i = e.target.dataset.i; if(i===undefined) return; bud[i][e.target.dataset.k] = e.target.value===""?0:+e.target.value; store.set("rw-bud13", bud); calc(); });
   $("#fx").addEventListener("input", e => { fx = +e.target.value; store.set("rw-fx", fx); calc(); });
   $("#feePass").addEventListener("click", () => { feeMode="pass"; store.set("rw-fee",feeMode); calc(); });
   $("#feeSur").addEventListener("click", () => { feeMode="sur"; store.set("rw-fee",feeMode); calc(); });
-  $("#resetBudget").addEventListener("click", () => { bud = BUD0.map(b => ({p:b.p,q:b.q})); fx=5.5; $("#fx").value=fx; store.set("rw-bud12",bud); store.set("rw-fx",fx); renderBudRows(); calc(); });
+  $("#resetBudget").addEventListener("click", () => { bud = BUD0.map(b => ({p:b.p,q:b.q})); fx=5.5; $("#fx").value=fx; store.set("rw-bud13",bud); store.set("rw-fx",fx); renderBudRows(); calc(); });
 
   /* ================= Sources ================= */
   const SRC = [
