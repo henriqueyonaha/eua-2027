@@ -156,7 +156,15 @@ h3.sec small{font-family:var(--font-body);font-size:13px;color:var(--muted);font
 
 /* Weather */
 .weather{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
-.wx{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;display:grid;gap:6px;border-top:4px solid var(--c)}
+.wx{perspective:900px;cursor:pointer;border-radius:var(--radius)}
+.wxpin{display:grid;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.3,.7,.2,1);height:100%}
+.wx.flipped .wxpin{transform:rotateY(180deg)}
+.wxf,.wxb{grid-area:1/1;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;display:grid;gap:6px;align-content:start;border-top:4px solid var(--c);backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.wxb{transform:rotateY(180deg);align-content:space-between}
+.wxb ul{margin:0;padding:0;list-style:none;display:grid;gap:5px;font-size:12.5px;line-height:1.35}
+.wxflip{justify-self:start;margin-top:2px;border:1.5px solid var(--c);background:var(--surface);color:var(--c);border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;cursor:pointer;transition:background-color .18s,color .18s}
+.wxflip:hover{background:var(--c);color:var(--surface)}
+@media (prefers-reduced-motion:reduce){.wxpin{transition:none}}
 .wx .pl{font-weight:600;font-size:14px}
 .wx .when{font-size:11.5px;color:var(--muted)}
 .wx .t{display:flex;align-items:baseline;gap:8px;font-family:var(--font-display);font-weight:700}
@@ -688,21 +696,29 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
 
   /* ================= Weather ================= */
   const WX = [
-    {pl:"Minneapolis",w:"25 e 31/05",hi:26,lo:16,c:"mn"},
-    {pl:"Fergus Falls",w:"25 a 30/05",hi:25,lo:14,c:"mn"},
-    {pl:"Jackson",w:"31/05 a 02/06 e 07/06",hi:21,lo:3,c:"jh"},
-    {pl:"Grand Teton (Moran)",w:"01 e 02/06",hi:19,lo:3,c:"jh"},
-    {pl:"Old Faithful",w:"03 e 06/06",hi:18,lo:2,c:"ys"},
-    {pl:"Canyon e Mammoth",w:"04 e 06/06",hi:17,lo:0,c:"ys"},
-    {pl:"Island Park",w:"03 a 06/06",hi:19,lo:0,c:"mt"}
+    {pl:"Minneapolis",cl:["👕 Camiseta e calça leve ou bermuda","🧥 Casaco leve para a noite e o avião","🕶️ Óculos de sol"],w:"25 e 31/05",hi:26,lo:16,c:"mn"},
+    {pl:"Fergus Falls",cl:["👕 Camiseta e jeans durante o dia","🧥 Moletom ou casaco leve à noite","👔 Roupa social para o jantar dos pais e a formatura","🦟 Repelente: mosquitos perto dos lagos"],w:"25 a 30/05",hi:25,lo:14,c:"mn"},
+    {pl:"Jackson",cl:["👚 Camadas: camiseta, fleece e corta-vento","🌧️ Jaqueta impermeável: chuva rápida à tarde","🧣 Casaco quente e gorro para o rodeio à noite","👟 Tênis confortável para andar no centro"],w:"31/05 a 02/06 e 07/06",hi:21,lo:3,c:"jh"},
+    {pl:"Grand Teton (Moran)",cl:["👚 Camadas para tirar ao longo do dia","💨 Corta-vento no barco do Jenny Lake","🥾 Tênis de trilha para Hidden Falls","🧢 Boné e protetor solar: sol forte na altitude"],w:"01 e 02/06",hi:19,lo:3,c:"jh"},
+    {pl:"Old Faithful",cl:["🧥 Casaco e gorro de manhã cedo","👟 Calçado fechado nas passarelas","🌧️ Capa de chuva na mochila","🧴 Protetor solar e água"],w:"03 e 06/06",hi:18,lo:2,c:"ys"},
+    {pl:"Canyon e Mammoth",cl:["🥶 O lugar mais frio da viagem: perto de 0 °C de manhã","🧤 Casaco quente, luvas e gorro","👚 Camadas para tirar à tarde","🔭 Binóculo para os bisões"],w:"04 e 06/06",hi:17,lo:0,c:"ys"},
+    {pl:"Island Park",cl:["🌙 Noites perto de 0 °C: pijama quente e meias grossas","🩱 Roupa de banho para a banheira quente e a sauna","🩴 Chinelo para a cabana","🧥 Casaco para ficar na varanda à noite"],w:"03 a 06/06",hi:19,lo:0,c:"mt"}
   ];
   $("#weather").innerHTML = WX.map(x => {
     const left = Math.max(0,(x.lo+2)/32*100), width = Math.max(4,(x.hi-x.lo)/32*100);
-    return '<div class="wx c-'+x.c+'"><span class="pl">'+esc(x.pl)+'</span><span class="when">'+esc(x.w)+'</span>'+
+    return '<div class="wx c-'+x.c+'"><div class="wxpin"><div class="wxf"><span class="pl">'+esc(x.pl)+'</span><span class="when">'+esc(x.w)+'</span>'+
       '<div class="t"><span class="hi">'+x.hi+'°</span><span class="lo">'+x.lo+'°</span></div>'+
       '<div class="bar" aria-hidden="true"><span style="left:'+left+'%;width:'+width+'%"></span></div>'+
-      '<span class="when">máx. / mín. em °C</span></div>';
+      '<span class="when">máx. / mín. em °C</span><button class="wxflip" type="button" aria-label="Ver o que vestir em '+esc(x.pl)+'">👕 O que vestir</button></div>'+
+      '<div class="wxb" aria-hidden="true"><span class="pl">O que vestir</span><span class="when">'+esc(x.pl)+' · '+x.lo+'° a '+x.hi+'°</span><ul>'+x.cl.map(i => '<li>'+esc(i)+'</li>').join("")+'</ul><button class="wxflip" type="button" tabindex="-1" aria-label="Voltar para a temperatura">↻ Voltar</button></div></div></div>';
   }).join("");
+  $("#weather").addEventListener("click", e => {
+    const card = e.target.closest(".wx"); if(!card) return;
+    const on = !card.classList.contains("flipped"); card.classList.toggle("flipped", on);
+    card.querySelector(".wxf").setAttribute("aria-hidden", String(on)); card.querySelector(".wxb").setAttribute("aria-hidden", String(!on));
+    card.querySelectorAll(".wxf .wxflip").forEach(b => b.tabIndex = on ? -1 : 0); card.querySelectorAll(".wxb .wxflip").forEach(b => b.tabIndex = on ? 0 : -1);
+    if(e.target.closest(".wxflip")) setTimeout(() => { const b = card.querySelector((on ? ".wxb" : ".wxf") + " .wxflip"); if(b) b.focus({preventScroll:true}); }, 300);
+  });
 
   /* ================= Map ================= */
   const STATES = {
