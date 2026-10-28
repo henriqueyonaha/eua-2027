@@ -85,7 +85,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 html.themefade, html.themefade *{transition:background-color .4s ease,color .4s ease,border-color .4s ease,fill .4s ease,stroke .4s ease !important}
 @media (prefers-reduced-motion:reduce){.themebtn svg{transition:none}}
 .roonly{display:none}.ro .roonly{display:block}.ro .rw{display:none}
-.ro .choose,.ro .want,.ro .fav,.ro .ups,.ro #resetBudget,.ro .task input{display:none!important}
+.ro .opt:not(.chosen) .choose{display:none}.ro .choose{pointer-events:none}
+.ro .want,.ro .fav,.ro .ups,.ro #resetBudget,.ro .task input{display:none!important}
 .ro .brow input,.ro #fx{border-color:transparent;background:transparent;pointer-events:none;-moz-appearance:textfield}
 .ro .brow input::-webkit-inner-spin-button,.ro #fx::-webkit-inner-spin-button{display:none}
 .tabslider{position:relative;flex:1;min-width:0;display:flex;align-items:stretch}
@@ -1306,7 +1307,7 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
       {id:"wander",tag:"b",tl:"Mais simples",n:"Wander Camp Yellowstone",tp:"Bell tents num rancho em Island Park, Idaho",price:"~US$ 144",ps:"média por tenda/noite (Up & Away, 2025)",cap:"até 3 por tenda: precisa de 2 tendas para 5",bk:"Hotels.com ou Airbnb",pro:["Aquecedor a propano opcional (US$ 20/noite)","Restaurante simples no local"],con:["2 tendas: sai parecido com o Starlight","Sem eletricidade; levar toalha","Banheiro coletivo, água não potável"],links:[["Ver fotos",gimg("Wander Camp Yellowstone bell tent")],["Hotels.com","https://www.hotels.com/ho1969162240/wander-camp-yellowstone-island-park-united-states-of-america/"]]},
     ]}
   ];
-  const STAY_DEFAULT = {ff:"casa",jh:"elkcountry",mt:"bisoncreek"};
+  const STAY_DEFAULT = {ff:"americinn",jh:"elkcountry",mt:"bisoncreek"};
   const PH_STAY = {mn:"ff",jh:"jh",ys:"mt",mt:"mt"};
 
   /* ================= Shared state ================= */
