@@ -135,6 +135,12 @@ h3.sec small{font-family:var(--font-body);font-size:13px;color:var(--muted);font
 .stats>div{background:var(--surface);padding:12px 14px;border-top:4px solid var(--c)}
 .stats .v{font-family:var(--font-display);font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--c)}
 .stats .k{font-size:12px;color:var(--muted)}
+.cd{display:flex;gap:6px;margin-top:6px;font-size:12px;color:var(--muted)}
+.cd span{background:var(--sky-soft);border-radius:6px;padding:2px 6px}
+.cd b{font-weight:600;color:var(--sky);display:inline-block;min-width:2ch;text-align:right}
+.cd b.tk{animation:cdtk .45s ease-out}
+@keyframes cdtk{from{opacity:.25;transform:translateY(-3px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.cd b.tk{animation:none}}
 @media (max-width:620px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /* Overview: phases */
@@ -496,7 +502,7 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
       <defs><linearGradient id="bshadeG" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".22"/><stop offset=".42" stop-color="#000" stop-opacity="0"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".1"/></linearGradient></defs><g id="herd"></g><g id="family"></g>
     <g id="nightTerrain" opacity="0" fill="#0b1630"><polygon points="0,120 70,92 130,104 210,70 260,86 300,60 360,98 420,84 470,104 540,78 600,96 660,74 720,100 800,82 880,104 960,90 960,170 0,170"/><polygon points="0,150 90,118 170,128 240,96 300,112 350,70 380,38 400,18 418,44 432,30 452,62 478,52 500,82 540,74 590,112 650,104 720,124 800,110 870,128 960,116 960,170 0,170"/></g><clipPath id="skyClip"><polygon points="0,0 960,0 960,90 880,104 800,82 720,100 660,74 600,96 540,78 470,104 420,84 360,98 300,60 260,86 210,70 130,104 70,92 0,120"/></clipPath><g clip-path="url(#skyClip)"><g id="moonG" transform="translate(230 200)"><circle r="44" fill="#f6efd9" opacity=".12"/><circle r="22" fill="#f6efd9"/><circle cx="-7" cy="-5" r="4" fill="#ddd2b3"/><circle cx="6" cy="6" r="5" fill="#ddd2b3"/><circle cx="8" cy="-8" r="2.5" fill="#ddd2b3"/></g></g></svg>
     <div class="stats">
-      <div class="c-sky"><div class="v mono" id="countdown">–</div><div class="k">dias até o embarque</div></div>
+      <div class="c-sky cdbox"><div class="v mono" id="countdown">–</div><div class="k">dias até o embarque</div><div class="cd mono" id="cdHms" aria-hidden="true"><span><b id="cdH">00</b>h</span><span><b id="cdM">00</b>m</span><span><b id="cdS">00</b>s</span></div></div>
       <div class="c-mn"><div class="v">14</div><div class="k">noites nos EUA</div></div>
       <div class="c-ys"><div class="v">2</div><div class="k">parques nacionais: Grand Teton e Yellowstone</div></div>
       <div class="c-mt"><div class="v">4</div><div class="k">estados: Minnesota, Wyoming, Idaho e Montana</div></div>
@@ -805,7 +811,16 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
   const gmap = q => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
   const gdir = (o, d, w) => "https://www.google.com/maps/dir/?api=1&origin=" + encodeURIComponent(o) + "&destination=" + encodeURIComponent(d) + (w ? "&waypoints=" + encodeURIComponent(w) : "") + "&travelmode=driving";
 
-  $("#countdown").textContent = Math.max(0, Math.ceil((new Date(2027,4,25) - new Date()) / 86400000));
+  (function(){
+    const T = new Date(2027,4,25).getTime(), p2 = n => String(n).padStart(2,"0");
+    const tick = () => {
+      let r = Math.max(0, Math.floor((T - Date.now())/1000));
+      const d = Math.floor(r/86400); r -= d*86400; const h = Math.floor(r/3600); r -= h*3600; const m = Math.floor(r/60), sec = r - m*60;
+      $("#countdown").textContent = d; $("#cdH").textContent = p2(h); $("#cdM").textContent = p2(m);
+      const S = $("#cdS"); S.textContent = p2(sec); S.classList.remove("tk"); void S.offsetWidth; S.classList.add("tk");
+    };
+    tick(); setInterval(tick, 1000);
+  })();
 
   /* ================= Weather ================= */
   const WX = [
