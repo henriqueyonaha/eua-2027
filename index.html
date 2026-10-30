@@ -404,6 +404,33 @@ details.tips ul{margin:6px 0 0;padding-left:18px;font-size:13.5px}
 .reset{background:none;border:1px solid var(--line);border-radius:6px;padding:5px 10px;font-size:12.5px;cursor:pointer;justify-self:start}
 
 /* Infos */
+.isub{margin:0 0 18px}
+.isub button{font-size:14px;padding:8px 14px}
+#isub-geral,#isub-host{display:grid;gap:18px}
+#isub-geral[hidden],#isub-host[hidden]{display:none}
+.isubin{animation:isubin .32s ease both}
+@keyframes isubin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.hostintro{display:flex;gap:14px;align-items:center;background:var(--mt-soft);border-radius:var(--radius);padding:16px}
+.hostintro h3{font-size:20px;font-weight:600}.hostintro p{margin:2px 0 0;font-size:14px;color:var(--muted)}
+.hostic{font-size:32px;flex:none}
+.htxt{margin:0;font-size:14px}
+.hlist{list-style:none;counter-reset:h;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.hlist li{counter-increment:h;position:relative;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px 12px 46px;display:flex;flex-direction:column;gap:4px;font-size:14px}
+.hlist li::before{content:counter(h);position:absolute;left:12px;top:12px;width:24px;height:24px;border-radius:50%;background:var(--c,var(--ink));color:var(--surface);font-weight:700;font-size:12px;display:grid;place-items:center}
+.hlist b{font-size:15px}.hlist span{color:var(--muted);line-height:1.45}.hlist em{font-style:normal;align-self:flex-start;margin-top:2px}
+#isub-host .hlist:first-of-type{--c:var(--ys)}
+#isub-host .hlist:last-of-type{--c:var(--mt)}
+.hdays{display:grid;gap:8px}
+.hdays details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:0 14px}
+.hdays summary{cursor:pointer;padding:12px 0;font-size:15px;list-style:none;display:flex;gap:10px;align-items:center}
+.hdays summary::-webkit-details-marker{display:none}
+.hdays summary::after{content:"›";margin-left:auto;font-size:20px;color:var(--muted);transition:transform .2s}
+.hdays details[open] summary::after{transform:rotate(90deg)}
+.hdays summary b{color:var(--mt)}
+.hdays ul{margin:0 0 12px;padding-left:18px;font-size:14px;display:grid;gap:4px}
+.hostlink{margin-top:4px;border:1px solid var(--c);color:var(--c);background:transparent;border-radius:10px;padding:9px 12px;font-weight:600;font-size:14px;cursor:pointer;transition:background-color .18s,color .18s}
+.hostlink:hover{background:var(--c);color:var(--surface)}
+.stay-head .pill{margin-left:8px;vertical-align:middle}
 .cards2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
 .box{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;display:grid;gap:8px;align-content:start;border-top:4px solid var(--c,var(--line))}
 .box h4{font-size:17px;font-weight:600}
@@ -624,7 +651,12 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
 
 <!-- INFOS -->
 <section class="panel" id="infos" role="tabpanel" hidden style="--c:var(--muted)">
-  <div class="panel-head"><h2>Informações úteis</h2><p>Volta para o Brasil, documentos, segurança nos parques e as fontes de tudo.</p></div>
+  <div class="panel-head"><h2>Informações úteis</h2><p>Volta para o Brasil, documentos, segurança nos parques, as dicas do anfitrião da cabana e as fontes de tudo.</p></div>
+  <div class="pseg isub" role="tablist" aria-label="Infos">
+    <button role="tab" data-isub="geral" aria-pressed="true" aria-selected="true">Geral</button>
+    <button role="tab" data-isub="host" aria-pressed="false" aria-selected="false">🏡 Dicas do host da cabana</button>
+  </div>
+  <div id="isub-geral">
   <h3 class="sec">Volta para o Brasil <small>roteiro supõe 08/06 saindo de Jackson</small></h3>
   <div class="tablewrap">
     <table>
@@ -666,6 +698,80 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
   </div>
   <h3 class="sec">Fontes <small>consultadas em 23/10/2026</small></h3>
   <ul class="sources" id="sources"></ul>
+  </div>
+  <div id="isub-host" hidden>
+    <div class="hostintro">
+      <span class="hostic" aria-hidden="true">🏡</span>
+      <div><h3>Dicas do anfitrião do Bison Creek Lodge</h3><p>O que o dono da cabana recomenda em Yellowstone e em Island Park, organizado por tema. O selo verde mostra o que já está no nosso roteiro.</p></div>
+    </div>
+    <div class="cards2">
+      <div class="box c-jh"><h4>🚓 Cuidado com a velocidade</h4><p class="htxt">Na rodovia 20, de Island Park até a entrada de Yellowstone, tem muita fiscalização de velocidade.</p></div>
+      <div class="box c-sky"><h4>🎟️ Entrada no parque</h4><p class="htxt">O passe é vendido na entrada e vem com um mapa muito bom. O anfitrião fala em ~US$ 30 por semana, mas esse é o valor antigo: para nós, estrangeiros, vale o passe anual de US$ 250 (veja <a href="#" data-isub-go="geral">Documentos e taxas</a>).</p></div>
+      <div class="box c-mn"><h4>⏰ Dicas gerais</h4><ul><li>Começar cedo, entre 6h e 7h, para ver mais animais.</li><li>Baixar mapas offline: quase não tem sinal.</li><li>Levar lanche, água e roupa em camadas: o tempo muda rápido.</li></ul></div>
+    </div>
+
+    <h3 class="sec">Yellowstone <small>os favoritos do anfitrião</small></h3>
+    <ol class="hlist">
+      <li><b>Upper Geyser Basin e Old Faithful</b><span>Um dos lugares mais agradáveis, perto da entrada oeste. O Old Faithful entra em erupção mais ou menos a cada hora: confira os horários em <a href="https://geysertimes.org" target="_blank" rel="noopener">geysertimes.org</a>.</span><em class="pill rec">No roteiro · 03/06</em></li>
+      <li><b>Fountain Paint Pots</b><span>A primeira parada no caminho para o Old Faithful: piscinas de lama borbulhando.</span><em class="pill out">Dá para encaixar no 03/06</em></li>
+      <li><b>Grand Prismatic Spring</b><span>Vem antes do Old Faithful. Passando o estacionamento principal, há um menor (Fairy Falls) de onde uma trilha de ~2,4 km leva ao mirante de cima. Lindo.</span><em class="pill rec">No roteiro · 03 e 06/06</em></li>
+      <li><b>Norris Geyser Basin</b><span>“De tirar o fôlego”. Tem o Steamboat, o gêiser ativo mais alto do mundo.</span><em class="pill out">No caminho de Mammoth</em></li>
+      <li><b>Grand Canyon of the Yellowstone</b><span>Tem uma trilha que vai direto até o topo das cachoeiras. Se der para tentar, vale muito.</span><em class="pill rec">No roteiro · 04/06</em></li>
+      <li><b>Lamar Valley</b><span>Para ver animais e bisões, embora vocês provavelmente vejam bisões antes de chegar lá.</span><em class="pill out">Fora do roteiro</em></li>
+      <li><b>Mammoth Hot Springs</b><span>Lindo e imperdível. Ótimo para um piquenique nos bancos.</span><em class="pill rec">No roteiro · 06/06</em></li>
+      <li><b>Artist Point</b><span>Muito bonito. Com sorte, aparecem arco-íris na cachoeira.</span><em class="pill rec">No roteiro · 04/06</em></li>
+      <li><b>Cachoeiras do rio Yellowstone</b><span>Também tem trilha que leva bem para cima das quedas.</span><em class="pill rec">No roteiro · 04/06</em></li>
+      <li><b>Yellowstone Lake</b><span>Sentar na margem do maior lago de alta altitude dos EUA continental.</span></li>
+      <li><b>Hayden Valley</b><span>Muito bonito e geralmente cheio de animais. “Eu iria com certeza.”</span><em class="pill rec">No roteiro · 04/06</em></li>
+      <li><b>Tower Fall</b><span>Cachoeira com caminhada curta.</span></li>
+      <li><b>Mount Washburn</b><span>Para quem quer uma trilha puxada: o cume fica a ~3.000 m, a ~30 km ao norte do lago.</span></li>
+      <li><b>Piquenique no parque</b><span>Experiência ótima e relaxante. O favorito dele: Nez Perce Ford Picnic Area, escondido em Hayden Valley.</span><em class="pill out">Ideia para 04/06</em></li>
+      <li><b>Junior Ranger</b><span>Programa de guarda-florestal mirim nas estações dos rangers, para crianças.</span></li>
+    </ol>
+
+    <h3 class="sec">Island Park <small>perto da cabana</small></h3>
+    <ol class="hlist">
+      <li><b>Céu estrelado</b><span>Ficar acordado até tarde para ver constelações, a Via Láctea e as crateras da lua.</span><em class="pill out">Na cabana</em></li>
+      <li><b>Bote, canoa ou caiaque no Henry’s Fork</b><span>Aluguel no Mack’s Inn. No verão, chegar cedo para não esperar.</span></li>
+      <li><b>Mesa Falls Scenic Byway</b><span>Circuito por Upper e Lower Mesa Falls até Ashton. A Upper Mesa Falls é a mais bonita, com centro de visitantes e escadas até a beira. Em Warm River dá para alimentar os peixes.</span><em class="pill rec">No roteiro · 07/06</em></li>
+      <li><b>Cavalgada</b><span>Ele sugere o <a href="https://www.google.com/maps/search/?api=1&query=Diamond+P+Ranch+Island+Park+ID" target="_blank" rel="noopener">Diamond P Ranch</a>.</span></li>
+      <li><b>Big Springs e a cabana de Johnny Sack</b><span>A leste do Mack’s Inn, a nascente do rio. Dá para alimentar as trutas e ver a cabana que Johnny Sack construiu sozinho, à mão.</span><em class="pill out">Perto da cabana</em></li>
+      <li><b>Mack’s Inn Playhouse</b><span>Jantar com show. Muito disputado: reservar com bastante antecedência.</span><em class="pill idea">Ideia para 05/06</em></li>
+      <li><b>Trilhas</b><span>Targhee Creek Trail: ~5 km fáceis por um cânion com prado e floresta. Trout Lake (em Yellowstone, perto de Cooke City): ~800 m de subida íngreme até um lago tranquilo.</span></li>
+      <li><b>Harriman State Park</b><span>Reserva enorme com trilhas, cavalgada, pesca e muitos animais.</span></li>
+      <li><b>Henrys Lake State Park</b><span>Trilhas, pesca e passeio de barco, ao lado da cabana.</span><em class="pill out">Perto da cabana</em></li>
+      <li><b>Rafting no Snake River (Jackson)</b><span>Ele recomenda a <a href="https://mad-river.com" target="_blank" rel="noopener">Mad River Outfitters</a>. Em Jackson: cerveja no Million Dollar Cowboy Bar e almoço no Merry Piglets (mexicano) ou no Mangy Moose, em Teton Village.</span></li>
+      <li><b>Circuito do Quake Lake</b><span>Pela rodovia 87 ao norte, passando pelo Henry’s Lake, até a 287 em Montana: o Earthquake Lake, formado quando um terremoto derrubou parte de uma montanha no rio Madison. Volta pelo Hebgen Lake até West Yellowstone.</span></li>
+    </ol>
+
+    <h3 class="sec">Roteiro de 5 dias sugerido por ele <small>para comparar com o nosso</small></h3>
+    <div class="hdays">
+      <details><summary><b>Dia 1</b> Gêiseres e fontes termais</summary><ul>
+        <li><b>Manhã:</b> entrada oeste, Fountain Paint Pot (30 min), Grand Prismatic (1h, pela passarela ou pelo mirante de Fairy Falls), Old Faithful e Upper Geyser Basin (2h).</li>
+        <li><b>Almoço:</b> Old Faithful Inn ou piquenique.</li>
+        <li><b>Tarde:</b> West Thumb (30 min), Hayden Valley (1h), Grand Canyon e Artist Point (1h30).</li>
+        <li><b>Noite:</b> pôr do sol no Yellowstone Lake.</li></ul></details>
+      <details><summary><b>Dia 2</b> Animais e vistas: Lamar e Mammoth</summary><ul>
+        <li><b>Manhã:</b> Lamar Valley bem cedo (2h) para ver lobos, ursos e bisões, e Tower Fall (30 min).</li>
+        <li><b>Almoço:</b> em Mammoth ou piquenique.</li>
+        <li><b>Tarde:</b> terraços de Mammoth Hot Springs (1h30) e Roosevelt Arch (30 min).</li>
+        <li><b>Noite:</b> Mammoth ou Gardiner, Montana.</li></ul></details>
+      <details><summary><b>Dia 3</b> Norris e lugares escondidos</summary><ul>
+        <li><b>Manhã:</b> Norris Geyser Basin (1h30) e Obsidian Cliff (15 min).</li>
+        <li><b>Almoço:</b> piquenique em Norris ou Canyon Village.</li>
+        <li><b>Tarde:</b> Virginia Cascade Drive (30 min) e Firehole Canyon Drive (1h, cachoeiras e banho de rio).</li>
+        <li><b>Noite:</b> pôr do sol em Gibbon Falls.</li></ul></details>
+      <details><summary><b>Dia 4</b> Beartooth Highway</summary><ul>
+        <li><b>Manhã:</b> Beartooth Highway (3 a 4h ida e volta), uma das estradas mais bonitas dos EUA. Trilhas: Clarks Fork (moderada) ou Beartooth Lake (fácil).</li>
+        <li><b>Almoço:</b> Red Lodge ou Cooke City, Montana.</li>
+        <li><b>Tarde:</b> Petrified Tree (15 min) e Slough Creek (1 a 2h).</li>
+        <li><b>Noite:</b> Roosevelt Lodge ou Cooke City.</li></ul></details>
+      <details><summary><b>Dia 5</b> Lago e despedida</summary><ul>
+        <li><b>Manhã:</b> passeio pelo Yellowstone Lake (1 a 2h) e trilha Storm Point (fácil, 1h).</li>
+        <li><b>Almoço:</b> Lake Yellowstone Hotel ou piquenique.</li>
+        <li><b>Tarde:</b> última volta por Hayden Valley. Se der tempo: Mud Volcano e Artist Paint Pots (30 min cada).</li></ul></details>
+    </div>
+  </div>
 </section>
 
 </div>
@@ -1288,8 +1394,8 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
       {id:"cowboy",tag:"b",tl:"5 numa cabana com cozinha",n:"Cowboy Village Resort",tp:"Cabanas de madeira, 120 S Flat Creek Dr, ~8 min a pé da praça",price:"a partir de ~US$ 279",ps:"referência por noite (Kayak, out/2026); junho A CONFIRMAR",cap:"Cabana Deluxe para 5 (2 queens + sofá-cama) ou Grand Teton Deluxe para 6",bk:"Agora: junho é alta temporada e o centro lota",pro:["Nota 9,2/10 em 5.202 avaliações (Expedia)","Uma cabana só para os 5, com cozinha compacta em várias","Piscina coberta e banheira quente"],con:["Café da manhã não incluído"],links:[["Ver no Expedia","https://www.expedia.com/Jackson-Hole-Hotels-Cowboy-Village-Resort.h894154.Hotel-Information"],["Mapa","https://www.google.com/maps/search/?api=1&query=Cowboy%20Village%20Resort%2C%20120%20S%20Flat%20Creek%20Dr%2C%20Jackson%2C%20WY"],["Ver fotos",gimg("Cowboy Village Resort Jackson WY")]]},
       {id:"fortyniner",tag:"b",tl:"No centro",n:"49'er Inn & Suites",tp:"Hotel, 330 W Pearl St, ~400 m da praça",price:"a partir de ~US$ 275",ps:"referência por noite (Kayak, out/2026); junho A CONFIRMAR",cap:"Suítes com cozinha compacta; confirmar para 5",bk:"Agora: junho é alta temporada e o centro lota",pro:["Nota 8,2/10 em 2.183 avaliações","A pé da praça e dos restaurantes","Banheira quente"],con:["Quartos mais antigos"],links:[["Ver no Kayak","https://www.kayak.com/Jackson-Hole-Valley-Hotels.f2002593.dr.html"],["Mapa","https://www.google.com/maps/search/?api=1&query=49%27er%20Inn%20%26%20Suites%2C%20330%20W%20Pearl%20St%2C%20Jackson%2C%20WY"],["Ver fotos",gimg("49'er Inn & Suites Jackson WY")]]},
     ]},
-    {k:"mt",c:"mt",t:"Perto de Yellowstone",dates:"03 a 06/06 · 4 noites",opts:[
-      {id:"bisoncreek",tag:"rec",tl:"Escolhido: cabana inteira",n:"Bison Creek Lodge (Airbnb)",tp:"Cabana em Island Park, Idaho, perto do Henry’s Lake, ~20 min da entrada oeste",price:"~R$ 24 mil",ps:"total das 4 noites para as 9 pessoas, com taxas (Airbnb, out/2026); ~R$ 2,7 mil por pessoa",cap:"até 12: 4 quartos, 9 camas, 3 banheiros",bk:"Airbnb, assim que possível",pro:["Nota 4,96 em 158 avaliações, anfitrião Superhost","Casa inteira: um quarto para cada casal e espaço de sobra","Banheira quente, sauna e lareira","Cozinha completa e lavanderia: dá para lavar roupa no meio da viagem"],con:["~20 min a mais por trecho do que dormir em West Yellowstone","Mercado grande só em West Yellowstone ou Jackson: fazer compras antes","Taxa de limpeza e regras de check-in: conferir no anúncio"],links:[["Anúncio no Airbnb","https://www.airbnb.com/rooms/1006249101336097778?adults=5&check_in=2027-06-03&check_out=2027-06-07"]]}
+    {k:"mt",c:"mt",t:"Perto de Yellowstone",booked:true,dates:"03 a 06/06 · 4 noites",opts:[
+      {id:"bisoncreek",tag:"rec",host:true,tl:"✓ Reservado: cabana inteira",n:"Bison Creek Lodge (Airbnb)",tp:"Cabana em Island Park, Idaho, perto do Henry’s Lake, ~20 min da entrada oeste",price:"~R$ 24 mil",ps:"total das 4 noites para as 9 pessoas, com taxas (Airbnb, out/2026); ~R$ 2,7 mil por pessoa",cap:"até 12: 4 quartos, 9 camas, 3 banheiros",bk:"Reservado no Airbnb ✓",pro:["Nota 4,96 em 158 avaliações, anfitrião Superhost","Casa inteira: um quarto para cada casal e espaço de sobra","Banheira quente, sauna e lareira","Cozinha completa e lavanderia: dá para lavar roupa no meio da viagem"],con:["~20 min a mais por trecho do que dormir em West Yellowstone","Mercado grande só em West Yellowstone ou Jackson: fazer compras antes","Taxa de limpeza e regras de check-in: conferir no anúncio"],links:[["Anúncio no Airbnb","https://www.airbnb.com/rooms/1006249101336097778?adults=5&check_in=2027-06-03&check_out=2027-06-07"]]}
     ]},
     {k:"glamp",c:"ys",t:"Sugestões de glamping",dates:"ideias, fora do roteiro",sug:true,opts:[
       {id:"undercanvas",tag:"b",tl:"Mais perto da entrada oeste",n:"Under Canvas West Yellowstone",tp:"Glamping a ~10 min da entrada oeste",price:"US$ 379+",ps:"por tenda/noite (2026); 2027 A CONFIRMAR",cap:"Suite with Kids (até 6) ou Madison River Suite (até 7)",bk:"Site da Under Canvas, assim que abrir 2027",pro:["É só chegar: camas prontas, roupa de cama, aquecedor a lenha","Banheiro privativo nas tendas Deluxe e Suite","~50 min de Old Faithful e ~3h de Jackson","Restaurante e fogueira no local"],con:["O mais caro: para 5 adultos, Suite with Kids ou 2 tendas","Café da manhã à parte, no restaurante do camping","Abertura da temporada 2027 a confirmar"],links:[["Ver fotos",gimg("Under Canvas West Yellowstone tent")],["Site","https://www.undercanvas.com/camps/west-yellowstone/"]]},
@@ -1361,7 +1467,7 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
   function renderStays(){
     $("#stays").innerHTML = STAYS.map(s => {
       const chosen = s.sug ? "" : (stayPick[s.k] || STAY_DEFAULT[s.k]);
-      return '<div class="stayblock c-'+s.c+'"><div class="stay-head"><h3>'+esc(s.t)+'</h3><span class="nights">'+esc(s.dates)+'</span></div><div class="opts">'+
+      return '<div class="stayblock c-'+s.c+'"><div class="stay-head"><h3>'+esc(s.t)+(s.booked?'<span class="pill rec">✓ Reservado</span>':'')+'</h3><span class="nights">'+esc(s.dates)+'</span></div><div class="opts">'+
         s.opts.map(o => '<article class="opt'+(o.id===chosen?' chosen':'')+'">'+
           '<div><span class="pill '+o.tag+'">'+esc(o.tl)+'</span></div>'+
           '<h4>'+esc(o.n)+'</h4><div class="place">'+esc(o.tp)+'</div>'+
@@ -1370,11 +1476,13 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
           '<ul class="pro">'+o.pro.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul>'+
           '<ul class="con">'+o.con.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul>'+
           '<div class="links">'+o.links.map(l=>'<a href="'+esc(l[1])+'" target="_blank" rel="noopener">'+esc(l[0])+'</a>').join("")+'</div>'+
-          (s.sug ? '' : '<button class="choose" data-stay="'+s.k+'" data-opt="'+o.id+'"'+(canWrite?'':' disabled')+'>'+(o.id===chosen?'✓ Escolha da família':'Vamos ficar aqui')+'</button>')+
+          (o.host ? '<button class="hostlink" type="button" data-hostgo>🏡 Dicas do host</button>' : '')+
+          (s.sug || s.booked ? '' : '<button class="choose" data-stay="'+s.k+'" data-opt="'+o.id+'"'+(canWrite?'':' disabled')+'>'+(o.id===chosen?'✓ Escolha da família':'Vamos ficar aqui')+'</button>')+
         '</article>').join("")+'</div></div>';
     }).join("");
   }
   $("#stays").addEventListener("click", async e => {
+    if(e.target.closest("[data-hostgo]")){ showTab("infos"); showISub("host"); return; }
     const b = e.target.closest("[data-stay]"); if(!b || b.disabled) return;
     stayPick = Object.assign({}, stayPick, {[b.dataset.stay]: b.dataset.opt});
     renderStays(); renderDays();
@@ -1476,7 +1584,7 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
 
   /* ================= Reservas ================= */
   const TASKS = [
-    {id:"glamping",w:"now",wl:"Agora",t:"Reservar a cabana Bison Creek Lodge no Airbnb (03 a 07/06, 4 noites)",d:"Casa disputada no verão: reservar logo, de preferência com cancelamento flexível. Conferir taxa de limpeza e horário de check-in."},
+    {id:"glamping",w:"now",wl:"Feito",done:true,t:"Cabana Bison Creek Lodge reservada no Airbnb (03 a 07/06, 4 noites)",d:"Reservado ✓. Conferir taxa de limpeza e horário de check-in no anúncio."},
     {id:"hotel-jac",w:"now",wl:"Agora",t:"Reservar o hotel de Jackson (31/05 a 03/06 e 07 a 08/06)",d:"Centro de Jackson lota em junho. Mesmo hotel nas duas estadias; preferir cancelamento grátis."},
     {id:"hotel-ff",w:"now",wl:"Agora",t:"Reservar hospedagem em Fergus Falls (25 a 31/05)",d:"Fim de semana de formatura lota. Preferir cancelamento grátis."},
     {id:"vistos",w:"now",wl:"Agora",t:"Conferir vistos americanos de todos",d:"Precisam estar válidos até junho/2027."},
@@ -1489,15 +1597,16 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
     {id:"passeios-res",w:"later",wl:"Até abr/2027",t:"Comprar os passeios pagos escolhidos",d:"Flutuação tem vagas limitadas; rodeio e Snow King compram online."},
     {id:"passe",w:"later",wl:"Antes da viagem",t:"Comprar o passe anual para não residentes (US$ 250)",d:"Cobre todos no mesmo carro (NPS). Comprar online no Recreation.gov ou na primeira entrada, em Grand Teton."}
   ];
+  const isDone = t => (t.id in doneMap) ? !!doneMap[t.id] : !!t.done;
   function renderTasks(){
     $("#tasks").innerHTML = TASKS.map(t => {
-      const done = !!doneMap[t.id];
+      const done = isDone(t);
       return '<div class="task'+(done?' done':'')+'"><input type="checkbox" id="tk-'+t.id+'" data-id="'+t.id+'"'+(done?' checked':'')+(canWrite?'':' disabled')+'>'+
         '<label for="tk-'+t.id+'"><b>'+esc(t.t)+'</b><span>'+esc(t.d)+'</span></label><span class="when '+t.w+'">'+esc(t.wl)+'</span></div>';
     }).join("");
-    const n = TASKS.filter(t => doneMap[t.id]).length;
+    const n = TASKS.filter(isDone).length;
     $("#prog").style.width = Math.round(100*n/TASKS.length)+"%";
-    const urgent = TASKS.filter(t => t.w==="now" && !doneMap[t.id]).length;
+    const urgent = TASKS.filter(t => t.w==="now" && !isDone(t)).length;
     const badge = $("#badge"); badge.textContent = urgent; badge.hidden = urgent===0;
   }
   $("#tasks").addEventListener("change", async e => {
@@ -1569,6 +1678,16 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
   ];
   $("#sources").innerHTML = SRC.map(s => '<li><a href="'+esc(s[1])+'" target="_blank" rel="noopener">'+esc(s[0])+'</a></li>').join("");
 
+  /* ================= Infos subtabs ================= */
+  function showISub(k){
+    $$("[data-isub]").forEach(b => { const on = b.dataset.isub===k; b.setAttribute("aria-pressed", String(on)); b.setAttribute("aria-selected", String(on)); });
+    ["geral","host"].forEach(x => { const el = $("#isub-"+x); el.hidden = x!==k; if(x===k){ el.classList.remove("isubin"); void el.offsetWidth; el.classList.add("isubin"); } });
+    store.set("rw-isub", k);
+  }
+  $$("[data-isub]").forEach(b => b.addEventListener("click", () => showISub(b.dataset.isub)));
+  $("#infos").addEventListener("click", e => { const a = e.target.closest("[data-isub-go]"); if(a){ e.preventDefault(); showISub(a.dataset.isubGo); window.scrollTo({top:0, behavior:"smooth"}); } });
+  if(location.hash==="#dicas-host"){ showISub("host"); }
+
   /* ================= Tabs & sync ================= */
   const TABS = ["panorama","roteiro","hospedagem","passeios","restaurantes","reservas","orcamento","infos"];
   function showTab(name){
@@ -1603,7 +1722,7 @@ tr.rec td:first-child{font-weight:700;color:var(--mn)}
   }
   function renderAll(){ renderDays(); renderStays(); renderPasseios(); renderRest(); renderTasks(); calc(); }
   renderBudRows(); renderAll();
-  (function(){ const h = (location.hash||"").slice(1); const t = TABS.includes(h) ? h : store.get("rw-tab","panorama"); TABS.forEach(x => { $("#"+x).hidden = x!==(TABS.includes(t)?t:"panorama"); }); $$(".tabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab===(TABS.includes(t)?t:"panorama")))); requestAnimationFrame(() => { moveInd(true); tabArrows(); }); })();
+  (function(){ const h = (location.hash||"").slice(1); const t = TABS.includes(h) ? h : (h==="dicas-host" ? "infos" : store.get("rw-tab","panorama")); TABS.forEach(x => { $("#"+x).hidden = x!==(TABS.includes(t)?t:"panorama"); }); $$(".tabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab===(TABS.includes(t)?t:"panorama")))); requestAnimationFrame(() => { moveInd(true); tabArrows(); }); })();
 
   (async () => {
     try{
